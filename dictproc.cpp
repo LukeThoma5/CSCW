@@ -8,6 +8,8 @@
 
 using namespace std;
 
+int badWordCount = 0;
+
 void printVector(const vector<string>& sV); //Early declaration
 
 class masterSyllablesList
@@ -270,13 +272,10 @@ public:
 
 class badWord : public word { //New class badWord inherits from word, keep datamembers public
 
-public:
-
-	vector<int> syllableWrongCount;
-	float weight;
-
-	badWord(const string& wordline, const string& badwordline) : word(wordline) //Call the word constructor to initialise default values
+protected:
+	void constructorHelper(const string& badwordline)
 	{
+		//Assumes the word constructor has already been called
 		vector<string> wordVector = split(badwordline);
 		printVector(wordVector);
 
@@ -300,6 +299,18 @@ public:
 			cout << "Word mismatch found!" << endl;
 			throw "WordSyllableCount";
 		}
+
+		badWordCount++;
+	}
+
+public:
+
+	vector<int> syllableWrongCount;
+	float weight;
+
+	badWord(const string& wordline, const string& badwordline) : word(wordline) //Call the word constructor to initialise default values
+	{
+		constructorHelper(badwordline);
 	}
 
 	badWord(const badWord& createFrom) : word(true)
@@ -311,6 +322,15 @@ public:
 		syllables=createFrom.syllables;
 		definition=createFrom.definition;
 		wordFlags=createFrom.wordFlags;  
+	}
+
+	badWord(const word* createFrom, string badWordLine) : word(true)
+	{
+		wordC=createFrom->wordC;
+		syllables=createFrom->syllables;
+		definition=createFrom->definition;
+		wordFlags=createFrom->wordFlags;
+		constructorHelper(badWordLine);
 	}
 
 	virtual void wordWrong(const string& attempt)
@@ -335,6 +355,14 @@ class wordContainer {
 
 	int wordIndex[26];
 	bool containsBadWords = false;
+
+	//modified from here http://stackoverflow.com/questions/236129/split-a-string-in-c
+	void findWord(const string &s, string& badwordWord) {
+	    stringstream ss(s); //create a stringstream object from the string parameter as getline requires istream object
+	    getline(ss, badwordWord, '+');
+	    	if (badwordWord.empty())
+	        	cout << "Waring attempting to create badword with an empty word string!" << endl;
+	}
 
 public:
 	vector<word*> wordList;
@@ -389,10 +417,32 @@ public:
 	}
 
 	//Overloaded constructor, remove in future
+	/*
 	wordContainer(badWord& myBadWord)
 	{
 		containsBadWords = true;
 		wordList.push_back(new badWord(myBadWord));
+		generateWordIndex();
+	}
+	*/
+
+	wordContainer(wordContainer& fullWordList, string filename="wrongWords.txt")
+	{
+		containsBadWords = true;
+		vector<string> wrongWordVector = loadDictFile(filename);
+		fullWordList.generateWordIndex();
+		unsigned int wrongWordVectorSize = wrongWordVector.size(); 
+		for (unsigned int i=0; i<wrongWordVectorSize; i++)
+		{
+			string badWordWord = "";
+			findWord(wrongWordVector[i],badWordWord);
+			word* originalWord = fullWordList.wordList[fullWordList.findWordLocation(badWordWord)];
+			//wordList.push_back(new badWord());
+			cout << originalWord->wordC << endl;
+
+			wordList.push_back(new badWord(originalWord, wrongWordVector[i]));
+		}
+
 		generateWordIndex();
 	}
 
@@ -415,10 +465,16 @@ public:
 			if (containsBadWords)
 			{
 				cout << "badWord destruction occured" << endl;
-				badWord* toDelete = static_cast<badWord*>(wordList.back());
-				cout << toDelete->wordC << endl;
-				delete toDelete;
-				wordList.pop_back();
+				while (!wordList.empty())
+				{
+					//cout << badWordCount << " bad words left in program" << endl;
+					badWord* toDelete = static_cast<badWord*>(wordList.back());
+					//cout << toDelete->wordC << endl;
+					delete toDelete;
+					//cout << --badWordCount << "bad words left in program2" << endl;
+					wordList.pop_back();
+				}
+				
 			}
 		}
 	}
@@ -452,8 +508,8 @@ void createRandomWordWrongCounts() //Fill the MSL with random wrongCounts to tes
 
 	for (unsigned int i=0; i<SSG::MSL.wrongCount.size(); i++)
 	{
-		SSG::MSL.wrongCount[i] = randNG(LOW,HIGH); //Valgrind does not like this call
-		//SSG::MSL.wrongCount[i] = 0; //This can be used to memory leak testing
+		//SSG::MSL.wrongCount[i] = randNG(LOW,HIGH); //Valgrind does not like this call
+		SSG::MSL.wrongCount[i] = 0; //This can be used to memory leak testing
 	}
 }
 
@@ -501,6 +557,10 @@ int main(int argc, char const *argv[])
 
 	wordContainer allWords("finalDictwithDef.txt");
 
+	wordContainer allBadWords(allWords,"wrongWords.txt");
+
+	cout << allBadWords.wordList[0]->wordC << endl;
+
 	printVector(SSG::MSL.syllables);
 
 	//printVector(SSG::MSL.wrongCount);
@@ -516,35 +576,6 @@ int main(int argc, char const *argv[])
 	printVector(SSG::MSL.syllables);
 
 	printVector(SSG::MSL.wrongCount);
-
-	
-	try{
-		badWord example("BLOODTHIRSTY+B+L+AH1+D+TH+ER2+S+T+IY0+#DEF+Eager to shed blood; cruel; sanguinary; murderous. -- Bloodthirst`i*ness (n.","BLOODTHIRSTY+1.2+0+0+1+0+1+3+0+0+0");
-
-		printVector(example.syllables);
-		printVector(example.syllableWrongCount);
-		//callTest(example);
-		//allWords.addWord(&example);
-		//cout << allWords.wordList[allWords.wordList.size()-1]->wordC << endl;
-
-		//callTest(allWords.wordList[allWords.wordList.size()-1]);
-
-		//vector<word*> wordP;
-		//wordP.push_back(&example);
-
-		//wordP[0]->wordWrong("Hello");
-
-		//callTest(wordP[0]);
-
-		//callTest(returnRef(wordP[0]));
-
-		wordContainer badWordContainer(example);
-	}
-	catch (char const* err)
-	{
-		cout << err << endl;
-	}
-	
 
 	//cout << findWordLocation("ALLURING",wordList) << endl;
 
