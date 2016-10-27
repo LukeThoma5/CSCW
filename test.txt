@@ -1,0 +1,252 @@
+In file included from wordContainer.h:8:0,
+                 from word.h:7,
+                 from main.cpp:9:
+badWord.h:12:29: error: expected class-name before ‘{’ token
+ class badWord : public word { //New class badWord inherits from word, keep datamembers public
+                             ^
+badWord.h:26:16: error: ‘word’ does not name a type
+  badWord(const word* createFrom, std::string badWordLine);
+                ^~~~
+In file included from word.h:7:0,
+                 from main.cpp:9:
+wordContainer.h:22:14: error: ‘word’ was not declared in this scope
+  std::vector<word*> wordList;
+              ^~~~
+wordContainer.h:22:19: error: template argument 1 is invalid
+  std::vector<word*> wordList;
+                   ^
+wordContainer.h:22:19: error: template argument 2 is invalid
+wordContainer.h:33:15: error: ‘word’ has not been declared
+  void addWord(word* wordToAdd);
+               ^~~~
+wordContainer.h:35:18: error: ‘word’ has not been declared
+  void addBadWord(word* wordToAdd, std::string& badWordLine);
+                  ^~~~
+main.cpp: In function ‘void callTest(word*)’:
+main.cpp:63:27: error: no matching function for call to ‘word::wordWrong(const char [6])’
+  myWord->wordWrong("Hello");
+                           ^
+In file included from main.cpp:9:0:
+word.h:40:15: note: candidate: virtual void word::wordWrong(const string&, wordContainer*)
+  virtual void wordWrong(const std::string& attempt, wordContainer* badWordContainer);
+               ^~~~~~~~~
+word.h:40:15: note:   candidate expects 2 arguments, 1 provided
+main.cpp: In function ‘int main(int, const char**)’:
+main.cpp:112:39: error: invalid types ‘int[int]’ for array subscript
+  cout << SSG::goodWordList->wordList[1]->wordC << endl;
+                                       ^
+main.cpp:114:32: error: invalid types ‘int[int]’ for array subscript
+  cout << allBadWords.wordList[0]->wordC << endl;
+                                ^
+main.cpp:142:40: error: invalid types ‘int[int]’ for array subscript
+  cout << allWords.wordList[boilLocation]->wordC << endl;
+                                        ^
+main.cpp:150:32: error: invalid types ‘int[int]’ for array subscript
+  cout << allWords.wordList[1000]->wordC << endl;
+                                ^
+In file included from wordContainer.h:8:0,
+                 from word.h:7,
+                 from badWord.cpp:7:
+badWord.h:12:29: error: expected class-name before ‘{’ token
+ class badWord : public word { //New class badWord inherits from word, keep datamembers public
+                             ^
+badWord.h:26:16: error: ‘word’ does not name a type
+  badWord(const word* createFrom, std::string badWordLine);
+                ^~~~
+In file included from word.h:7:0,
+                 from badWord.cpp:7:
+wordContainer.h:22:14: error: ‘word’ was not declared in this scope
+  std::vector<word*> wordList;
+              ^~~~
+wordContainer.h:22:19: error: template argument 1 is invalid
+  std::vector<word*> wordList;
+                   ^
+wordContainer.h:22:19: error: template argument 2 is invalid
+wordContainer.h:33:15: error: ‘word’ has not been declared
+  void addWord(word* wordToAdd);
+               ^~~~
+wordContainer.h:35:18: error: ‘word’ has not been declared
+  void addBadWord(word* wordToAdd, std::string& badWordLine);
+                  ^~~~
+badWord.cpp: In member function ‘void badWord::constructorHelper(const string&)’:
+badWord.cpp:19:54: error: cannot call member function ‘std::vector<std::__cxx11::basic_string<char> > word::split(const string&, char)’ without object
+   vector<string> wordVector = word::split(badwordline);
+                                                      ^
+badWord.cpp:22:24: error: ‘wordC’ was not declared in this scope
+   if (wordVector[0] != wordC) //If trying to construct a badWord from the wrong word throw an error.
+                        ^~~~~
+badWord.cpp:37:36: error: ‘syllables’ was not declared in this scope
+   if (syllableWrongCount.size() != syllables.size())
+                                    ^~~~~~~~~
+badWord.cpp: In constructor ‘badWord::badWord(const string&, const string&)’:
+badWord.cpp:48:72: error: type ‘word’ is not a direct base of ‘badWord’
+  badWord::badWord(const string& wordline, const string& badwordline) : word(wordline) //Call the word constructor to initialise default values
+                                                                        ^~~~
+badWord.cpp: In copy constructor ‘badWord::badWord(const badWord&)’:
+badWord.cpp:53:48: error: type ‘word’ is not a direct base of ‘badWord’
+  badWord::badWord(const badWord& createFrom) : word(true)
+                                                ^~~~
+badWord.cpp:58:3: error: ‘wordC’ was not declared in this scope
+   wordC=createFrom.wordC;
+   ^~~~~
+badWord.cpp:58:20: error: ‘const class badWord’ has no member named ‘wordC’
+   wordC=createFrom.wordC;
+                    ^~~~~
+badWord.cpp:59:3: error: ‘syllables’ was not declared in this scope
+   syllables=createFrom.syllables;
+   ^~~~~~~~~
+badWord.cpp:59:24: error: ‘const class badWord’ has no member named ‘syllables’
+   syllables=createFrom.syllables;
+                        ^~~~~~~~~
+badWord.cpp:60:3: error: ‘definition’ was not declared in this scope
+   definition=createFrom.definition;
+   ^~~~~~~~~~
+badWord.cpp:60:25: error: ‘const class badWord’ has no member named ‘definition’
+   definition=createFrom.definition;
+                         ^~~~~~~~~~
+badWord.cpp:61:3: error: ‘wordFlags’ was not declared in this scope
+   wordFlags=createFrom.wordFlags;
+   ^~~~~~~~~
+badWord.cpp:61:24: error: ‘const class badWord’ has no member named ‘wordFlags’
+   wordFlags=createFrom.wordFlags;
+                        ^~~~~~~~~
+badWord.cpp:62:3: error: ‘syllablePositions’ was not declared in this scope
+   syllablePositions=createFrom.syllablePositions;
+   ^~~~~~~~~~~~~~~~~
+badWord.cpp:62:32: error: ‘const class badWord’ has no member named ‘syllablePositions’; did you mean ‘syllableWrongCount’?
+   syllablePositions=createFrom.syllablePositions;
+                                ^~~~~~~~~~~~~~~~~
+badWord.cpp: At global scope:
+badWord.cpp:65:2: error: prototype for ‘badWord::badWord(const word*, std::__cxx11::string)’ does not match any in class ‘badWord’
+  badWord::badWord(const word* createFrom, string badWordLine) : word(true)
+  ^~~~~~~
+In file included from wordContainer.h:8:0,
+                 from word.h:7,
+                 from badWord.cpp:7:
+badWord.h:26:2: error: candidates are: badWord::badWord(const int*, std::__cxx11::string)
+  badWord(const word* createFrom, std::string badWordLine);
+  ^~~~~~~
+badWord.cpp:53:2: error:                 badWord::badWord(const badWord&)
+  badWord::badWord(const badWord& createFrom) : word(true)
+  ^~~~~~~
+badWord.cpp:48:2: error:                 badWord::badWord(const string&, const string&)
+  badWord::badWord(const string& wordline, const string& badwordline) : word(wordline) //Call the word constructor to initialise default values
+  ^~~~~~~
+In file included from wordContainer.h:8:0,
+                 from word.h:7,
+                 from wordContainer.cpp:7:
+badWord.h:12:29: error: expected class-name before ‘{’ token
+ class badWord : public word { //New class badWord inherits from word, keep datamembers public
+                             ^
+badWord.h:26:16: error: ‘word’ does not name a type
+  badWord(const word* createFrom, std::string badWordLine);
+                ^~~~
+In file included from word.h:7:0,
+                 from wordContainer.cpp:7:
+wordContainer.h:22:14: error: ‘word’ was not declared in this scope
+  std::vector<word*> wordList;
+              ^~~~
+wordContainer.h:22:19: error: template argument 1 is invalid
+  std::vector<word*> wordList;
+                   ^
+wordContainer.h:22:19: error: template argument 2 is invalid
+wordContainer.h:33:15: error: ‘word’ has not been declared
+  void addWord(word* wordToAdd);
+               ^~~~
+wordContainer.h:35:18: error: ‘word’ has not been declared
+  void addBadWord(word* wordToAdd, std::string& badWordLine);
+                  ^~~~
+wordContainer.cpp: In member function ‘void wordContainer::generateWordIndex()’:
+wordContainer.cpp:40:31: error: request for member ‘size’ in ‘((wordContainer*)this)->wordContainer::wordList’, which is of non-class type ‘int’
+   int wordListSize = wordList.size(); //minimise function calls
+                               ^~~~
+wordContainer.cpp:43:18: error: invalid types ‘int[int]’ for array subscript
+    if (wordList[i]->wordC[0] != lastChar) //if the first character of the current word is difference to the last word
+                  ^
+wordContainer.cpp:45:26: error: invalid types ‘int[int]’ for array subscript
+     lastChar = wordList[i]->wordC[0]; //update the last character
+                          ^
+wordContainer.cpp: In member function ‘void wordContainer::printWordIndexBoundaries()’:
+wordContainer.cpp:57:33: error: invalid types ‘int[int]’ for array subscript
+    cout << wordList[wordIndex[i]]->wordC << " ... " << wordList[wordIndex[i+1]-1]->wordC << endl;
+                                 ^
+wordContainer.cpp:57:81: error: invalid types ‘int[int]’ for array subscript
+    cout << wordList[wordIndex[i]]->wordC << " ... " << wordList[wordIndex[i+1]-1]->wordC << endl;
+                                                                                 ^
+wordContainer.cpp:59:33: error: invalid types ‘int[int]’ for array subscript
+   cout << wordList[wordIndex[25]]->wordC << " ... " << wordList[wordList.size()-1]->wordC << endl;
+                                 ^
+wordContainer.cpp:59:74: error: request for member ‘size’ in ‘((wordContainer*)this)->wordContainer::wordList’, which is of non-class type ‘int’
+   cout << wordList[wordIndex[25]]->wordC << " ... " << wordList[wordList.size()-1]->wordC << endl;
+                                                                          ^~~~
+wordContainer.cpp: In member function ‘void wordContainer::removeWord(int)’:
+wordContainer.cpp:64:12: error: request for member ‘erase’ in ‘((wordContainer*)this)->wordContainer::wordList’, which is of non-class type ‘int’
+   wordList.erase(wordList.begin()+wordPosition); //Remove the word* at position wordPosition. erase function takes a vector iterator which points at the word to be removed, begin function returns an iterator pointing to the start which is then incremented by wordPosition
+            ^~~~~
+wordContainer.cpp:64:27: error: request for member ‘begin’ in ‘((wordContainer*)this)->wordContainer::wordList’, which is of non-class type ‘int’
+   wordList.erase(wordList.begin()+wordPosition); //Remove the word* at position wordPosition. erase function takes a vector iterator which points at the word to be removed, begin function returns an iterator pointing to the start which is then incremented by wordPosition
+                           ^~~~~
+wordContainer.cpp: In member function ‘void wordContainer::deleteWord(int)’:
+wordContainer.cpp:94:31: error: invalid types ‘int[int]’ for array subscript
+   delete wordList[wordPosition];
+                               ^
+wordContainer.cpp: At global scope:
+wordContainer.cpp:98:7: error: prototype for ‘void wordContainer::addWord(word*)’ does not match any in class ‘wordContainer’
+  void wordContainer::addWord(word* wordToAdd)
+       ^~~~~~~~~~~~~
+In file included from word.h:7:0,
+                 from wordContainer.cpp:7:
+wordContainer.h:33:7: error: candidate is: void wordContainer::addWord(int*)
+  void addWord(word* wordToAdd);
+       ^~~~~~~
+wordContainer.cpp:104:7: error: prototype for ‘void wordContainer::addBadWord(word*, std::__cxx11::string&)’ does not match any in class ‘wordContainer’
+  void wordContainer::addBadWord(word* wordToAdd, string& badWordLine)
+       ^~~~~~~~~~~~~
+In file included from word.h:7:0,
+                 from wordContainer.cpp:7:
+wordContainer.h:35:7: error: candidate is: void wordContainer::addBadWord(int*, std::__cxx11::string&)
+  void addBadWord(word* wordToAdd, std::string& badWordLine);
+       ^~~~~~~~~~
+wordContainer.cpp: In member function ‘int wordContainer::findWordLocation(const string&)’:
+wordContainer.cpp:119:32: error: invalid types ‘int[unsigned int]’ for array subscript
+    if (wordToFind == wordList[i]->wordC) //if the word is found
+                                ^
+wordContainer.cpp: In constructor ‘wordContainer::wordContainer(std::__cxx11::string)’:
+wordContainer.cpp:131:13: error: request for member ‘push_back’ in ‘((wordContainer*)this)->wordContainer::wordList’, which is of non-class type ‘int’
+    wordList.push_back(wordToAdd); //create a word and store it in the wordList as a pointer
+             ^~~~~~~~~
+wordContainer.cpp: In copy constructor ‘wordContainer::wordContainer(wordContainer&, std::__cxx11::string)’:
+wordContainer.cpp:160:89: error: invalid types ‘int[int]’ for array subscript
+    word* originalWord = fullWordList.wordList[fullWordList.findWordLocation(badWordWord)];
+                                                                                         ^
+wordContainer.cpp:164:13: error: request for member ‘push_back’ in ‘((wordContainer*)this)->wordContainer::wordList’, which is of non-class type ‘int’
+    wordList.push_back(new badWord(originalWord, wrongWordVector[i]));
+             ^~~~~~~~~
+wordContainer.cpp:164:67: error: no matching function for call to ‘badWord::badWord(word*&, __gnu_cxx::__alloc_traits<std::allocator<std::__cxx11::basic_string<char> > >::value_type&)’
+    wordList.push_back(new badWord(originalWord, wrongWordVector[i]));
+                                                                   ^
+In file included from wordContainer.h:8:0,
+                 from word.h:7,
+                 from wordContainer.cpp:7:
+badWord.h:26:2: note: candidate: badWord::badWord(const int*, std::__cxx11::string)
+  badWord(const word* createFrom, std::string badWordLine);
+  ^~~~~~~
+badWord.h:26:2: note:   no known conversion for argument 1 from ‘word*’ to ‘const int*’
+badWord.h:24:2: note: candidate: badWord::badWord(const badWord&)
+  badWord(const badWord& createFrom);
+  ^~~~~~~
+badWord.h:24:2: note:   candidate expects 1 argument, 2 provided
+badWord.h:22:2: note: candidate: badWord::badWord(const string&, const string&)
+  badWord(const std::string& wordline, const std::string& badwordline);
+  ^~~~~~~
+badWord.h:22:2: note:   no known conversion for argument 1 from ‘word*’ to ‘const string& {aka const std::__cxx11::basic_string<char>&}’
+wordContainer.cpp: In destructor ‘wordContainer::~wordContainer()’:
+wordContainer.cpp:173:20: error: request for member ‘empty’ in ‘((wordContainer*)this)->wordContainer::wordList’, which is of non-class type ‘int’
+   while (!wordList.empty())
+                    ^~~~~
+wordContainer.cpp:175:20: error: request for member ‘back’ in ‘((wordContainer*)this)->wordContainer::wordList’, which is of non-class type ‘int’
+    delete wordList.back(); //returns the pointer at the back of the wordList and deletes the object it points to. As the destructor call is virtual the correct call will be made so no need to cast the pointer to the derived type
+                    ^~~~
+wordContainer.cpp:176:13: error: request for member ‘pop_back’ in ‘((wordContainer*)this)->wordContainer::wordList’, which is of non-class type ‘int’
+    wordList.pop_back(); //removes the last pointer from wordList which is destroyed
+             ^~~~~~~~

@@ -7,11 +7,20 @@
 #include "randng.h" //My random number generator header
 #include "masterSyllableList.h" //MSL declaration
 #include "word.h"
-#include "SSG.h"
 #include "badWord.h"
+#include "SSG.h"
 #include "wordContainer.h"
 
 using namespace std;
+
+namespace SSG {
+	//SSG SpellingSuiteGlobalVariables
+	masterSyllablesList MSL; //MasterSyllablesList
+	wordContainer* goodWordList = NULL; //Allows the currently worked on wordList to be updated and interchanged
+	wordContainer* badWordList = NULL; //Defaulting to null prevents manipulating objects that don't exist.
+}
+
+
 
 void printVector(const vector<string>& sV)
 {
@@ -61,6 +70,13 @@ word& returnRef(word* myWord)
 
 int main(int argc, char const *argv[])
 {
+
+	/*
+	SSG::MSL = masterSyllablesList();
+	SSG::goodWordList = NULL;
+	SSG::badWordList = NULL;
+	*/
+
 	/*
 	vector<string> dictVec = loadDictFile();
 
@@ -99,7 +115,7 @@ int main(int argc, char const *argv[])
 
 	printVector(SSG::MSL.syllables);
 
-	//printVector(SSG::MSL.wrongCount);
+	// printVector(SSG::MSL.wrongCount);
 
 	createRandomWordWrongCounts();
 
@@ -118,27 +134,31 @@ int main(int argc, char const *argv[])
 
 
 	cout << allWords.findWordLocation("BOIL") << endl;
+	cout << SSG::goodWordList->findWordLocation("BOIL") << endl;
 	int boilLocation = allWords.findWordLocation("ADEQUATELY");
 
 	cout << boilLocation << endl;
-	
+
 
 	cout << allWords.wordList[boilLocation]->wordC << endl;
 
 
 
-	allWords.wordList[boilLocation]->wordWrong("ADEKUAT3IYY");
+	//allWords.wordList[boilLocation]->wordWrong("ADEKUAT3IYY",SSG::badWordList);
+
+	allWords.wordWrong(boilLocation,"ADEKUAT3IYY",SSG::badWordList);
 
 	//callTest(allWords.wordList[0]);
 
+	/*
 	cout << allWords.wordList[1000]->wordC << endl;
 
 	allWords.printWordIndexBoundaries();
 	allWords.deleteWord(1000);
 	cout << "-----------------------------------" << endl;
 	allWords.printWordIndexBoundaries();
+	*/
 
-	
 
 	return 0;
 }
