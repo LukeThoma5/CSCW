@@ -146,7 +146,17 @@ int main(int argc, char const *argv[])
 
 	//allWords.wordList[boilLocation]->wordWrong("ADEKUAT3IYY",SSG::badWordList);
 
-	allWords.wordWrong(boilLocation,"ADEKUAT3IYY",SSG::badWordList);
+	allWords.wordWrong(boilLocation,"ADEKUAT3IYY",&allWords);
+
+	word* test = (*SSG::badWordList)[0];
+	cout << test->wordC << endl;
+
+	badWord* test2 = SSG::badWordList->getBadWord(0);
+
+	printVector(SSG::badWordList->getBadWord(0)->syllableWrongCount);
+
+	printVector(static_cast<badWord*>(SSG::badWordList->wordList[0])->syllableWrongCount);
+
 
 	//callTest(allWords.wordList[0]);
 

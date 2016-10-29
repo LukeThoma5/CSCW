@@ -175,6 +175,8 @@ using namespace std;
 		badWord* badWordToAdd = new badWord(wordList[wordPosition],badWordLine);
 		cout << badWordToAdd->wordFlags[0] << endl;
 		delete badWordToAdd; //Remove when adding to a container
+		if (containerToAddTo == this)
+			cout << "You are trying to add to your self!" << endl;
 		//Add overloaded functions that don't include which removing words or deleting words ect. Improve the add words, make indexing turn off able.
 	}
 
@@ -186,4 +188,25 @@ using namespace std;
 			delete wordList.back(); //returns the pointer at the back of the wordList and deletes the object it points to. As the destructor call is virtual the correct call will be made so no need to cast the pointer to the derived type
 			wordList.pop_back(); //removes the last pointer from wordList which is destroyed
 		}
+	}
+
+	badWord* wordContainer::getBadWord(int wordToGet)
+	{
+		if (wordToGet > -1)
+		{
+			if (wordToGet < wordList.size())
+			{
+				if (wordList[wordToGet]->wordFlags[0] == 1) //If the word is a bad word
+					return static_cast<badWord*>(wordList[wordToGet]);
+				else
+					throw "wordContainer badWord* to word";
+			}
+			else
+				throw "wordContainer Out of Bounds, int too large";
+		}
+		else
+			throw "wordContainer Out of Bounds, negative!";
+
+		//Add boundry checking and exception handling
+		//Go back to fixing wordContainer::wordWrong
 	}

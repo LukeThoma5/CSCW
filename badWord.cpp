@@ -77,5 +77,15 @@ void printVector(const vector<int>& sV);
 	string badWord::wordWrong(const string& attempt)
 	{
 		cout << "badWord wordWrong Called" << endl;
+
+		vector<int> syllablesToIncrement = word::determineWrongSyllables(attempt);
+
+		for (unsigned int i=0; i<syllableWrongCount.size(); i++)
+		{
+			syllableWrongCount[i] += syllablesToIncrement[i];
+		}
+
+		weight += 0.5;
+
 		return "badWord";
 	}

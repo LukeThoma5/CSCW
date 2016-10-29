@@ -38,6 +38,24 @@ public:
 
 	int findWordLocation(const std::string& wordToFind);
 
+	word* operator[](int wordToGet)
+	{
+		//a[b] opperator cannot be a non-member function
+		if (wordToGet > -1)
+		{
+			if (wordToGet < wordList.size())
+			{
+				return wordList[wordToGet];
+			}
+			else
+				throw "wordContainer Out of Bounds, int too large";
+		}
+		else
+			throw "wordContainer Out of Bounds, negative!";
+	}
+
+	badWord* getBadWord(int wordToGet);
+
 	wordContainer(std::string filename="finalDictwithDef.txt");
 
 	wordContainer(wordContainer& fullWordList, std::string filename="wrongWords.txt"); //For use when building a bwordContainer from a file and the current known words
