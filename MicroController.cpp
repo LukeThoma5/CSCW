@@ -6,7 +6,9 @@
 
 #include <unistd.h>
 
-#define HEADLESS
+//#define HEADLESS //Uncomment to remove printing to console
+#define limitHz //Uncomment to remove frequency limiting
+//#define debug //Uncommment to get a tick on each complete amount of Hz
 
 //Luke Foreman 05/11/16 AQA Microcontroller Emulator
 
@@ -474,10 +476,14 @@ int main(int argc, char const *argv[])
 	assembleCode(filelines,registers,labels,labelPos); //Assemble the code
 
 	int pulses = 0;
+	#ifdef debug
+	int ontime = 0;
+	#endif
 	while (true) //Until you encounter a halt, tick every x times a second
 	{
-
+		#ifdef limitHz
 		usleep(sleeptime); //Limit the frequency, is not active so not using cpu when not needed
+		#endif
 		#ifndef HEADLESS
 		printRegisters(registers,sregisters); //Make the memory space visible
 		#endif
@@ -492,6 +498,15 @@ int main(int argc, char const *argv[])
 				pulses = 0; //Reset the pulses
 			}
 		}
+		#ifdef debug
+		ontime++;
+		if (ontime == freq)
+		{
+			cout << "Tick" << endl;
+			ontime=0;
+		}
+		#endif
+			
 	}
 
 	return 0; //Exit the program, is never used
