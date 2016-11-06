@@ -175,53 +175,62 @@ void decodeInstruction(int& instruction, int* registers, int* sregisters)
 {
 	int opcode = maskOperand(instruction); //mask instruction to get opcode
 	int operand = maskOpcode(instruction); //mask instruction to get operand
-	string OPstring = "";
-	cout << "Current Instruction: ";
+	string OPstring;
 	switch (opcode) //Evaluate opcode to int so it can jump straight to the correct code without going through a bunch of ifs
 	{
 		case 0x0000: //NOP and RET have same opcode :(, RET is 0x0008 anything else is a NOP
 			if (instruction == 0x0008)
 			{
-				cout << "RET" << endl; RET(sregisters,registers); break;
+				#ifndef HEADLESS
+				OPstring = "RET"; 
+				#endif
+				RET(sregisters,registers); 
+				break;
 			}
 			else
 			{
-				cout << "NOP" << endl; break;
+				#ifndef HEADLESS
+				OPstring = "NOP";
+				#endif
+				break;
 			}
 
 		//On opcode, write the operation to the screen, call the appropriate function and break to prevent fallthrough.
-		case 0x2000: cout << "CALL" << endl; CALL(operand,sregisters,registers); break;
+		case 0x2000: OPstring = "CALL"; CALL(operand,sregisters,registers); break;
 
-		case 0x0A00: cout << "INC" << endl; INC(operand, registers, sregisters); break;
+		case 0x0A00: OPstring = "INC"; INC(operand, registers, sregisters); break;
 
-		case 0x0300: cout << "DEC" << endl; DEC(operand, registers, sregisters); break;
+		case 0x0300: OPstring = "DEC"; DEC(operand, registers, sregisters); break;
 
-		case 0x3E00: cout << "ADDW" << endl; ADDW(operand,sregisters); break;
+		case 0x3E00: OPstring = "ADDW"; ADDW(operand,sregisters); break;
 
-		case 0x3900: cout << "ANDW" << endl; ANDW(operand, sregisters); break;
+		case 0x3900: OPstring = "ANDW"; ANDW(operand, sregisters); break;
 
-		case 0x3C00: cout << "SUBW" << endl; SUBW(operand, sregisters); break;
+		case 0x3C00: OPstring = "SUBW"; SUBW(operand, sregisters); break;
 
-		case 0x3800: cout << "ORW" << endl; ORW(operand, sregisters); break;
+		case 0x3800: OPstring = "ORW"; ORW(operand, sregisters); break;
 
-		case 0x3A00: cout << "XORW" << endl; XORW(operand, sregisters); break;
+		case 0x3A00: OPstring = "XORW"; XORW(operand, sregisters); break;
 
-		case 0x2800: cout << "JMP" << endl; JMP(operand,sregisters); break;
+		case 0x2800: OPstring = "JMP"; JMP(operand,sregisters); break;
 
-		case 0x2900: cout << "JPZ" << endl; JPZ(operand,sregisters); break;
+		case 0x2900: OPstring = "JPZ"; JPZ(operand,sregisters); break;
 
-		case 0x2A00: cout << "JPC" << endl; JPC(operand,sregisters); break;
+		case 0x2A00: OPstring = "JPC"; JPC(operand,sregisters); break;
 
-		case 0x0100: cout << "MOVWR" << endl; MOVWR(operand, registers, sregisters); break;
+		case 0x0100: OPstring = "MOVWR"; MOVWR(operand, registers, sregisters); break;
 
-		case 0x3000: cout << "MOVW" << endl; MOVW(operand, sregisters); break;
+		case 0x3000: OPstring = "MOVW"; MOVW(operand, sregisters); break;
 
-		case 0x0800: cout << "MOVRW" << endl; MOVRW(operand, registers, sregisters); break;
+		case 0x0800: OPstring = "MOVRW"; MOVRW(operand, registers, sregisters); break;
 
 		case 0xEE00: cout << "HALT" << endl; exit(0); break;
 
 		default: cout << "Invalid instruction" << endl; break;
 	}
+	#ifndef HEADLESS
+	cout << "Current Instruction: " << OPstring << endl;
+	#endif
 }
 
 
