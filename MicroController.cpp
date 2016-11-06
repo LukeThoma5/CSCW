@@ -6,6 +6,8 @@
 
 #include <unistd.h>
 
+#define HEADLESS
+
 //Luke Foreman 05/11/16 AQA Microcontroller Emulator
 
 using namespace std;
@@ -13,14 +15,18 @@ using namespace std;
 int maskOperand(int& instruction)
 {
 	int opcode = (instruction & 65280); //Bitwise AND with 0xFF00
+	#ifndef HEADLESS
 	cout << "Operand: " << hex << opcode << endl; //Print to console
+	#endif
 	return opcode; //Returns the opcode
 }
 
 int maskOpcode(int& instruction)
 {
 	int operand = (instruction & 255); //Bitwise AND with 0x00FF to get last 2 digits
+	#ifndef HEADLESS
 	cout << "Opcode: " << hex << operand << endl; //Print to console
+	#endif
 	return operand; //Returns the operand
 }
 
@@ -169,6 +175,7 @@ void decodeInstruction(int& instruction, int* registers, int* sregisters)
 {
 	int opcode = maskOperand(instruction); //mask instruction to get opcode
 	int operand = maskOpcode(instruction); //mask instruction to get operand
+	string OPstring = "";
 	cout << "Current Instruction: ";
 	switch (opcode) //Evaluate opcode to int so it can jump straight to the correct code without going through a bunch of ifs
 	{
@@ -444,7 +451,7 @@ int main(int argc, char const *argv[])
 	vector<string> labels = {"TRISA:","PORTA:","TRISB:","PORTB:","TRISC:","PORTC:","PRE:","TMR:"}; //List of all the default labels
 	vector<int> labelPos = {248,249,250,251,252,253,254,255}; //And their respective memory locations
 	loadFile(filelines); //Load in the users code
-	int registers[256] = {0}; //int array to act as registers 0x00 to 0xFF
+	int registers[257] = {0}; //int array to act as registers 0x00 to 0xFF with an extra location that contains JMP 0x00
 	int sregisters[4] = {0}; //int array holding the special registers
 	//to make the special registers accessible in the rest of the program make registers 4 bigger and make sregisters a pointer to memory location 256
 	// 0: W
@@ -453,6 +460,7 @@ int main(int argc, char const *argv[])
 	// 3: SR
 	sregisters[2] = 247; //Set the Stackpointer to the start of the stack
 	const int sleeptime = 1000000/freq; //Set the amount of microseconds to sleep for
+	registers[256] = 0x2800; //If PC gets one too big, set the instruction to JMP 0x00
 	
 	assembleCode(filelines,registers,labels,labelPos); //Assemble the code
 
@@ -461,7 +469,9 @@ int main(int argc, char const *argv[])
 	{
 
 		usleep(sleeptime); //Limit the frequency, is not active so not using cpu when not needed
+		#ifndef HEADLESS
 		printRegisters(registers,sregisters); //Make the memory space visible
+		#endif
 		decodeInstruction(registers[sregisters[1]],registers,sregisters); //Execute the next instruction
 		sregisters[1]++; //Increase the program counter
 		if (registers[255]) //If the TMR is not 0
