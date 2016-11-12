@@ -10,6 +10,8 @@
 #include "badWord.h"
 #include "SSG.h"
 #include "wordContainer.h"
+#include "badwordContainer.h"
+#include "wordCC.h"
 
 using namespace std;
 
@@ -68,6 +70,11 @@ word& returnRef(word* myWord)
 	return *myWord;
 }
 
+void testme(bool why)
+{
+	cout << why << endl;
+}
+
 int main(int argc, char const *argv[])
 {
 
@@ -101,9 +108,15 @@ int main(int argc, char const *argv[])
 	}
 	*/
 
+	cout << "Does it make it here?" << endl;
 	wordContainer allWords("finalDictwithDef.txt");
+	cout << "Does it make it here2" << endl;
+
+	testme("finalDictwithDef.txt");
 
 	wordContainer allBadWords(allWords,"wrongWords.txt");
+
+	cout << "Where is the problem?" << endl;
 
 
 	SSG::goodWordList = &allWords;
@@ -156,6 +169,10 @@ int main(int argc, char const *argv[])
 	printVector(SSG::badWordList->getBadWord(0)->syllableWrongCount);
 
 	printVector(static_cast<badWord*>(SSG::badWordList->wordList[0])->syllableWrongCount);
+
+	//badwordContainer myBadWordContainer;
+
+	wordCC SpellingWords("finalDictwithDef.txt", "wrongWords.txt");
 
 
 	//callTest(allWords.wordList[0]);

@@ -56,7 +56,9 @@ public:
 
 	badWord* getBadWord(int wordToGet);
 
-	wordContainer(std::string filename="finalDictwithDef.txt");
+	wordContainer();
+
+	wordContainer(std::string filename); //Can't default the value or else will get ambiguity error as 2 constructors callable with no arguments
 
 	wordContainer(wordContainer& fullWordList, std::string filename="wrongWords.txt"); //For use when building a bwordContainer from a file and the current known words
 

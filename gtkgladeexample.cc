@@ -15,6 +15,7 @@ void on_button_clicked()
 
 void my_button_clicked()
 {
+  std::cout << "Button Clicked!" << std::endl;
   if(pDialog) //if the window has been initialised
   {
     std::cout << "You have pressed the top button, well done!" << std::endl;
@@ -88,8 +89,8 @@ int main (int argc, char **argv)
     if(pButton)
     {
       pButton->signal_clicked().connect( sigc::ptr_fun(my_button_clicked) );
+     // gtk_builder_connect_signals(refBuilder.operator->(), NULL); Not possible to do in c++
     }
-
 
     app->run(*pDialog);
   }
