@@ -108,23 +108,13 @@ int main(int argc, char const *argv[])
 	}
 	*/
 
-	cout << "Does it make it here?" << endl;
 	wordContainer allWords("finalDictwithDef.txt");
-	cout << "Does it make it here2" << endl;
-
-	testme("finalDictwithDef.txt");
-
-	wordContainer allBadWords(allWords,"wrongWords.txt");
-
-	cout << "Where is the problem?" << endl;
 
 
 	SSG::goodWordList = &allWords;
-	SSG::badWordList = &allBadWords;
+	//SSG::badWordList = &allBadWords;
 
 	cout << SSG::goodWordList->wordList[1]->wordC << endl;
-
-	cout << allBadWords.wordList[0]->wordC << endl;
 
 	printVector(SSG::MSL.syllables);
 
@@ -152,39 +142,24 @@ int main(int argc, char const *argv[])
 
 	cout << boilLocation << endl;
 
-
 	cout << allWords.wordList[boilLocation]->wordC << endl;
-
-
 
 	//allWords.wordList[boilLocation]->wordWrong("ADEKUAT3IYY",SSG::badWordList);
 
 	allWords.wordWrong(boilLocation,"ADEKUAT3IYY",&allWords);
 
-	word* test = (*SSG::badWordList)[0];
-	cout << test->wordC << endl;
+	//badWord* test2 = SSG::badWordList->getBadWord(0);
 
-	badWord* test2 = SSG::badWordList->getBadWord(0);
+	//printVector(SSG::badWordList->getBadWord(0)->syllableWrongCount);
 
-	printVector(SSG::badWordList->getBadWord(0)->syllableWrongCount);
-
-	printVector(static_cast<badWord*>(SSG::badWordList->wordList[0])->syllableWrongCount);
-
-	//badwordContainer myBadWordContainer;
+	//printVector(static_cast<badWord*>(SSG::badWordList->wordList[0])->syllableWrongCount);
 
 	wordCC SpellingWords("finalDictwithDef.txt", "wrongWords.txt");
 
 
 	//callTest(allWords.wordList[0]);
 
-	/*
-	cout << allWords.wordList[1000]->wordC << endl;
 
-	allWords.printWordIndexBoundaries();
-	allWords.deleteWord(1000);
-	cout << "-----------------------------------" << endl;
-	allWords.printWordIndexBoundaries();
-	*/
 
 
 	return 0;

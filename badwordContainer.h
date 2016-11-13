@@ -11,6 +11,9 @@
 class badwordContainer : public wordContainer {
 public:
     badwordContainer();
+
+    badwordContainer(wordContainer& fullWordList, std::string filename);
+
 };
 
 #endif

@@ -1,3 +1,3 @@
 #! /bin/bash
 
-g++ -W main.cpp word.cpp badWord.cpp masterSyllableList.cpp wordContainer.cpp -o a.out
+g++ -W main.cpp word.cpp badWord.cpp masterSyllableList.cpp wordContainer.cpp badwordContainer.cpp wordCC.cpp -o a.out
