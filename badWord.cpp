@@ -89,3 +89,11 @@ void printVector(const vector<int>& sV);
 
 		return "badWord";
 	}
+
+	void badWord::determineScore()
+	{
+		cout << "badWord determineScore called" << endl;
+		wScoreHelper();
+		wScore *= weight;
+		cout << "Final score for " << wordC << wScore << endl;
+	}

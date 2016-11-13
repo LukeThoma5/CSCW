@@ -49,8 +49,8 @@ void createRandomWordWrongCounts() //Fill the MSL with random wrongCounts to tes
 
 	for (unsigned int i=0; i<SSG::MSL.wrongCount.size(); i++)
 	{
-		//SSG::MSL.wrongCount[i] = randNG(LOW,HIGH); //Valgrind does not like this call
-		SSG::MSL.wrongCount[i] = 0; //This can be used to memory leak testing
+		SSG::MSL.wrongCount[i] = randNG(LOW,HIGH); //Valgrind does not like this call
+		//SSG::MSL.wrongCount[i] = 0; //This can be used to memory leak testing
 	}
 }
 
@@ -155,6 +155,8 @@ int main(int argc, char const *argv[])
 	//printVector(static_cast<badWord*>(SSG::badWordList->wordList[0])->syllableWrongCount);
 
 	wordCC SpellingWords("finalDictwithDef.txt", "wrongWords.txt");
+
+	SpellingWords.generatewScore();
 
 
 	//callTest(allWords.wordList[0]);

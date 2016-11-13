@@ -63,7 +63,7 @@ using namespace std;
 			{
 				returnVector.push_back(rightVector[rightPos++]); //add the next right value to the return list and increment rightPos counter
 			}
-			else 
+			else
 			{
 				if (rightPos == rightVectorSize) //If out of right hand values add a left
 				{
@@ -178,4 +178,14 @@ using namespace std;
 		}
 
 		enactMergeSort(syllablePos);
+	}
+
+	int masterSyllablesList::size()
+	{
+		return syllables.size();
+	}
+
+	int masterSyllablesList::getSyllableWCount(int syllableToGet)
+	{
+		return wrongCount[syllableToGet];
 	}

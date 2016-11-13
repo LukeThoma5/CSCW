@@ -16,6 +16,8 @@ public:
     badwordContainer badWords;
     wordCC();
     wordCC(std::string goodFilename, std::string badFilename);
+
+    void generatewScore();
 };
 
 #endif

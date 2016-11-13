@@ -26,6 +26,8 @@ public:
 	badWord(const word* createFrom, std::string badWordLine);
 
 	virtual std::string wordWrong(const std::string& attempt);
+
+	virtual void determineScore();
 };
 
 #endif

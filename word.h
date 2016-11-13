@@ -20,6 +20,8 @@ protected:
 
 	std::vector<int> determineWrongSyllables(const std::string& attempt);
 
+	void wScoreHelper();
+
 
 public:
 	std::string wordC;//wordCapitalised
@@ -27,11 +29,14 @@ public:
 	std::vector<int> syllablePositions;
 	std::string definition;
 	std::vector<bool> wordFlags;
+	float wScore = 0.0;
 	//int size = 0;
 
 	word(bool safteyMechanism);
 
 	word(const std::string& wordline);
+
+	virtual void determineScore();
 
 	virtual ~word();
 
