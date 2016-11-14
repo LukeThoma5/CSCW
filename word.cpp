@@ -8,6 +8,7 @@
 #include "word.h"
 
 #include "math.h"
+#include <complex>
 
 using namespace std;
 
@@ -46,25 +47,85 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 
 	void word::wScoreHelper()
 	{
-		//cout << "Determining " <<  wordC << " score" << endl;
-		wScore = 0.0;
-		for (unsigned int i=0; i<syllables.size(); i++)
+		wScore = 0.0; //Reset wScore to start from a clean slate
+		for (unsigned int i=0; i<syllables.size(); i++) //For every syllable this word has
 		{
-			for (unsigned int j=0; j<SSG::MSL.size(); j++)
+			for (unsigned int j=0; j<SSG::MSL.size(); j++) //For every syllable in the masterSyllableList
 			{
-				if (syllables[i] == SSG::MSL[j])
+				if (syllables[i] == SSG::MSL[j]) //If the syllables match
 				{
 					//cout << syllables[i] << " found at " << j << endl;
-					wScore += SSG::MSL.getSyllableWCount(j);
+					wScore += SSG::MSL.getSyllableWCount(j); //Add the wrongCount of the masterSyllableList to the total wScore
+					break; //Stop searching through the MSL and move on to the next syllable of this word
 				}
 			}
 		}
 
-		//wScore = wScore/(sqrt(syllables.size())*0.2); //Reduce the effect that having a long word has on its score.
+		const int offset = 15; //Use this to alter the affect that wordSize has on end wScore, a higher value makes word length matter less
+		const int ideal = 7; //The target word size
+		const int denom = ideal + offset; //A compile time constant to reduce the amount of math required at runtime
+		signed int wordSize = wordC.size(); //Forcing the size of the word from an unsigned int to a signed int so it wont underflow
 
-		//wScore = wScore* (200 - pow(syllables.size()-5,2));
+		/*
+		//Error checking and Algorithm testing code
+		if ((denom-abs(wordSize-ideal))/(denom) > 1.0)
+		{
+			cout << "wScore for " << wordC << " is " << wScore << endl;
+			cout << "The penalty is " << (abs(wordSize-ideal)+offset)/(denom) << endl;
+			cout << "The absolute value is " << abs(wordSize-ideal) << " the value was " << wordSize-ideal << endl;
+			cout << "The final score is: " << (wScore/syllables.size()) * (denom-abs(wordSize-ideal))/(denom) << endl;
+		}
 
-		//Improve adjustment for wordSize
+		double numerator = (denom-abs(wordSize-ideal));
+		double penalty = numerator/denom;
+
+		float rwScore = (wScore*penalty)/syllables.size();
+		float twScore = (wScore*(denom-abs(wordSize-ideal)))/(denom*syllables.size());
+
+		if (rwScore != twScore)
+		{
+			cout << "An error has occured " << rwScore << " != " << twScore << endl;
+			cout << rwScore << " " << twScore << " " << rwScore-twScore << endl;
+		}
+
+		float wTotal = wScore;
+		wScore = rwScore;
+
+		if (wScore == 0.0)
+		{
+			float numerator = (denom-abs(wordSize-ideal));
+			float penalty = numerator/denom;
+			cout << "ZERO wScore!!!" << endl;
+			cout << "wScore for " << wordC << " is " << wTotal << endl;
+			cout << "The penalty is " << ((denom-abs(wordSize-ideal))/(denom)) << " which should be " << penalty << endl;
+			cout << "The numerator is " << numerator << endl;
+			cout << "The denomenator is " << denom << endl;
+			cout << "The absolute value is " << abs(wordSize-ideal) << " the value was " << wordSize-ideal << endl;
+			cout << "The final score is: " << ((wScore/syllables.size()) * ((denom-abs(wordSize-ideal))/(denom))) << endl;
+		}
+		*/
+
+		/*
+		Documentation
+		Average syllable contribution = [Sum of syllable Wrong Count for this word] / [# Number of syllables for this word]
+		is multiplied by a penalty <= 1.0 which is there to reduce the effect of very long words.
+		penalty = [offset+ideal-magnitude(length-ideal)] / [offset+ideal]
+		magnitude(length-ideal) gives you the number of letters away from the ideal number.
+		denom = k = offset+ideal
+
+		wScore = [Average syllable contribution] * penalty
+
+		In its 'simplest' form it is:
+
+		numerator = [[Sum of syllable Wrong Count for this word] * (K-magnitude(length-ideal))]
+		denomenator = [K(# Number of syllables for this word)]
+
+		wScore = numerator / denomenator
+
+		To decrease the effect that being near the ideal size has, increase the offset.
+		*/
+		wScore = (wScore*(denom-abs(wordSize-ideal)))/(denom*syllables.size());
+
 
 	}
 

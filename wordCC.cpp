@@ -27,10 +27,12 @@ void wordCC::generatewScore()
 {
     cout << "Determining Scores" << endl;
 
+    //goodWords[8122]->determineScore();
     goodWords.sortWordContainer();
     badWords.sortWordContainer();
 
     goodWords.DisplaywScores(100,120);
+    
     badWords.DisplaywScores();
 
 }
