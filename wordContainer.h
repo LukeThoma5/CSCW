@@ -21,6 +21,16 @@ protected:
 
 	int findNextBoundry(int startPosition);
 
+	void refreshwScores();
+
+	void fillWordPos();
+
+	std::vector<int> wordPos;
+
+	std::vector<int> splitVector(const std::vector<int>& inVector, int mode);
+
+	std::vector<int> containerMergeSort(const std::vector<int>& inVector);
+
 public:
 	std::vector<word*> wordList;
 	bool wordIndexValid = false;
@@ -43,6 +53,8 @@ public:
 
 	int findWordLocation(const std::string& wordToFind);
 
+	void sortWordContainer();
+
 	word* operator[](int wordToGet)
 	{
 		//a[b] opperator cannot be a non-member function
@@ -60,6 +72,8 @@ public:
 	}
 
 	badWord* getBadWord(int wordToGet);
+
+	void DisplaywScores(int start=0, int stop=-1);
 
 	wordContainer();
 

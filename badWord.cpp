@@ -9,8 +9,8 @@
 
 using namespace std;
 
-void printVector(const vector<string>& sV); //Early declaration
-void printVector(const vector<int>& sV);
+void printVector(const vector<string>& sV, int start=0, int stop=-1); //Early declaration
+void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 
 //protected
 	void badWord::constructorHelper(const string& badwordline)
@@ -92,8 +92,8 @@ void printVector(const vector<int>& sV);
 
 	void badWord::determineScore()
 	{
-		cout << "badWord determineScore called" << endl;
+		//cout << "badWord determineScore called" << endl;
 		wScoreHelper();
 		wScore *= weight;
-		cout << "Final score for " << wordC << wScore << endl;
+		//cout << "Final score for " << wordC << wScore << endl;
 	}

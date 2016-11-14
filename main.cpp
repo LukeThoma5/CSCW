@@ -24,8 +24,10 @@ namespace SSG {
 
 
 
-void printVector(const vector<string>& sV)
+void printVector(const vector<string>& sV, int start=0, int stop=-1)
 {
+	if (stop==-1)
+		stop=sV.size();
 	for (unsigned int i=0; i < sV.size(); i++)
 	{
 		cout << i << ":" << sV[i] << ' ';
@@ -33,9 +35,11 @@ void printVector(const vector<string>& sV)
 	cout << endl;
 }
 
-void printVector(const vector<int>& sV)
+void printVector(const vector<int>& sV, int start=0, int stop=-1)
 {
-	for (unsigned int i=0; i < sV.size(); i++)
+	if (stop==-1)
+		stop=sV.size();
+	for (unsigned int i=start; i < stop; i++)
 	{
 		cout << i << ":" << sV[i] << ' ';
 	}

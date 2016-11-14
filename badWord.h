@@ -6,9 +6,6 @@
 
 #include "word.h"
 
-void printVector(const std::vector<std::string>& sV); //Early declaration
-void printVector(const std::vector<int>& sV);
-
 class badWord : public word { //New class badWord inherits from word, keep datamembers public
 
 protected:

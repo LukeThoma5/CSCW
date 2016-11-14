@@ -7,10 +7,12 @@
 #include "SSG.h"
 #include "word.h"
 
+#include "math.h"
+
 using namespace std;
 
-void printVector(const vector<string>& sV); //Early declaration
-void printVector(const vector<int>& sV);
+void printVector(const vector<string>& sV, int start=0, int stop=-1); //Early declaration
+void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 
 //private
 	string word::generateBadWordLine(vector<int>& syllableWrongCount)
@@ -40,6 +42,30 @@ void printVector(const vector<int>& sV);
 	    vector<string> elems;
 	    split(s, delim, elems);
 	    return elems;
+	}
+
+	void word::wScoreHelper()
+	{
+		//cout << "Determining " <<  wordC << " score" << endl;
+		wScore = 0.0;
+		for (unsigned int i=0; i<syllables.size(); i++)
+		{
+			for (unsigned int j=0; j<SSG::MSL.size(); j++)
+			{
+				if (syllables[i] == SSG::MSL[j])
+				{
+					//cout << syllables[i] << " found at " << j << endl;
+					wScore += SSG::MSL.getSyllableWCount(j);
+				}
+			}
+		}
+
+		//wScore = wScore/(sqrt(syllables.size())*0.2); //Reduce the effect that having a long word has on its score.
+
+		//wScore = wScore* (200 - pow(syllables.size()-5,2));
+
+		//Improve adjustment for wordSize
+
 	}
 
 	int word::determineSyllables()
@@ -128,6 +154,13 @@ void printVector(const vector<int>& sV);
 	word::word(bool safteyMechanism)
 	{
 		cout << "WARNING DEFAULT CONSTRUCTER BEING CALLED, OBJECT *MUST* ALREADY BE CONSTRUCTED!" << endl;
+	}
+
+	void word::determineScore()
+	{
+		wScoreHelper();
+		wScore *= 0.5; //Makes good words less valuable than badWords
+		//cout << "Final score for " << wordC << wScore << endl;
 	}
 
 	word::word(const string& wordline) {

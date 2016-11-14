@@ -20,4 +20,17 @@ wordCC::wordCC(std::string goodFilename, std::string badFilename) : goodWords(go
         cout << "Creating wordContainers from filenames" << endl;
         goodWords.printWordIndexBoundariesSimple();
         badWords.printWordIndexBoundariesSimple();
+        //Improve addWord, make it virtual and add a version for badwordContainer.
+}
+
+void wordCC::generatewScore()
+{
+    cout << "Determining Scores" << endl;
+
+    goodWords.sortWordContainer();
+    badWords.sortWordContainer();
+
+    goodWords.DisplaywScores(100,120);
+    badWords.DisplaywScores();
+
 }

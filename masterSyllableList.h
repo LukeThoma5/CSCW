@@ -28,6 +28,16 @@ public:
 	void addSyllables(const std::vector<std::string>& inSyllables);
 
 	void sortList();
+
+	int size();
+
+	std::string operator[](int syllableToGet)
+	{
+		return syllables[syllableToGet];
+	}
+
+	int getSyllableWCount(int syllableToGet);
+
 };
 
 #endif
