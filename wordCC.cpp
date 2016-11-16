@@ -109,7 +109,7 @@ void wordCC::findHardest()
     combineWordLists();
 }
 
-word* wordCC::getWord(int wordToGet)
+word* wordCC::getWord(const int& wordToGet)
 {
     int wordToGetValue = wordPos[wordToGet];
     //cout << "Trying to getWord " << wordToGetValue << "which has a bool value of " << goodBadPos[wordToGetValue];
@@ -119,11 +119,19 @@ word* wordCC::getWord(int wordToGet)
         return goodWords.at(wordToGetValue);
 }
 
-void wordCC::printTop(int end)
+badWord* wordCC::getBWord(const int& wordToGet)
+{
+    if (goodBadPos[wordToGet] == true)
+        return badWords.at(wordPos[wordToGet]);
+    else
+        throw "Not a bad word!";
+}
+
+void wordCC::printTop(int start, int end)
 {
     if (end > (goodWords.size() + badWords.size()))
         end = (goodWords.size() + badWords.size());
-    for (unsigned int i=0; i<end; i++)
+    for (unsigned int i=start; i<end; i++)
     {
         word* wordToPrint = getWord(i);
         cout << i << ": " << wordToPrint->getWord() << " with a score of " << wordToPrint->getwScore() << '\n';

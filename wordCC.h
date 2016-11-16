@@ -28,10 +28,17 @@ public:
 
     void findHardest();
 
-    word* getWord(int wordToGet);
+    word* getWord(const int& wordToGet);
+
+    badWord* getBWord(const int& wordToGet);
+
+    word* operator[](const int& wordToGet)
+    {
+        return getWord(wordToGet);
+    }
 
 
-    void printTop(int end=10);
+    void printTop(int start=0, int end=10);
 };
 
 #endif

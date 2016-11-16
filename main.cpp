@@ -4,6 +4,8 @@
 #include <fstream>
 #include <vector>
 
+#include <cstdlib> //Declare system() which comes from a c library
+
 #include "randng.h" //My random number generator header
 #include "masterSyllableList.h" //MSL declaration
 #include "word.h"
@@ -88,6 +90,13 @@ word& returnRef(word* myWord)
 void testme(bool why)
 {
 	cout << why << endl;
+}
+
+void speak(const string& wordToSay)
+{
+	string Command = "flite -voice slt -t \"Please spell the word " + wordToSay + "\"";
+
+    system(Command.c_str());
 }
 
 int main(int argc, char const *argv[])
@@ -180,6 +189,8 @@ int main(int argc, char const *argv[])
 
 	//callTest(allWords.wordList[0]);
 
+	speak(SpellingWords[0]->getWord());
+	speak(SpellingWords[1]->getWord());
 
 
 

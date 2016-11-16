@@ -37,3 +37,10 @@ badwordContainer::badwordContainer(wordContainer& fullWordList, string filename)
 
     generateWordIndex();
 }
+
+badWord* badwordContainer::at(int wordToGet)
+{
+    //This function gets the word from the wordPos list, eg sorted by wScore
+    word* wordToReturn = wordList[wordPos[wordToGet]];
+    return static_cast<badWord*>(wordToReturn);
+}

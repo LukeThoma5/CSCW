@@ -14,6 +14,8 @@ public:
 
     badwordContainer(wordContainer& fullWordList, std::string filename);
 
+    badWord* at(int wordToGet);
+
 };
 
 #endif
