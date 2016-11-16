@@ -46,6 +46,17 @@ void printVector(const vector<int>& sV, int start=0, int stop=-1)
 	cout << endl;
 }
 
+void printVector(const vector<bool>& sV, int start=0, int stop=-1)
+{
+	if (stop==-1)
+		stop=sV.size();
+	for (unsigned int i=start; i < stop; i++)
+	{
+		cout << i << ":" << sV[i] << ' ';
+	}
+	cout << endl;
+}
+
 void createRandomWordWrongCounts() //Fill the MSL with random wrongCounts to test sorting
 {
 	const int HIGH = 450;
@@ -161,6 +172,10 @@ int main(int argc, char const *argv[])
 	wordCC SpellingWords("finalDictwithDef.txt", "wrongWords.txt");
 
 	SpellingWords.generatewScore();
+
+	SpellingWords.findHardest();
+
+	SpellingWords.printTop();
 
 
 	//callTest(allWords.wordList[0]);

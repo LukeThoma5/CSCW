@@ -220,6 +220,12 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 		cout << badWordLine << endl;
 	}
 
+	word* wordContainer::at(int wordToGet)
+	{
+		//This function gets the word from the wordPos list, eg sorted by wScore
+		return wordList[wordPos[wordToGet]];
+	}
+
 
 	int wordContainer::findWordLocation(const string& wordToFind)
 	{
@@ -374,4 +380,9 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 			cout << wordList[i]->wScore << ",";
 		}
 		cout << endl;
+	}
+
+	int wordContainer::size()
+	{
+		return wordList.size();
 	}

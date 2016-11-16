@@ -36,6 +36,10 @@ public:
 
 	word(const std::string& wordline);
 
+	float getwScore();
+
+	std::string getWord();
+
 	virtual void determineScore();
 
 	virtual ~word();

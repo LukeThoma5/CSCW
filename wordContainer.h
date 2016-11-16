@@ -55,6 +55,8 @@ public:
 
 	void sortWordContainer();
 
+	int size();
+
 	word* operator[](int wordToGet)
 	{
 		//a[b] opperator cannot be a non-member function
@@ -70,6 +72,8 @@ public:
 		else
 			throw "wordContainer Out of Bounds, negative!";
 	}
+
+	word* at(int wordToGet);
 
 	badWord* getBadWord(int wordToGet);
 

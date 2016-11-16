@@ -66,7 +66,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 		const int denom = ideal + offset; //A compile time constant to reduce the amount of math required at runtime
 		signed int wordSize = wordC.size(); //Forcing the size of the word from an unsigned int to a signed int so it wont underflow
 
-		/*
+		#ifdef WORDDEBUG
 		//Error checking and Algorithm testing code
 		if ((denom-abs(wordSize-ideal))/(denom) > 1.0)
 		{
@@ -103,7 +103,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 			cout << "The absolute value is " << abs(wordSize-ideal) << " the value was " << wordSize-ideal << endl;
 			cout << "The final score is: " << ((wScore/syllables.size()) * ((denom-abs(wordSize-ideal))/(denom))) << endl;
 		}
-		*/
+		#endif
 
 		/*
 		Documentation
@@ -216,6 +216,10 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 	{
 		cout << "WARNING DEFAULT CONSTRUCTER BEING CALLED, OBJECT *MUST* ALREADY BE CONSTRUCTED!" << endl;
 	}
+
+	float word::getwScore() {return wScore;}
+
+	string word::getWord() {return wordC;}
 
 	void word::determineScore()
 	{
