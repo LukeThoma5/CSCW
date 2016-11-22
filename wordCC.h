@@ -37,6 +37,8 @@ public:
         return getWord(wordToGet);
     }
 
+    int findRealWordLocation(const std::string& comp);
+
 
     void printTop(int start=0, int end=10);
 };

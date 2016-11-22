@@ -189,10 +189,13 @@ int main(int argc, char const *argv[])
 
 	//callTest(allWords.wordList[0]);
 
-	speak(SpellingWords[0]->getWord());
-	speak(SpellingWords[1]->getWord());
+	//speak(SpellingWords[0]->getWord());
+	//speak(SpellingWords[1]->getWord());
 
+	string toSearch = "ADEQUATELY";
+	SpellingWords.findRealWordLocation(toSearch);
 
+	cout << "Returning to OS" << endl;
 
 	return 0;
 }

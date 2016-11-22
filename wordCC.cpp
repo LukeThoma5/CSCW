@@ -138,3 +138,14 @@ void wordCC::printTop(int start, int end)
     }
     cout << endl;
 }
+
+int wordCC::findRealWordLocation(const string& comp)
+{
+    cout << "Checking goodWords" << endl;
+    int location = goodWords.binSearch(comp,0,goodWords.size());
+    cout << location << endl;
+    if (location > -1)
+        cout << "Word " << comp << " == " << goodWords[location]->getWord() << "at " << location << endl;
+
+    return location;
+}

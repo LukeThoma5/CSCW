@@ -4,6 +4,8 @@
 #include <fstream>
 #include <vector>
 
+#include <math.h>
+
 #include "word.h"
 #include "badWord.h"
 #include "wordContainer.h"
@@ -385,4 +387,34 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 	int wordContainer::size()
 	{
 		return wordList.size();
+	}
+
+	int wordContainer::binSearch(const std::string& comp, int start, int stop)
+	{
+		string pause;
+		cin >> pause;
+		cout << "Start point " << start << " stop point " << stop << endl;
+		int midpoint = (start+stop)/2;
+		cout << "Midpoint is " << midpoint << endl;
+		cout << "Checking " << wordList[midpoint]->getWord() << endl;
+		if (start == stop) //Bottom out recursion, if can't split again
+		{
+			if (comp == wordList[start]->getWord())
+				return start;
+			return -1;
+		}
+		int comparisonResult = comp.compare(wordList[midpoint]->getWord());
+		if (comparisonResult == 0)
+			return midpoint;
+		if (comparisonResult > 0)
+		{
+			return binSearch(comp,midpoint,stop);
+		}
+		if (comparisonResult < 0)
+		{
+			return binSearch(comp,start,midpoint);
+		}
+
+
+		cout << "An error has occured in searching for word " << comp << endl;
 	}

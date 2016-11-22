@@ -57,6 +57,8 @@ public:
 
 	int size();
 
+	int binSearch(const std::string& comp, int start, int stop);
+
 	word* operator[](int wordToGet)
 	{
 		//a[b] opperator cannot be a non-member function
