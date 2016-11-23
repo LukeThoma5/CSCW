@@ -389,29 +389,116 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 		return wordList.size();
 	}
 
+	int wordContainer::stringCompare(const string& str1, const string& str2)
+	{
+
+		if (str1 == str2)
+			return 0;
+
+		int str1size = str1.size(); //Force the string size to a signed int
+		int str2size = str2.size();
+		int stop = str1size;
+
+		int retInt = -1;
+
+		if (str1size != str2size)
+		{
+			if (str1size > str2size)
+			{
+				stop = str2size;
+				retInt = 1;
+			}
+		}
+
+		int s1pos = 0;
+		int s2pos = 0;
+		while (s1pos <  str1.size() && s2pos < str2.size())
+		{
+			char chr1 = str1.at(s1pos);
+			char chr2 = str2.at(s2pos);
+			//cout << "Checking char " << chr1 << " " << chr2 << endl;
+			if (chr1 == chr2)
+			{
+				s1pos++;
+				s2pos++;
+				continue;
+			}
+
+			int chr1i = static_cast<int>(chr1);
+
+			if (chr1i < 65)
+			{
+				s1pos++;
+				continue;
+			}
+
+			int chr2i = static_cast<int>(chr2);
+
+			if (chr2i < 65)
+			{
+				s2pos++;
+				continue;
+			}
+
+			if (chr1 > chr2)
+				return 1;
+			return -1;
+		}
+
+		//cout << "COULD NOT DECIDE" << s1pos << " " << s2pos << endl;
+		return retInt;
+
+	}
+
 	int wordContainer::binSearch(const std::string& comp, int start, int stop)
 	{
-		string pause;
-		cin >> pause;
-		cout << "Start point " << start << " stop point " << stop << endl;
-		int midpoint = (start+stop)/2;
-		cout << "Midpoint is " << midpoint << endl;
-		cout << "Checking " << wordList[midpoint]->getWord() << endl;
+
+		//string pause;
+		//cin >> pause;
+		//cout << "----------------------------------------------------------------------\n";
+		//cout << "Start point " << start << " stop point " << stop << endl;
+		float midFloat =start+stop;
+		midFloat = midFloat / 2;
+		int midpoint = ceil(midFloat);
+		//cout << "Midpoint is " << midpoint << " " << midFloat << endl;
+		//cout << "Checking " << wordList[midpoint]->getWord() << endl;
 		if (start == stop) //Bottom out recursion, if can't split again
 		{
 			if (comp == wordList[start]->getWord())
 				return start;
 			return -1;
 		}
-		int comparisonResult = comp.compare(wordList[midpoint]->getWord());
+
+		if (stop-start == 1)
+		{
+			//int compres = stringCompare(comp,wordList[start]->getWord();
+			//cout << "Checking " << wordList[start]->getWord() << endl;
+			if (comp ==  wordList[start]->getWord())
+				return start;
+			//cout << "Checking " << wordList[stop]->getWord() << endl;
+			if (comp == wordList[stop]->getWord())
+				return stop;
+			return -1;
+		}
+
+		int comparisonResult = stringCompare(comp,wordList[midpoint]->getWord()); //comp.compare(wordList[midpoint]->getWord());
+
+		//cout << "Expecting " << comp.compare(wordList[midpoint]->getWord()) << " got " << comparisonResult << endl;
+
 		if (comparisonResult == 0)
 			return midpoint;
 		if (comparisonResult > 0)
 		{
+			//if (stop-midpoint == 1)
+				//return binSearch(comp,midpoint,midpoint);
+			//cout << "searching at " << midpoint << " " << stop << endl;
 			return binSearch(comp,midpoint,stop);
 		}
 		if (comparisonResult < 0)
 		{
+			//if (midpoint-start == 1)
+				//return binSearch(comp,start,start);
+			//cout << "searching at " << start << " " << midpoint << endl;
 			return binSearch(comp,start,midpoint);
 		}
 

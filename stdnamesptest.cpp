@@ -7,8 +7,8 @@ int main(int argc, char const *argv[])
 	int a=5;
 	std::cout << a << std::endl;
 
-	string first = "apple";
-	string second = "potato";
+	string first = "applec";
+	string second = "applee";
 	cout << first.compare(second) << endl;
 
 	cout << second.compare(first) << endl;

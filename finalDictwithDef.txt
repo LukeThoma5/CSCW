@@ -3753,7 +3753,6 @@ CONSISTENTLY+K+AH0+N+S+IH1+S+T+AH0+N+T+L+IY0+#DEF+In a consistent manner.
 CONSOL+K+AA1+N+S+AA0+L+#DEF+A consolidated annuity (see Consols); -- chiefly in combinationor attributively.
 CONSOLABLE+K+AH0+N+S+OW1+L+AH0+B+AH0+L+#DEF+Capable of receiving consolation.
 CONSOLATION+K+AA2+N+S+AH0+L+EY1+SH+AH0+N+#DEF+The act of consoling; the state of being consoled; allevationof misery or distress of mind; refreshment of spirit; comfort; thatwhich consoles or comforts the spirit.Against such cruelties With inward consolations recompensed. Milton.Are the consolations of God small with thee Job xv. 11.
-RACE+R+EY1+S+#DEF+A game, match, etc., open only to losers in early stages ofcontests.
 CONSOLE+K+AA1+N+S+OW0+L+#DEF+To cheer in distress or depression; to alleviate the grief andraise the spirits of; to relieve; to comfort; to soothe.And empty heads console with empty sound. Pope.I am much consoled by the reflection that the religion of Christ hasbeen attacked in vain by all the wits and philosophers, and itstriumph has been complete. P. Henry.
 CONSOLIDATE+K+AH0+N+S+AA1+L+IH0+D+EY2+T+#DEF+Formed into a solid mass; made firm; consolidated. [R.]A gentleman [should learn to ride] while he is tender and the brawnsand sinews of his thighs not fully consolidate. Elyot.
 CONSOLIDATED+K+AH0+N+S+AA1+L+AH0+D+EY2+T+AH0+D+#DEF+Having a small surface in proportion to bulk, as in the cactus.Consolidated plants are evidently adapted and designed for very dryregions; in such only they are found. Gray.The Consolidated Fund, a British fund formed by consolidating (in1787) three public funds (the Aggregate Fund, the General Fund, andthe South Sea Fund). In 1816, the larger part of the revenues ofGreat Britian and Ireland was assigned to what has been known as theConsolidated Fund of the United Kingdom, out of which are paid theinterest of the national debt, the salaries of the civil list, etc.
@@ -7157,11 +7156,11 @@ FOUTY+F+AW1+T+IY0+#DEF+Despicable. [Obs.]
 FOWL+F+AW1+L+#DEF+To catch or kill wild fowl, for game or food, as by shooting,or by decoys, nets, etc.Such persons as may lawfully hunt, fish, or fowl. Blackstone.Fowling piece, a light gun with smooth bore, adapted for the use ofsmall shot in killing birds or small quadrupeds.
 FOWLER+F+AW1+L+ER0+#DEF+A sportsman who pursues wild fowl, or takes or kills for food.
 FOX+F+AA1+K+S+#DEF+A carnivorous animal of the genus Vulpes, family Canidæ, ofmany species. The European fox (V. vulgaris or V. vulpes), theAmerican red fox (V. fulvus), the American gray fox (V. Virginianus),and the arctic, white, or blue, fox (V. lagopus) are well-knownspecies.
-FRACAS+F+R+EY1+K+AH0+S+#DEF+An uproar; a noisy quarrel; a disturbance; a brawl.
 FOXES+F+AA1+K+S+AH0+Z+#DEF+See Fox, n., 7.
 FOXGLOVE+F+AA1+K+S+G+L+AH2+V+#DEF+Any plant of the genus Digitalis. The common English foxglove(Digitalis purpurea) is a handsome perennial or biennial plant, whoseleaves are used as a powerful medicine, both as a sedative anddiuretic. See Digitalis.Pan through the pastures oftentimes hath run To pluck the speckledfoxgloves from their stem. W. Browne.
 FOXHOUND+F+AA1+K+S+HH+AW2+N+D+#DEF+One of a special breed of hounds used for chasing foxes.
 FOXTAIL+F+AA1+K+S+T+EY2+L+#DEF+The name of several kinds of grass having a soft dense head offlowers, mostly the species of Alopecurus and Setaria.
+FRACAS+F+R+EY1+K+AH0+S+#DEF+An uproar; a noisy quarrel; a disturbance; a brawl.
 FRACTION+F+R+AE1+K+SH+AH0+N+#DEF+One or more aliquot parts of a unit or whole number; anexpression for a definite portion of a unit or magnitude. Common, orVulgar, fraction, a fraction in which the number of equal parts intowhich the integer is supposed to be divided is indicated by figuresor letters, called the denominator, written below a line, over whichis the numerator, indicating the number of these parts included inthe fraction; as -- Complex fraction, a fraction having a fraction ormixed number in the numerator or denominator, or in both. Davies &Peck. -- Compound fraction, a fraction of a fraction; two or morefractions connected by of. -- Continued fraction, Decimal fraction, Partial fraction, etc. Seeunder Continued, Decimal, Partial, etc. -- Improper fraction, a fraction in which the numerator is greaterthan the denominator. -- Proper fraction, a fraction in which the numerator is less thanthe denominator.
 FRACTIONALLY+F+R+AE1+K+SH+AH0+N+AH0+L+IY0+#DEF+By fractions or separate portions; as, to distill a liquidfractionally, that is, so as to separate different portions.
 FRACTIOUS+F+R+AE1+K+SH+AH0+S+#DEF+Apt to break out into a passion; apt to scold; cross; snappish;ugly; unruly; as, a fractious man; a fractious horse.
@@ -8829,7 +8828,6 @@ ICON+AY1+K+AA0+N+#DEF+An image or representation; a portrait or pretended portra
 ICONOCLASM+AY2+K+AA1+N+AH0+K+L+AE2+Z+AH0+M+#DEF+The doctrine or practice of the iconoclasts; image breaking.
 ICONOCLASTIC+AY2+K+AH0+N+AH0+K+L+AE1+S+T+IH0+K+#DEF+Of or pertaining to the iconoclasts, or to image breaking.Milman.
 I'D+AY1+D+#DEF+. A contraction from I would or I had.
-ID+IH1+D+#DEF+A small fresh-water cyprinoid fish (Leuciscus idus or Idusidus) of Europe. A domesticated variety, colored like the goldfish,is called orfe in Germany.
 IDE+AY1+D+#DEF+Same as Id.
 IDEAL+AY0+D+IY1+L+#DEF+Imaginary.
 IDEALISM+AY0+D+IY1+L+IH0+Z+AH0+M+#DEF+The system or theory that denies the existence of materialbodies, and teaches that we have no rational grounds to believe inthe reality of anything but ideas and their relations.
@@ -12432,7 +12430,6 @@ NUTTING+N+AH1+T+IH0+NG+#DEF+The act of gathering nuts.
 NUZZLE+N+AH1+Z+AH0+L+#DEF+To nestle; to house, as in a nest.
 NYE+N+AY1+#DEF+A brood or flock of pheasants.
 NYMPH+N+IH1+M+F+#DEF+A goddess of the mountains, forests, meadows, or waters.Where were ye, nymphs, when the remorseless deep Closed o'er the headof your loved Lycidas Milton.
-O'+OW1+#DEF+A prefix to Irish family names, which signifies grandson ordescendant of, and is a character of dignity; as, O'Neil, O'Carrol.
 O+OW1+#DEF+One. [Obs.] Chaucer. "Alle thre but o God." Piers Plowman.
 OAD+OW1+EY1+D+IY1+#DEF+See Woad. [Obs.] Coles.
 OAK+OW1+K+#DEF+Any tree or shrub of the genus Quercus. The oaks have alternateleaves, often variously lobed, and staminate flowers in catkins. Thefruit is a smooth nut, called an acorn, which is more or lessinclosed in a scaly involucre called the cup or cupule. There are nowrecognized about three hundred species, of which nearly fifty occurin the United States, the rest in Europe, Asia, and the other partsof North America, a very few barely reaching the northern parts ofSouth America and Africa. Many of the oaks form forest trees of grandproportions and live many centuries. The wood is usually hard andtough, and provided with conspicuous medullary rays, forming thesilver grain.
@@ -14665,6 +14662,7 @@ RABBI+R+AE1+B+AY2+#DEF+Master; lord; teacher; -- a Jewish title of respect or ho
 RABBLE+R+AE1+B+AH0+L+#DEF+An iron bar, with the end bent, used in stirring or skimmingmolten iron in the process of puddling.
 RABIES+R+EY1+B+IY0+Z+#DEF+Same as Hydrophobia (b); canine madness.
 RACCOON+R+AE0+K+UW1+N+#DEF+A North American nocturnal carnivore (Procyon lotor) allied tothe bears, but much smaller, and having a long, full tail, bandedwith black and gray. Its body is gray, varied with black and white.Called also coon, and mapach.
+RACE+R+EY1+S+#DEF+A game, match, etc., open only to losers in early stages ofcontests.
 RACER+R+EY1+S+ER0+#DEF+The common American black snake.
 RACIAL+R+EY1+SH+AH0+L+#DEF+Of or pertaining to a race or family of men; as, the racialcomplexion.
 RACINESS+R+EY1+S+IY0+N+AH0+S+#DEF+The quality of being racy; peculiar and piquant flavor.The general characteristics of his [Cobbett's] style wereperspicuity, unequaled and inimitable; . . . a purity always simple,and raciness often elegant. London Times.
@@ -20169,7 +20167,6 @@ WONDERS+W+AH1+N+D+ER0+Z+#DEF+See Wondrous. [Obs.]They be wonders glad thereof. S
 WONDROUS+W+AH1+N+D+R+AH0+S+#DEF+In a wonderful or surprising manner or degree; wonderfully.For sylphs, yet mindful of their ancient race, Are, as when women,wondrous fond of place. Pope.And now there came both mist and snow, And it grew wondrous cold.Coleridge.
 WONG+W+AO1+NG+#DEF+A field. [Obs.] Spelman. "Woods and wonges." Havelok the Dane.
 WON'T+W+OW1+N+T+#DEF+A colloquial contraction of woll not. Will not. See Will.
-WONT+W+OW1+N+T+#DEF+Using or doing customarily; accustomed; habituated; used. "Ashe was wont to go." Chaucer.If the ox were wont to push with his horn. Ex. xxi. 29.
 WOO+W+UW1+#DEF+To court; to make love. Dryden.
 WOOD+W+UH1+D+#DEF+Mad; insane; possessed; rabid; furious; frantic. [Obs.][Written also wode.]Our hoste gan to swear as [if] he were wood. Chaucer.
 WOODCHUCK+W+UH1+D+CH+AH2+K+#DEF+A common large North American marmot (Arctomys monax). It isusually reddish brown, more or less grizzled with gray. It makesextensive burrows, and is often injurious to growing crops. Calledalso ground hog.
