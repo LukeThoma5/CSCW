@@ -233,3 +233,15 @@ void wordCC::printwordCC()
     cout << "\n\nPRINTING BADWORDS\n";
     badWords.printWordContainer();
 }
+
+word* wordCC::getCurrentWord()
+{
+    return getWord(currentWord);
+}
+
+void wordCC::nextWord()
+{
+    currentWord++;
+}
+
+void wordCC::nextWord();

@@ -61,7 +61,7 @@ void printVector(const vector<bool>& sV, int start=0, int stop=-1)
 
 void createRandomWordWrongCounts() //Fill the MSL with random wrongCounts to test sorting
 {
-	const int HIGH = 450;
+	const int HIGH = 12; //Was 450
 	const int LOW = 0;
 
 	for (unsigned int i=0; i<SSG::MSL.wrongCount.size(); i++)
@@ -107,7 +107,7 @@ void SpellingTest(wordCC& SpellingWords)
 
 	for (int i=0; i<10; i++)
 	{
-		SpellingWords.printwordCC();
+		//SpellingWords.printwordCC();
 		string wordToSpell = SpellingWords[i]->getWord();
 		speak(wordToSpell);
 		string userInput;
@@ -206,8 +206,8 @@ int main(int argc, char const *argv[])
 
 	//printVector(static_cast<badWord*>(SSG::badWordList->wordList[0])->syllableWrongCount);
 
-	//wordCC SpellingWords("finalDictwithDef.txt", "wrongWords.txt");
-	wordCC SpellingWords("shortDict.txt", "wrongWords.txt");
+	wordCC SpellingWords("finalDictwithDef.txt", "wrongWords.txt");
+	//wordCC SpellingWords("shortDict.txt", "wrongWords.txt");
 
 	SpellingWords.generatewScore();
 
@@ -237,6 +237,8 @@ int main(int argc, char const *argv[])
 	SpellingTest(SpellingWords);
 
 	cout << "Returning to OS" << endl;
+
+	//Add to badWord construction that it should delete the word from the good list wordCC construction
 
 	return 0;
 }

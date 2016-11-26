@@ -25,6 +25,7 @@ public:
     badwordContainer badWords;
     std::vector<int> wordPos;
     std::vector<bool> goodBadPos;
+    int currentWord = 0;
     wordCC();
     wordCC(std::string goodFilename, std::string badFilename);
 
@@ -33,6 +34,10 @@ public:
     void findHardest();
 
     word* getWord(const int& wordToGet);
+
+    word* getCurrentWord();
+
+    void nextWord();
 
     badWord* getBWord(const int& wordToGet);
 
