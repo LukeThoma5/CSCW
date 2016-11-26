@@ -193,7 +193,13 @@ int main(int argc, char const *argv[])
 	//speak(SpellingWords[1]->getWord());
 
 	string toSearch = "ADEQUATELY";
+
 	SpellingWords.findRealWordLocation(toSearch);
+
+	string testString = "ATTEMPTO+AH0+T+EH1+M+P+T+OW1+#DEF+The latin for test";
+	SpellingWords.addWord(new word(testString));
+
+	SpellingWords.wordWrong(0,"SNAPY");
 
 	cout << "Returning to OS" << endl;
 

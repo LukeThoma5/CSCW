@@ -83,17 +83,18 @@ bool testWordContainerSearch(wordContainer& goodWords)
         if (j > 1000)
         {
             int location = goodWords.binSearch(goodWords[i]->getWord(),0,goodWords.size());
-            cout << "Looking for word # " << i << " with value " << goodWords[i]->getWord() << " which was found at location " << location << " with a value of " << goodWords[location]->getWord() << endl;
+            //cout << "Looking for word # " << i << " with value " << goodWords[i]->getWord() << " which was found at location " << location << " with a value of " << goodWords[location]->getWord() << endl;
             j=0;
         }
     }
-    cout << "Binary Search Test [Passed]" << endl;
+    //cout << "Binary Search Test [Passed]" << endl;
     return true;
 }
 
 int main(int argc, char const *argv[]) {
     wordContainer goodWords("finalDictwithDef.txt");
-    //wordCC SpellingWords("finalDictwithDef.txt", "wrongWords.txt");
+    //wordCC SpellingWords("finalDictwithDef.txt", "wrongWords.txt
     testWordContainerSearch(goodWords);
+	cout << "Tests complete" << endl;
     return 0;
 }

@@ -31,6 +31,8 @@ protected:
 
 	std::vector<int> containerMergeSort(const std::vector<int>& inVector);
 
+	int findWordInsertionPoint(const std::string& searchWord);
+
 public:
 	std::vector<word*> wordList;
 	bool wordIndexValid = false;

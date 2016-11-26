@@ -145,7 +145,24 @@ int wordCC::findRealWordLocation(const string& comp)
     int location = goodWords.binSearch(comp,0,goodWords.size());
     cout << location << endl;
     if (location > -1)
-        cout << "Word " << comp << " == " << goodWords[location]->getWord() << "at " << location << endl;
+        cout << "Word " << comp << " == " << goodWords[location]->getWord() << " at " << location << endl;
 
     return location;
+}
+
+void wordCC::wordWrong(const int& wordPos,const string& attempt)
+{
+    if (goodBadPos[wordPos] == true)
+    {
+        cout << "badWord wordWrong will be called" << endl;
+    }
+    if (goodBadPos[wordPos] == false)
+    {
+        cout << "goodWord wordWrong will be called" << endl;
+    }
+}
+
+void wordCC::addWord(word* wordToAdd)
+{
+    goodWords.addWord(wordToAdd);
 }

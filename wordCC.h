@@ -39,6 +39,10 @@ public:
 
     int findRealWordLocation(const std::string& comp);
 
+    void wordWrong(const int& wordPos,const std::string& attempt);
+
+    void addWord(word* wordToAdd);
+
 
     void printTop(int start=0, int end=10);
 };

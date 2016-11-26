@@ -102,6 +102,21 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 		return returnVector;
 	}
 
+	int wordContainer::findWordInsertionPoint(const string& searchWord)
+	{
+		for (int i=0; i<wordList.size(); i++)
+		{
+			int compResult = stringCompare(searchWord,wordList[i]->getWord());
+			if (compResult < 0)
+			{
+				cout << "Current word location " << wordList[i]->getWord() << " " << i  << endl;
+				return i;
+			}
+
+		}
+		return -1;
+	}
+
 	//modified from here http://stackoverflow.com/questions/236129/split-a-string-in-c
 	void wordContainer::findWord(const string &s, string& badwordWord) {
 	    stringstream ss(s); //create a stringstream object from the string parameter as getline requires istream object
@@ -213,7 +228,17 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 	void wordContainer::addWord(word* wordToAdd)
 	{
 		//Needs to be improved/fixed
-		wordList.push_back(wordToAdd);
+		int insertPos = findWordInsertionPoint(wordToAdd->getWord());
+		//wordList.push_back(wordToAdd);
+		wordList.insert(wordList.begin()+insertPos,wordToAdd);
+
+		/* //Test code for printing the words around the new inserted word for manual inspection.
+		for (int i=insertPos-1;i<insertPos+2;i++)
+		{
+			cout << i << ": " << wordList[i]->getWord() << endl;
+		}
+		cout << "addWord Complete" << endl;
+		*/
 	}
 
 	void wordContainer::addBadWord(word* wordToAdd, string& badWordLine)
@@ -286,7 +311,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 
 	wordContainer::wordContainer()
 	{
-		cout << "Why is this constructor being called?" << endl;
+		cout << "WARNING DEFAULT WORDCONTAINER CONSTRUCTOR IS BEING CALLED" << endl;
 		wordIndexValid = false;
 	}
 
