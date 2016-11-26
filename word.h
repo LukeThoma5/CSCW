@@ -42,6 +42,8 @@ public:
 
 	virtual void determineScore();
 
+	void addToMSLTotal(const std::vector<int>& syllableWrongCount);
+
 	virtual ~word();
 
 	virtual std::string wordWrong(const std::string& attempt);

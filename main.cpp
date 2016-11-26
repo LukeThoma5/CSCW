@@ -99,6 +99,34 @@ void speak(const string& wordToSay)
     system(Command.c_str());
 }
 
+void SpellingTest(wordCC& SpellingWords)
+{
+	SpellingWords.generatewScore();
+
+	SpellingWords.findHardest();
+
+	for (int i=0; i<10; i++)
+	{
+		SpellingWords.printwordCC();
+		string wordToSpell = SpellingWords[i]->getWord();
+		speak(wordToSpell);
+		string userInput;
+		cin >> userInput;
+		if (userInput == "exit")
+			exit(0);
+		if (userInput != wordToSpell)
+		{
+			cout << "You spelt it: " << userInput << " correct spelling is " << wordToSpell << endl;
+			SpellingWords.wordWrong(i,userInput);
+		}
+		else
+		{
+			cout << "Correct!" << endl;
+		}
+
+	}
+}
+
 int main(int argc, char const *argv[])
 {
 
@@ -152,25 +180,25 @@ int main(int argc, char const *argv[])
 
 	cout << "List sorted ---------------------------------------------" << endl;
 
-	printVector(SSG::MSL.syllables);
+	//printVector(SSG::MSL.syllables);
 
-	printVector(SSG::MSL.wrongCount);
+	//printVector(SSG::MSL.wrongCount);
 
 	//cout << findWordLocation("ALLURING",wordList) << endl;
 
 
 
-	cout << allWords.findWordLocation("BOIL") << endl;
-	cout << SSG::goodWordList->findWordLocation("BOIL") << endl;
-	int boilLocation = allWords.findWordLocation("ADEQUATELY");
+	//cout << allWords.findWordLocation("BOIL") << endl;
+	//cout << SSG::goodWordList->findWordLocation("BOIL") << endl;
+	//int boilLocation = allWords.findWordLocation("ADEQUATELY");
 
-	cout << boilLocation << endl;
+	//cout << boilLocation << endl;
 
-	cout << allWords.wordList[boilLocation]->wordC << endl;
+	//cout << allWords.wordList[boilLocation]->wordC << endl;
 
 	//allWords.wordList[boilLocation]->wordWrong("ADEKUAT3IYY",SSG::badWordList);
 
-	allWords.wordWrong(boilLocation,"ADEKUAT3IYY",&allWords);
+	//allWords.wordWrong(boilLocation,"ADEKUAT3IYY",&allWords);
 
 	//badWord* test2 = SSG::badWordList->getBadWord(0);
 
@@ -178,7 +206,8 @@ int main(int argc, char const *argv[])
 
 	//printVector(static_cast<badWord*>(SSG::badWordList->wordList[0])->syllableWrongCount);
 
-	wordCC SpellingWords("finalDictwithDef.txt", "wrongWords.txt");
+	//wordCC SpellingWords("finalDictwithDef.txt", "wrongWords.txt");
+	wordCC SpellingWords("shortDict.txt", "wrongWords.txt");
 
 	SpellingWords.generatewScore();
 
@@ -192,17 +221,20 @@ int main(int argc, char const *argv[])
 	//speak(SpellingWords[0]->getWord());
 	//speak(SpellingWords[1]->getWord());
 
-	string toSearch = "ADEQUATELY";
+	//string toSearch = "ADEQUATELY";
 
-	SpellingWords.findRealWordLocation(toSearch);
+	//SpellingWords.findRealWordLocation(toSearch);
 
-	string testString = "ATTEMPTO+AH0+T+EH1+M+P+T+OW1+#DEF+The latin for test";
-	SpellingWords.addWord(new word(testString));
+	//string testString = "ATTEMPTO+AH0+T+EH1+M+P+T+OW1+#DEF+The latin for test";
+	//SpellingWords.addWord(new word(testString));
 
-	SpellingWords.wordWrong(0,"SNAPY");
+	//SpellingWords.wordWrong(0,"SNAPY");
 
-	word* wordToGetWrong = SpellingWords[4];
-	SpellingWords.wordWrong(4,wordToGetWrong->getWord().substr(1,wordToGetWrong->getWord().size()));
+	//word* wordToGetWrong = SpellingWords[4];
+	//SpellingWords.wordWrong(4,wordToGetWrong->getWord().substr(1,wordToGetWrong->getWord().size()));
+
+	SpellingTest(SpellingWords);
+	SpellingTest(SpellingWords);
 
 	cout << "Returning to OS" << endl;
 

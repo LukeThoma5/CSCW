@@ -85,6 +85,10 @@ public:
 
 	void DisplaywScores(int start=0, int stop=-1);
 
+	void printWordContainer();
+
+	int getABSIndex(const int& wordToGet);
+
 	wordContainer();
 
 	wordContainer(std::string filename); //Can't default the value or else will get ambiguity error as 2 constructors callable with no arguments

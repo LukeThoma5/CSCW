@@ -47,6 +47,8 @@ public:
 
     void addWord(word* wordToAdd);
 
+    void printwordCC();
+
 
     void printTop(int start=0, int end=10);
 };

@@ -232,8 +232,14 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 
 	void wordContainer::deleteWord(int wordPosition)
 	{
+		cout << "DELETING " << wordList[wordPosition]->getWord() << endl;
 		delete wordList[wordPosition];
 		removeWord(wordPosition);
+	}
+
+	int wordContainer::getABSIndex(const int& wordToGet)
+	{
+		return wordPos[wordToGet];
 	}
 
 	int wordContainer::addWord(word* wordToAdd)
@@ -419,6 +425,19 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 		{
 			cout << "Word: " << wordList[wordPos[i]]->wordC << " at " << wordPos[i] << " with a value of " << wordList[wordPos[i]]->wScore << endl;
 		}
+	}
+
+	void wordContainer::printWordContainer()
+	{
+		for (int i=0; i<wordList.size(); i++)
+			cout << i << ": " << wordList[i]->getWord() << " ";
+		cout << endl;
+
+		for (int i=0; i<wordPos.size(); i++)
+		{
+			cout << i << ": " << wordPos[i] << " ";
+		}
+		cout << endl;
 	}
 
 	void wordContainer::DisplaywScores(int start, int stop)

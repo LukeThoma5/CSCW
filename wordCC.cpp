@@ -34,6 +34,7 @@ void wordCC::fixwordPos(const int& goodWordLocation)
 void wordCC::goodWordWrong(const int& wordPosition,const std::string& attempt)
 {
     //cout << wordList[wordPosition]->wordC << endl;
+    cout << "The word position is " << wordPosition << endl;
     string badWordLine = getWord(wordPosition)->wordWrong(attempt);
     cout << badWordLine << endl;
     badWord* badWordToAdd = new badWord(getWord(wordPosition),badWordLine);
@@ -41,13 +42,13 @@ void wordCC::goodWordWrong(const int& wordPosition,const std::string& attempt)
     //cout << badWordToAdd->wordFlags[0] << endl;
     int badWordLocation = badWords.addWord(badWordToAdd);
 
-    
+
     //cout << "badWordLocation" << badWordLocation << endl;
 
     int goodWordLocation = wordPos[wordPosition];
 
     cout << "Begining fixing abstraction" << endl;
-    goodWords.deleteWord(goodBadPos[wordPosition]);
+    goodWords.deleteWord(goodWords.getABSIndex(wordPos[wordPosition]));
     goodBadPos[wordPosition] = true;
     wordPos[wordPosition] = badWordLocation;
 
@@ -195,17 +196,40 @@ void wordCC::wordWrong(const int& wordPosition,const string& attempt)
         cout << "badWord wordWrong will be called" << endl;
         getWord(wordPosition)->wordWrong(attempt);
         getWord(wordPosition)->determineScore();
-        printTop(0,5);
+        printTop(0,10);
+        cout << "The goodwords list" << endl;
+        //goodWords.DisplaywScores(0,10);
+        //badWords.DisplaywScores(0,10);
     }
     if (goodBadPos[wordPosition] == false)
     {
         cout << "goodWord wordWrong will be called" << endl;
         goodWordWrong(wordPosition,attempt);
-        printTop(0,5);
+        printTop(0,10);
+        //goodWords.DisplaywScores(0,10);
+        //badWords.DisplaywScores(0,10);
     }
 }
 
 void wordCC::addWord(word* wordToAdd)
 {
     goodWords.addWord(wordToAdd);
+}
+
+void wordCC::printwordCC()
+{
+    cout << "PRINTING WORDCC\n";
+    for (int i=0; i<(goodWords.size()+badWords.size()); i++)
+    {
+        cout << "Word " << i;
+        if (goodBadPos[i] == true)
+            cout << " is a bad word ";
+        else
+            cout << " is a good word ";
+        cout << getWord(i)->getWord() << " with a value " << getWord(i)->getwScore() << endl;
+    }
+    cout << "\n\nPRINTING GOODWORDS\n";
+    goodWords.printWordContainer();
+    cout << "\n\nPRINTING BADWORDS\n";
+    badWords.printWordContainer();
 }
