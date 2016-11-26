@@ -16,6 +16,10 @@ class wordCC{
 
     void combineWordLists();
 
+    void goodWordWrong(const int& wordPosition,const std::string& attempt);
+
+    void fixwordPos(const int& goodWordLocation);
+
 public:
     wordContainer goodWords;
     badwordContainer badWords;
@@ -39,7 +43,7 @@ public:
 
     int findRealWordLocation(const std::string& comp);
 
-    void wordWrong(const int& wordPos,const std::string& attempt);
+    void wordWrong(const int& wordPosition,const std::string& attempt);
 
     void addWord(word* wordToAdd);
 

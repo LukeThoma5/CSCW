@@ -42,6 +42,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 
 		wordFlags[0] = true;
 
+		determineScore();
 		//badWordCount++;
 	}
 
@@ -71,6 +72,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 		definition=createFrom->definition;
 		wordFlags=createFrom->wordFlags;
 		syllablePositions=createFrom->syllablePositions;
+		wScore=createFrom->wScore;
 		constructorHelper(badWordLine);
 	}
 

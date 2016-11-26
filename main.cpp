@@ -201,6 +201,9 @@ int main(int argc, char const *argv[])
 
 	SpellingWords.wordWrong(0,"SNAPY");
 
+	word* wordToGetWrong = SpellingWords[4];
+	SpellingWords.wordWrong(4,wordToGetWrong->getWord().substr(1,wordToGetWrong->getWord().size()));
+
 	cout << "Returning to OS" << endl;
 
 	return 0;

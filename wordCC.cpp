@@ -19,6 +19,44 @@ wordCC::wordCC()
     cout << "Default wordCC constructor called!" << endl;
 }
 
+void wordCC::fixwordPos(const int& goodWordLocation)
+{
+    for (int i=0; i<wordPos.size(); i++)
+    {
+        if (goodBadPos[i] == false)
+        {
+            if (wordPos[i] > goodWordLocation)
+                wordPos[i]--;
+        }
+    }
+}
+
+void wordCC::goodWordWrong(const int& wordPosition,const std::string& attempt)
+{
+    //cout << wordList[wordPosition]->wordC << endl;
+    string badWordLine = getWord(wordPosition)->wordWrong(attempt);
+    cout << badWordLine << endl;
+    badWord* badWordToAdd = new badWord(getWord(wordPosition),badWordLine);
+    cout << "bad word Created" << endl;
+    //cout << badWordToAdd->wordFlags[0] << endl;
+    int badWordLocation = badWords.addWord(badWordToAdd);
+
+    
+    //cout << "badWordLocation" << badWordLocation << endl;
+
+    int goodWordLocation = wordPos[wordPosition];
+
+    cout << "Begining fixing abstraction" << endl;
+    goodWords.deleteWord(goodBadPos[wordPosition]);
+    goodBadPos[wordPosition] = true;
+    wordPos[wordPosition] = badWordLocation;
+
+    fixwordPos(goodWordLocation);
+
+
+    //Add overloaded functions that don't include which removing words or deleting words ect. Improve the add words, make indexing turn off able.
+}
+
 void wordCC::combineWordLists()
 {
     //This assumes that generatewScore has already been called so the two lists are already sorted themselves.
@@ -150,15 +188,20 @@ int wordCC::findRealWordLocation(const string& comp)
     return location;
 }
 
-void wordCC::wordWrong(const int& wordPos,const string& attempt)
+void wordCC::wordWrong(const int& wordPosition,const string& attempt)
 {
-    if (goodBadPos[wordPos] == true)
+    if (goodBadPos[wordPosition] == true)
     {
         cout << "badWord wordWrong will be called" << endl;
+        getWord(wordPosition)->wordWrong(attempt);
+        getWord(wordPosition)->determineScore();
+        printTop(0,5);
     }
-    if (goodBadPos[wordPos] == false)
+    if (goodBadPos[wordPosition] == false)
     {
         cout << "goodWord wordWrong will be called" << endl;
+        goodWordWrong(wordPosition,attempt);
+        printTop(0,5);
     }
 }
 

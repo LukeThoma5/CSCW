@@ -47,7 +47,7 @@ public:
 
 	void deleteWord(int wordPosition);
 
-	void addWord(word* wordToAdd);
+	int addWord(word* wordToAdd);
 
 	void addBadWord(word* wordToAdd, std::string& badWordLine);
 

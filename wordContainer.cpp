@@ -193,6 +193,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 	{
 		wordList.erase(wordList.begin()+wordPosition); //Remove the word* at position wordPosition. erase function takes a vector iterator which points at the word to be removed, begin function returns an iterator pointing to the start which is then incremented by wordPosition
 
+		/*
 		if (!wordIndexValid) //If the wordIndex is stale generate it again
 			generateWordIndex();
 		else //If the wordIndex was correct, lets update it rather than searching through all 20,000+ words again
@@ -217,6 +218,16 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 				}
 			}
 		}
+		*/
+
+		//Update wordPos to reflect the fact that a word has been removed
+		for (int i=0; i<wordPos.size(); i++) //For every item in the list
+		{
+			if (wordPos[i] == wordPosition) //If it was the word that was erased, erase its position
+				wordPos.erase(wordPos.begin()+i);
+			if (wordPos[i] > wordPosition) //If the word was later in the list than the erased word, reduce the words index by 1
+				wordPos[i]--;
+		}
 	}
 
 	void wordContainer::deleteWord(int wordPosition)
@@ -225,12 +236,20 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 		removeWord(wordPosition);
 	}
 
-	void wordContainer::addWord(word* wordToAdd)
+	int wordContainer::addWord(word* wordToAdd)
 	{
 		//Needs to be improved/fixed
+		//ADD the wordPos fixing!!
 		int insertPos = findWordInsertionPoint(wordToAdd->getWord());
 		//wordList.push_back(wordToAdd);
+		//Fix abstraction
+		for (int i=0; i<wordPos.size(); i++)
+		{
+			if (wordPos[i] >= insertPos)
+				wordPos[i]++;
+		}
 		wordList.insert(wordList.begin()+insertPos,wordToAdd);
+		wordPos.push_back(insertPos);
 
 		/* //Test code for printing the words around the new inserted word for manual inspection.
 		for (int i=insertPos-1;i<insertPos+2;i++)
@@ -239,6 +258,10 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 		}
 		cout << "addWord Complete" << endl;
 		*/
+
+		int wordPosSize = wordPos.size();
+		//return insertPos;
+		return wordPosSize-1;
 	}
 
 	void wordContainer::addBadWord(word* wordToAdd, string& badWordLine)
