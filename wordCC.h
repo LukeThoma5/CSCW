@@ -37,6 +37,8 @@ public:
 
     word* getCurrentWord();
 
+    int getCurrentPosition();
+
     void nextWord();
 
     badWord* getBWord(const int& wordToGet);

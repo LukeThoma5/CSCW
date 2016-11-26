@@ -239,6 +239,11 @@ word* wordCC::getCurrentWord()
     return getWord(currentWord);
 }
 
+int wordCC::getCurrentPosition()
+{
+    return currentWord;
+}
+
 void wordCC::nextWord()
 {
     currentWord++;
