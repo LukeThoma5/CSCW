@@ -82,12 +82,9 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 
 		vector<int> syllablesToIncrement = word::determineWrongSyllables(attempt);
 
-		for (unsigned int i=0; i<syllableWrongCount.size(); i++)
-		{
-			syllableWrongCount[i] += syllablesToIncrement[i];
-		}
+		addToMSLTotal(syllablesToIncrement);
 
-		weight += 0.5;
+		weight += 0.2;
 
 		return "badWord";
 	}

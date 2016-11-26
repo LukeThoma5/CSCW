@@ -22,6 +22,8 @@ protected:
 
 	void wScoreHelper();
 
+	void addToMSLTotal(const std::vector<int>& syllableWrongCount);
+
 
 public:
 	std::string wordC;//wordCapitalised
@@ -42,7 +44,7 @@ public:
 
 	virtual void determineScore();
 
-	void addToMSLTotal(const std::vector<int>& syllableWrongCount);
+
 
 	virtual ~word();
 

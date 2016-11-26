@@ -211,7 +211,8 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 	{
 		for (int i=0; i<syllableWrongCount.size(); i++)
 		{
-			cout << syllables[i] << "wrong " << syllableWrongCount[i] << endl;
+			//cout << syllables[i] << "wrong " << syllableWrongCount[i] << endl;
+			SSG::MSL.addToTotal(syllables[i],syllableWrongCount[i]);
 		}
 	}
 
@@ -293,6 +294,8 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 		string badWordLine = generateBadWordLine(syllableWrongCount);
 
 		cout << badWordLine << endl;
+
+		addToMSLTotal(syllableWrongCount);
 
 		return badWordLine;
 

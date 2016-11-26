@@ -17,6 +17,18 @@ using namespace std;
 		cout << endl;
 	}
 
+	void masterSyllablesList::addToTotal(const std::string& syllable, const int& amountToInc)
+	{
+		for (unsigned int i=0; i<syllables.size(); i++)
+		{
+			if (syllables[i] == syllable)
+			{
+				wrongCount[i] += amountToInc;
+				break;
+			}
+		}
+	}
+
 	vector<int> masterSyllablesList::splitVector(const vector<int> inVector, int mode)
 	{
 		int start;

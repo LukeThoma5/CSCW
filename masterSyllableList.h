@@ -27,6 +27,8 @@ public:
 
 	void addSyllables(const std::vector<std::string>& inSyllables);
 
+	void addToTotal(const std::string& syllable, const int& amountToInc);
+
 	void sortList();
 
 	int size();
