@@ -20,6 +20,8 @@ class wordCC{
 
     void fixwordPos(const int& goodWordLocation);
 
+    void removeDuplicates(const std::vector<std::string>& dupWords);
+
 public:
     wordContainer goodWords;
     badwordContainer badWords;

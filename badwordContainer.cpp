@@ -44,3 +44,13 @@ badWord* badwordContainer::at(int wordToGet)
     word* wordToReturn = wordList[wordPos[wordToGet]];
     return static_cast<badWord*>(wordToReturn);
 }
+
+vector<string> badwordContainer::getBadWordList()
+{
+    vector<string> returnVector;
+    for (unsigned int i=0; i<wordList.size(); i++)
+    {
+        returnVector.push_back(wordList[i]->getWord());
+    }
+    return returnVector;
+}

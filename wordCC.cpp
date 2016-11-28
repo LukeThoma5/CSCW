@@ -106,12 +106,27 @@ void wordCC::combineWordLists()
     //cout << "The difference in locations is " << wordPos.size()-goodBadPos.size() << endl;
 }
 
+void wordCC::removeDuplicates(const vector<string>& dupWords)
+{
+    for (unsigned int i=0; i<dupWords.size(); i++)
+    {
+        //Search goodWords for this iterations badWord, this is important as the badWord is constructed from the goodword which must then be removed.
+        int dupLocation = goodWords.binSearch(dupWords[i],0,goodWords.size());
+        cout << "Duplicate word " << dupWords[i] << " found in word container at location " << dupLocation << endl;
+        //Delete the located word
+        if (dupLocation != -1)
+            goodWords.deleteWord(dupLocation);
+    }
+}
+
 wordCC::wordCC(std::string goodFilename, std::string badFilename) : goodWords(goodFilename), badWords(goodWords,badFilename)
 {
         cout << "Creating wordContainers from filenames" << endl;
         goodWords.printWordIndexBoundariesSimple();
         badWords.printWordIndexBoundariesSimple();
         //Improve addWord, make it virtual and add a version for badwordContainer.
+        vector<string> dupWords = badWords.getBadWordList();
+        removeDuplicates(dupWords);
 }
 
 void wordCC::generatewScore()

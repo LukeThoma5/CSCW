@@ -16,6 +16,8 @@ public:
 
     badWord* at(int wordToGet);
 
+    std::vector<std::string> getBadWordList();
+
 };
 
 #endif
