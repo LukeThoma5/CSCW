@@ -52,8 +52,14 @@ wordCC SpellingWords("finalDictwithDef.txt", "wrongWords.txt");
 static
 void SSG_SC_Button_Return_Clicked()
 {
-  if(pDialog)
-    pDialog->hide(); //hide() will cause main::run() to end.
+	static int clickCount = 0;
+	SpellingWords.generatewScore();
+	SpellingWords.findHardest();
+	if (clickCount)
+		if(pDialog)
+			pDialog->hide(); //hide() will cause main::run() to end.
+
+	clickCount++;
 }
 
 void SSG_SC_Button_Definition_Clicked()
