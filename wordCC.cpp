@@ -161,7 +161,7 @@ void wordCC::findHardest()
     clearWordPos();
     //totalSize = goodWords.size() + badWords.size();
     combineWordLists();
-    currentWord = 0;
+    currentWord=0;
 }
 
 word* wordCC::getWord(const int& wordToGet)

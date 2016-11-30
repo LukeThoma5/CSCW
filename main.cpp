@@ -17,6 +17,8 @@
 #include "badwordContainer.h"
 #include "wordCC.h"
 
+#include "windowContainer.cpp"
+
 using namespace std;
 
 namespace SSG {
@@ -24,13 +26,14 @@ namespace SSG {
 	masterSyllablesList MSL; //MasterSyllablesList
 	wordContainer* goodWordList = NULL; //Allows the currently worked on wordList to be updated and interchanged
 	wordContainer* badWordList = NULL; //Defaulting to null prevents manipulating objects that don't exist.
+	Glib::RefPtr<Gtk::Builder> refBuilder;
+	windowContainer winContainer;
 }
 
 void speak(const string& wordToSay)
 {
 	//string Command = "flite -voice slt -t \"Please spell the word " + wordToSay + "\"";
 	string Command = "flite -t \"Please spell the word " + wordToSay + "\"";
-
     system(Command.c_str());
 }
 
@@ -42,8 +45,7 @@ void say(const string& sentence)
     system(Command.c_str());
 }
 
-Gtk::Window* pDialog = nullptr;
-Glib::RefPtr<Gtk::Builder> refBuilder;
+//Gtk::Window* pDialog = nullptr;
 Gtk::Window* pDialogToRun = nullptr;
 bool programContinue = true;
 
@@ -56,17 +58,23 @@ void SSG_SC_Button_Return_Clicked()
 	SpellingWords.generatewScore();
 	SpellingWords.findHardest();
 	if (clickCount)
-		if(pDialog)
-			pDialog->hide(); //hide() will cause main::run() to end.
+		if(SSG::winContainer.SpellingScreen)
+			SSG::winContainer.SpellingScreen->hide(); //hide() will cause main::run() to end.
 
 	clickCount++;
+}
+
+void SSG_MS_Button_Quit_Clicked()
+{
+	if (SSG::winContainer.SpellingScreen)
+		SSG::winContainer.SpellingScreen->hide();
 }
 
 void SSG_SC_Button_Definition_Clicked()
 {
   cout << "Insert definition here" << endl;
   Gtk::TextView* pSSG_SC_Text_DefintionBox = nullptr;
-  refBuilder->get_widget("SSG_SC_Text_DefinitionBox",pSSG_SC_Text_DefintionBox);
+  SSG::refBuilder->get_widget("SSG_SC_Text_DefinitionBox",pSSG_SC_Text_DefintionBox);
   Glib::RefPtr<Gtk::TextBuffer> DefinitionBuffer =  pSSG_SC_Text_DefintionBox->get_buffer();
   word* cWord = SpellingWords.getCurrentWord();
 
@@ -82,13 +90,21 @@ void SSG_SC_Button_Play_Clicked()
 
 void SSG_MS_Button_Spelling_Clicked()
 {
-    if(pDialog)
+	/*
+    if(SSG::winContainer.SpellingScreen)
     {
-        refBuilder->get_widget("SSG_Spelling_Screen", pDialogToRun);
+        SSG::refBuilder->get_widget("SSG_Spelling_Screen", pDialogToRun);
         programContinue = false;
         pDialogToRun->show();
-        //pDialog->hide();
+        //SSG::winContainer.SpellingScreen->hide();
     }
+	*/
+
+	//Gtk::Window* SpellingScreen;
+	//SSG::refBuilder->get_widget("SSG_Spelling_Screen",SpellingScreen);
+	SSG::winContainer.SpellingScreen->show();
+	//SSG::winContainer.MainScreen->hide();
+
 
 }
 
@@ -114,7 +130,7 @@ void SSG_SC_TextEntry_activate()
 {
     //cout << "Entered function" << endl;
     Gtk::Entry* pEntry = nullptr;
-    refBuilder->get_widget("SSG_SC_TextEntry",pEntry);
+    SSG::refBuilder->get_widget("SSG_SC_TextEntry",pEntry);
     Glib::RefPtr<Gtk::EntryBuffer> EntryBuffer =  pEntry->get_buffer();
     string attempt = pEntry->get_text();
     cout << attempt << endl;
@@ -227,10 +243,10 @@ int main (int argc, char **argv)
 	auto app = Gtk::Application::create(argc, argv, "org.gtkmm.example");
 
     //Load the GtkBuilder file and instantiate its widgets:
-    refBuilder = Gtk::Builder::create();
+    SSG::refBuilder = Gtk::Builder::create();
     try
     {
-      refBuilder->add_from_file("SSG_Gui_rev2.glade");
+      SSG::refBuilder->add_from_file("SSG_Gui_rev2.glade");
     }
     catch(const Glib::FileError& ex)
     {
@@ -248,34 +264,55 @@ int main (int argc, char **argv)
       return 1;
     }
 
+	SSG::winContainer.addWindows(SSG::refBuilder);
+
     //Get the GtkBuilder-instantiated Dialog:
-    refBuilder->get_widget("SSG_Spelling_Screen", pDialog);
-    if(pDialog)
+	//Gtk::Window* MainScreen;
+
+	//refBuilder->get_widget("SSG_Spelling_Screen", pDialog);
+	//refBuilder->get_widget("SSG_Main_Screen", MainScreen);
+
+    if(SSG::winContainer.SpellingScreen)
     {
       //Get the GtkBuilder-instantiated Button, and connect a signal handler:
       Gtk::Button* pButton = nullptr;
-      refBuilder->get_widget("SSG_SC_Button_Return", pButton);
+      SSG::refBuilder->get_widget("SSG_SC_Button_Return", pButton);
       if(pButton)
       {
         pButton->signal_clicked().connect( sigc::ptr_fun(SSG_SC_Button_Return_Clicked) );
+	  }
+
+	  pButton = nullptr;
+	  SSG::refBuilder->get_widget("SSG_MS_Button_Quit", pButton);
+	  if(pButton)
+      {
+		  cout << "MainScreen made!" << endl;
+        pButton->signal_clicked().connect( sigc::ptr_fun(SSG_MS_Button_Quit_Clicked) );
+      }
+
+	  pButton = nullptr;
+	  SSG::refBuilder->get_widget("SSG_MS_Button_Spelling", pButton);
+	  if(pButton)
+      {
+        pButton->signal_clicked().connect( sigc::ptr_fun(SSG_MS_Button_Spelling_Clicked) );
       }
 
       pButton = nullptr;
-      refBuilder->get_widget("SSG_SC_Button_Definition", pButton);
+      SSG::refBuilder->get_widget("SSG_SC_Button_Definition", pButton);
       if(pButton)
       {
         pButton->signal_clicked().connect( sigc::ptr_fun(SSG_SC_Button_Definition_Clicked) );
       }
 
 	  pButton = nullptr;
-      refBuilder->get_widget("SSG_SC_Button_Play", pButton);
+      SSG::refBuilder->get_widget("SSG_SC_Button_Play", pButton);
       if(pButton)
       {
         pButton->signal_clicked().connect( sigc::ptr_fun(SSG_SC_Button_Play_Clicked) );
       }
 
       Gtk::Entry* pEntry = nullptr;
-      refBuilder->get_widget("SSG_SC_TextEntry",pEntry);
+      SSG::refBuilder->get_widget("SSG_SC_TextEntry",pEntry);
       //pEntry->signal_changed().connect( sigc::ptr_fun(SSG_SC_TextEntry_insert) );
       pEntry->signal_activate().connect( sigc::ptr_fun(SSG_SC_TextEntry_activate) );
   }
@@ -330,32 +367,18 @@ int main (int argc, char **argv)
 	cout << "List sorted ---------------------------------------------" << endl;
 
 	//printVector(SSG::MSL.syllables);
-
 	//printVector(SSG::MSL.wrongCount);
-
 	//cout << findWordLocation("ALLURING",wordList) << endl;
-
-
-
 	//cout << allWords.findWordLocation("BOIL") << endl;
 	//cout << SSG::goodWordList->findWordLocation("BOIL") << endl;
 	//int boilLocation = allWords.findWordLocation("ADEQUATELY");
-
 	//cout << boilLocation << endl;
-
 	//cout << allWords.wordList[boilLocation]->wordC << endl;
-
 	//allWords.wordList[boilLocation]->wordWrong("ADEKUAT3IYY",SSG::badWordList);
-
 	//allWords.wordWrong(boilLocation,"ADEKUAT3IYY",&allWords);
-
 	//badWord* test2 = SSG::badWordList->getBadWord(0);
-
 	//printVector(SSG::badWordList->getBadWord(0)->syllableWrongCount);
-
 	//printVector(static_cast<badWord*>(SSG::badWordList->wordList[0])->syllableWrongCount);
-
-
 	//wordCC SpellingWords("shortDict.txt", "wrongWords.txt");
 
 	SpellingWords.generatewScore();
@@ -366,32 +389,26 @@ int main (int argc, char **argv)
 
 
 	//callTest(allWords.wordList[0]);
-
 	//speak(SpellingWords[0]->getWord());
 	//speak(SpellingWords[1]->getWord());
-
 	//string toSearch = "ADEQUATELY";
-
 	//SpellingWords.findRealWordLocation(toSearch);
-
 	//string testString = "ATTEMPTO+AH0+T+EH1+M+P+T+OW1+#DEF+The latin for test";
 	//SpellingWords.addWord(new word(testString));
-
 	//SpellingWords.wordWrong(0,"SNAPY");
-
 	//word* wordToGetWrong = SpellingWords[4];
 	//SpellingWords.wordWrong(4,wordToGetWrong->getWord().substr(1,wordToGetWrong->getWord().size()));
-
 	//SpellingTest(SpellingWords);
 	//SpellingTest(SpellingWords);
 
 	string wordToSpell = SpellingWords[0]->getWord();
 	speak(wordToSpell);
 
-	app->run(*pDialog);
+	//app->run(*pDialog);
+	app->run(*(SSG::winContainer.MainScreen));
 
 
-	delete pDialog;
+	//delete pDialog;
 
 	cout << "Returning to OS" << endl;
 
