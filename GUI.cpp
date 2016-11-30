@@ -37,8 +37,8 @@ static void SSG_SC_Button_Return_Clicked()
 
 void SSG_MS_Button_Quit_Clicked()
 {
-	if (SSG::winContainer.SpellingScreen)
-		SSG::winContainer.SpellingScreen->hide();
+	if (SSG::winContainer.MainScreen)
+		SSG::winContainer.MainScreen->hide();
 }
 
 void SSG_SC_Button_Definition_Clicked()
@@ -61,22 +61,7 @@ void SSG_SC_Button_Play_Clicked()
 
 void SSG_MS_Button_Spelling_Clicked()
 {
-	/*
-    if(SSG::winContainer.SpellingScreen)
-    {
-        SSG::refBuilder->get_widget("SSG_Spelling_Screen", pDialogToRun);
-        programContinue = false;
-        pDialogToRun->show();
-        //SSG::winContainer.SpellingScreen->hide();
-    }
-	*/
-
-	//Gtk::Window* SpellingScreen;
-	//SSG::refBuilder->get_widget("SSG_Spelling_Screen",SpellingScreen);
 	SSG::winContainer.SpellingScreen->show();
-	//SSG::winContainer.MainScreen->hide();
-
-
 }
 
 string seperateWord(const vector<string>& syllables)

@@ -46,13 +46,6 @@ void say(const string& sentence)
     system(Command.c_str());
 }
 
-//Gtk::Window* pDialog = nullptr;
-Gtk::Window* pDialogToRun = nullptr;
-bool programContinue = true;
-
-//wordCC SpellingWords("finalDictwithDef.txt", "wrongWords.txt");
-
-
 void printVector(const vector<string>& sV, int start=0, int stop=-1)
 {
 	if (stop==-1)
