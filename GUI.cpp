@@ -1,153 +1,173 @@
-#include <gtkmm.h>
 #include <iostream>
-#include <cstdlib> //Declare system() which comes from a c library
 #include <string>
+#include <sstream>
+#include <fstream>
+#include <vector>
 
-Gtk::Window* pDialog = nullptr;
-Glib::RefPtr<Gtk::Builder> refBuilder;
-Gtk::Window* pDialogToRun = nullptr;
-bool programContinue = true;
+#include <cstdlib> //Declare system() which comes from a c library
+
+#include <gtkmm.h>
+
+#include "masterSyllableList.h" //MSL declaration
+#include "word.h"
+#include "badWord.h"
+#include "SSG.h"
+#include "wordContainer.h"
+#include "badwordContainer.h"
+#include "wordCC.h"
+
+#include "windowContainer.cpp"
 
 using namespace std;
 
-static
-void SSG_SC_Button_Return_Clicked()
+void speak(const string& wordToSay);
+void say(const string& sentence);
+
+static void SSG_SC_Button_Return_Clicked()
 {
-  if(pDialog)
-    pDialog->hide(); //hide() will cause main::run() to end.
+	static int clickCount = 0;
+	SSG::SpellingWords.generatewScore();
+	SSG::SpellingWords.findHardest();
+	if (clickCount)
+		if(SSG::winContainer.SpellingScreen)
+			SSG::winContainer.SpellingScreen->hide(); //hide() will cause main::run() to end.
+
+	clickCount++;
+}
+
+void SSG_MS_Button_Quit_Clicked()
+{
+	if (SSG::winContainer.SpellingScreen)
+		SSG::winContainer.SpellingScreen->hide();
 }
 
 void SSG_SC_Button_Definition_Clicked()
 {
   cout << "Insert definition here" << endl;
   Gtk::TextView* pSSG_SC_Text_DefintionBox = nullptr;
-  refBuilder->get_widget("SSG_SC_Text_DefinitionBox",pSSG_SC_Text_DefintionBox);
+  SSG::refBuilder->get_widget("SSG_SC_Text_DefinitionBox",pSSG_SC_Text_DefintionBox);
   Glib::RefPtr<Gtk::TextBuffer> DefinitionBuffer =  pSSG_SC_Text_DefintionBox->get_buffer();
-  DefinitionBuffer->set_text("Insert definition here");
+  word* cWord = SSG::SpellingWords.getCurrentWord();
+
+  DefinitionBuffer->set_text(cWord->definition);
  // pSSG_SC_Text_DefintionBox->set_buffer(m_refTextBuffer2);
+}
+
+void SSG_SC_Button_Play_Clicked()
+{
+	string wordToSpell = SSG::SpellingWords.getCurrentWord()->getWord();
+	speak(wordToSpell);
 }
 
 void SSG_MS_Button_Spelling_Clicked()
 {
-    if(pDialog)
+	/*
+    if(SSG::winContainer.SpellingScreen)
     {
-        refBuilder->get_widget("SSG_Spelling_Screen", pDialogToRun);
+        SSG::refBuilder->get_widget("SSG_Spelling_Screen", pDialogToRun);
         programContinue = false;
         pDialogToRun->show();
-        //pDialog->hide();
+        //SSG::winContainer.SpellingScreen->hide();
     }
+	*/
 
+	//Gtk::Window* SpellingScreen;
+	//SSG::refBuilder->get_widget("SSG_Spelling_Screen",SpellingScreen);
+	SSG::winContainer.SpellingScreen->show();
+	//SSG::winContainer.MainScreen->hide();
+
+
+}
+
+string seperateWord(const vector<string>& syllables)
+{
+	string retString;
+	/*
+	for (int i=0; i<wordToSep.size(); i++)
+	{
+		retString += wordToSep.at(i) + ".";
+	}
+	*/
+
+	for (int i=0; i<syllables.size(); i++)
+	{
+		retString += syllables[i] + " ";
+	}
+
+	return retString;
 }
 
 void SSG_SC_TextEntry_activate()
 {
-    cout << "Entered function" << endl;
+    //cout << "Entered function" << endl;
     Gtk::Entry* pEntry = nullptr;
-    refBuilder->get_widget("SSG_SC_TextEntry",pEntry);
+    SSG::refBuilder->get_widget("SSG_SC_TextEntry",pEntry);
     Glib::RefPtr<Gtk::EntryBuffer> EntryBuffer =  pEntry->get_buffer();
     string attempt = pEntry->get_text();
     cout << attempt << endl;
-    EntryBuffer->set_text("");
+
+	word* cWord = SSG::SpellingWords.getCurrentWord();
+	if (attempt != cWord->getWord())
+	{
+		string sentenceToSay = "That is incorrect, it is spelt " + seperateWord(cWord->syllables);
+		//EntryBuffer->set_text("The correct spelling is: " + cWord->getWord() + " not " + attempt);
+		say(sentenceToSay);
+		SSG::SpellingWords.wordWrong(SSG::SpellingWords.getCurrentPosition(),attempt);
+	}
+	else
+	{
+		say("Correct");
+	}
+
+	SSG::SpellingWords.nextWord();
+	speak(SSG::SpellingWords.getCurrentWord()->getWord());
+	EntryBuffer->set_text("");
 }
 
-/*
-void my_button_clicked()
+void connectSignals()
 {
-  std::cout << "Button Clicked!" << std::endl;
-  if(pDialog) //if the window has been initialised
-  {
-    std::cout << "You have pressed the top button, well done!" << std::endl;
-    //system("mpv /mnt/shit/home/l/Music/Youtube/Nano/BeFree.mkv");
-    Gtk::Entry* textp = nullptr;
-    refBuilder->get_widget("SongTitle", textp);
-
-    if (textp)
+	if(SSG::winContainer.SpellingScreen)
     {
-      std::string entryTextString = textp->get_text();
-      std::cout << entryTextString << std::endl;
-
-      refBuilder->get_widget("SongDirectory", textp);
-
-      if(textp)
+      //Get the GtkBuilder-instantiated Button, and connect a signal handler:
+      Gtk::Button* pButton = nullptr;
+      SSG::refBuilder->get_widget("SSG_SC_Button_Return", pButton);
+      if(pButton)
       {
-        std::string enterDirectory = textp->get_text();
-        entryTextString = "mpv " + enterDirectory + entryTextString;
-        system(entryTextString.c_str());
-        //entryTextString = "flite -voice slt -t \"" + entryTextString + "\"";
-        //std::cout << entryTextString << std::endl;
-        //system(entryTextString.c_str());
+        pButton->signal_clicked().connect( sigc::ptr_fun(SSG_SC_Button_Return_Clicked) );
+	  }
 
+	  pButton = nullptr;
+	  SSG::refBuilder->get_widget("SSG_MS_Button_Quit", pButton);
+	  if(pButton)
+      {
+		  cout << "MainScreen made!" << endl;
+        pButton->signal_clicked().connect( sigc::ptr_fun(SSG_MS_Button_Quit_Clicked) );
       }
 
+	  pButton = nullptr;
+	  SSG::refBuilder->get_widget("SSG_MS_Button_Spelling", pButton);
+	  if(pButton)
+      {
+        pButton->signal_clicked().connect( sigc::ptr_fun(SSG_MS_Button_Spelling_Clicked) );
+      }
 
-    }
+      pButton = nullptr;
+      SSG::refBuilder->get_widget("SSG_SC_Button_Definition", pButton);
+      if(pButton)
+      {
+        pButton->signal_clicked().connect( sigc::ptr_fun(SSG_SC_Button_Definition_Clicked) );
+      }
+
+	  pButton = nullptr;
+      SSG::refBuilder->get_widget("SSG_SC_Button_Play", pButton);
+      if(pButton)
+      {
+        pButton->signal_clicked().connect( sigc::ptr_fun(SSG_SC_Button_Play_Clicked) );
+      }
+
+      Gtk::Entry* pEntry = nullptr;
+      SSG::refBuilder->get_widget("SSG_SC_TextEntry",pEntry);
+      //pEntry->signal_changed().connect( sigc::ptr_fun(SSG_SC_TextEntry_insert) );
+      pEntry->signal_activate().connect( sigc::ptr_fun(SSG_SC_TextEntry_activate) );
   }
-}
-*/
-
-int main (int argc, char **argv)
-{
-  auto app = Gtk::Application::create(argc, argv, "org.gtkmm.example");
-
-  //Load the GtkBuilder file and instantiate its widgets:
-  refBuilder = Gtk::Builder::create();
-  try
-  {
-    refBuilder->add_from_file("SSG_Gui_rev2.glade");
-  }
-  catch(const Glib::FileError& ex)
-  {
-    std::cerr << "FileError: " << ex.what() << std::endl;
-    return 1;
-  }
-  catch(const Glib::MarkupError& ex)
-  {
-    std::cerr << "MarkupError: " << ex.what() << std::endl;
-    return 1;
-  }
-  catch(const Gtk::BuilderError& ex)
-  {
-    std::cerr << "BuilderError: " << ex.what() << std::endl;
-    return 1;
-  }
-
-  //Get the GtkBuilder-instantiated Dialog:
-  refBuilder->get_widget("SSG_Spelling_Screen", pDialog);
-  if(pDialog)
-  {
-    //Get the GtkBuilder-instantiated Button, and connect a signal handler:
-    Gtk::Button* pButton = nullptr;
-    refBuilder->get_widget("SSG_SC_Button_Return", pButton);
-    if(pButton)
-    {
-      pButton->signal_clicked().connect( sigc::ptr_fun(SSG_SC_Button_Return_Clicked) );
-    }
-
-    pButton = nullptr;
-    refBuilder->get_widget("SSG_SC_Button_Definition", pButton);
-    if(pButton)
-    {
-      pButton->signal_clicked().connect( sigc::ptr_fun(SSG_SC_Button_Definition_Clicked) );
-    }
-
-    Gtk::Entry* pEntry = nullptr;
-    refBuilder->get_widget("SSG_SC_TextEntry",pEntry);
-    //pEntry->signal_changed().connect( sigc::ptr_fun(SSG_SC_TextEntry_insert) );
-    pEntry->signal_activate().connect( sigc::ptr_fun(SSG_SC_TextEntry_activate) );
-
-    /*
-    pButton = nullptr;
-    refBuilder->get_widget("Play", pButton);
-    if(pButton)
-    {
-      pButton->signal_clicked().connect( sigc::ptr_fun(my_button_clicked) );
-     // gtk_builder_connect_signals(refBuilder.operator->(), NULL); Not possible to do in c++
-    }
-    */
-        app->run(*pDialog);
-  }
-
-  delete pDialog;
-
-  return 0;
 }
