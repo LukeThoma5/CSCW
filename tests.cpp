@@ -91,10 +91,40 @@ bool testWordContainerSearch(wordContainer& goodWords)
     return true;
 }
 
+void createRandomWordWrongCounts() //Duplicate from main.cpp
+{
+	const int HIGH = 12; //Was 450
+	const int LOW = 0;
+
+	for (unsigned int i=0; i<SSG::MSL.wrongCount.size(); i++)
+	{
+		SSG::MSL.wrongCount[i] = randNG(LOW,HIGH); //Valgrind does not like this call
+		//SSG::MSL.wrongCount[i] = 0; //This can be used to memory leak testing
+	}
+}
+
+bool testMSLMap()
+{
+	createRandomWordWrongCounts();
+	for (unsigned int i=0; i<SSG::MSL.size(); i++) //For every syllable in the masterSyllableList
+	{
+		string testSyllable = SSG::MSL[i];
+		if (SSG::MSL.getSyllableWCount(i) != SSG::MSL.getSyllableWCount(testSyllable)) //If the syllables match
+		{
+			cout << "Error MSL position and value do mismatch!\nTest syllable " << testSyllable << " at position " << i << endl;
+			cout << "MSL Map Test [Failed]" << endl;
+			return false;
+		}
+	}
+	cout << "MSL Map Test [Passed]" << endl;
+
+}
+
 int main(int argc, char const *argv[]) {
     wordContainer goodWords("finalDictwithDef.txt");
     //wordCC SpellingWords("finalDictwithDef.txt", "wrongWords.txt
     testWordContainerSearch(goodWords);
+	testMSLMap();
 	cout << "Tests complete" << endl;
     return 0;
 }

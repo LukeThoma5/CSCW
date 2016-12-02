@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <unordered_map>
 
 class masterSyllablesList
 {
@@ -17,6 +18,8 @@ private:
 	std::vector<int> syllableMergeSort(const std::vector<int>& inVector);
 
 	void enactMergeSort(const std::vector<int>& inVector);
+
+	std::unordered_map<std::string,int> syllableMap;
 
 public:
 	std::vector<std::string> syllables;
@@ -39,6 +42,8 @@ public:
 	}
 
 	int getSyllableWCount(int syllableToGet);
+
+	int getSyllableWCount(const std::string syllable); //Overload to use map
 
 };
 

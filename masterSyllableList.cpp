@@ -124,6 +124,7 @@ using namespace std;
 			syllablesTemp.push_back(syllables[syllablePos[i]]);
 			wrongCountTemp.push_back(wrongCount[syllablePos[i]]);
 			weightTemp.push_back(weight[syllablePos[i]]);
+			syllableMap[syllables[syllablePos[i]]] = i;
 		}
 
 		syllables = syllablesTemp;
@@ -168,6 +169,7 @@ using namespace std;
 			syllables.push_back(syllablesToAdd[i]);
 			wrongCount.push_back(0);
 			weight.push_back(0.0);
+			syllableMap[syllablesToAdd[i]] = syllables.size()-1;
 		}
 	}
 
@@ -200,4 +202,9 @@ using namespace std;
 	int masterSyllablesList::getSyllableWCount(int syllableToGet)
 	{
 		return wrongCount[syllableToGet];
+	}
+
+	int masterSyllablesList::getSyllableWCount(const std::string syllable)
+	{
+		return wrongCount[syllableMap[syllable]];
 	}
