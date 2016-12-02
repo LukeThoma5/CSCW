@@ -93,7 +93,7 @@ bool testWordContainerSearch(wordContainer& goodWords)
 
 void createRandomWordWrongCounts() //Duplicate from main.cpp
 {
-	const int HIGH = 12; //Was 450
+	const int HIGH = 1000; //Was 450
 	const int LOW = 0;
 
 	for (unsigned int i=0; i<SSG::MSL.wrongCount.size(); i++)
@@ -103,28 +103,35 @@ void createRandomWordWrongCounts() //Duplicate from main.cpp
 	}
 }
 
-bool testMSLMap()
+bool testMSLMap(const string& testType)
 {
-	createRandomWordWrongCounts();
-	for (unsigned int i=0; i<SSG::MSL.size(); i++) //For every syllable in the masterSyllableList
+	for (int i=0; i<SSG::MSL.size(); i++) //For every syllable in the masterSyllableList
 	{
 		string testSyllable = SSG::MSL[i];
-		if (SSG::MSL.getSyllableWCount(i) != SSG::MSL.getSyllableWCount(testSyllable)) //If the syllables match
+		//cout << SSG::MSL.getSyllableWCount(i) << "  " << SSG::MSL.wrongCount[i] << '\n';
+		//cout << "Testing syllable " << testSyllable << " at position " << i << " does " << SSG::MSL.getSyllableWCount(i) << "==" << SSG::MSL.getSyllableWCount(testSyllable) << "?\n";
+		if (SSG::MSL.getSyllableWCount(i) != SSG::MSL.getSyllableWCount(testSyllable)) //If there is a mismatch in the returned wrongCount
 		{
 			cout << "Error MSL position and value do mismatch!\nTest syllable " << testSyllable << " at position " << i << endl;
-			cout << "MSL Map Test [Failed]" << endl;
+			cout << testType << "[Failed]" << endl;
 			return false;
 		}
 	}
-	cout << "MSL Map Test [Passed]" << endl;
-
+	cout << testType << "[Passed]" << endl;
 }
 
 int main(int argc, char const *argv[]) {
     wordContainer goodWords("finalDictwithDef.txt");
     //wordCC SpellingWords("finalDictwithDef.txt", "wrongWords.txt
-    testWordContainerSearch(goodWords);
-	testMSLMap();
+	testWordContainerSearch(goodWords);
+	createRandomWordWrongCounts();
+	testMSLMap("MSL Map Creation Test ");
+	printVector(SSG::MSL.syllables);
+	printVector(SSG::MSL.wrongCount);
+	SSG::MSL.sortList();
+	printVector(SSG::MSL.syllables);
+	printVector(SSG::MSL.wrongCount);
+	testMSLMap("Merge sorted Map Test ");
 	cout << "Tests complete" << endl;
     return 0;
 }
