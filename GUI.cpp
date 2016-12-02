@@ -25,20 +25,32 @@ void say(const string& sentence);
 
 static void SSG_SC_Button_Return_Clicked()
 {
-	static int clickCount = 0;
-	SSG::SpellingWords.generatewScore();
-	SSG::SpellingWords.findHardest();
-	if (clickCount)
-		if(SSG::winContainer.SpellingScreen)
-			SSG::winContainer.SpellingScreen->hide(); //hide() will cause main::run() to end.
+	if(SSG::winContainer.SpellingScreen)
+		SSG::winContainer.SpellingScreen->hide(); //hide() will close the window but keep the program running
+}
 
-	clickCount++;
+static void SSG_KS_Button_Return_Clicked()
+{
+	if(SSG::winContainer.KeyboardScreen)
+		SSG::winContainer.KeyboardScreen->hide(); //hide() will close the window but keep the program running
+}
+
+static void SSG_AS_Button_Return_Clicked()
+{
+	if(SSG::winContainer.AnalysisScreen)
+		SSG::winContainer.AnalysisScreen->hide(); //hide() will close the window but keep the program running
 }
 
 void SSG_MS_Button_Quit_Clicked()
 {
 	if (SSG::winContainer.MainScreen)
 		SSG::winContainer.MainScreen->hide();
+}
+
+void SSG_MS_Button_Games_Clicked()
+{
+	SSG::SpellingWords.generatewScore();
+	SSG::SpellingWords.findHardest();
 }
 
 void SSG_SC_Button_Definition_Clicked()
@@ -62,6 +74,16 @@ void SSG_SC_Button_Play_Clicked()
 void SSG_MS_Button_Spelling_Clicked()
 {
 	SSG::winContainer.SpellingScreen->show();
+}
+
+void SSG_MS_Button_Keyboard_Clicked()
+{
+	SSG::winContainer.KeyboardScreen->show();
+}
+
+void SSG_MS_Button_Analysis_Clicked()
+{
+	SSG::winContainer.AnalysisScreen->show();
 }
 
 string seperateWord(const vector<string>& syllables)
@@ -111,48 +133,62 @@ void SSG_SC_TextEntry_activate()
 
 void connectSignals()
 {
-	if(SSG::winContainer.SpellingScreen)
-    {
-      //Get the GtkBuilder-instantiated Button, and connect a signal handler:
-      Gtk::Button* pButton = nullptr;
-      SSG::refBuilder->get_widget("SSG_SC_Button_Return", pButton);
-      if(pButton)
-      {
-        pButton->signal_clicked().connect( sigc::ptr_fun(SSG_SC_Button_Return_Clicked) );
-	  }
+if(SSG::winContainer.SpellingScreen)
+{
+	//Get the GtkBuilder-instantiated Button, and connect a signal handler:
+	Gtk::Button* pButton = nullptr;
+	SSG::refBuilder->get_widget("SSG_SC_Button_Return", pButton);
+	if(pButton)
+		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_SC_Button_Return_Clicked) );}
 
-	  pButton = nullptr;
-	  SSG::refBuilder->get_widget("SSG_MS_Button_Quit", pButton);
-	  if(pButton)
-      {
-		  cout << "MainScreen made!" << endl;
-        pButton->signal_clicked().connect( sigc::ptr_fun(SSG_MS_Button_Quit_Clicked) );
-      }
+	pButton = nullptr;
+	SSG::refBuilder->get_widget("SSG_KS_Button_Return", pButton);
+	if(pButton)
+		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_KS_Button_Return_Clicked) );}
 
-	  pButton = nullptr;
-	  SSG::refBuilder->get_widget("SSG_MS_Button_Spelling", pButton);
-	  if(pButton)
-      {
-        pButton->signal_clicked().connect( sigc::ptr_fun(SSG_MS_Button_Spelling_Clicked) );
-      }
+	pButton = nullptr;
+	SSG::refBuilder->get_widget("SSG_AS_Button_Return", pButton);
+	if(pButton)
+		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_AS_Button_Return_Clicked) );}
 
-      pButton = nullptr;
-      SSG::refBuilder->get_widget("SSG_SC_Button_Definition", pButton);
-      if(pButton)
-      {
-        pButton->signal_clicked().connect( sigc::ptr_fun(SSG_SC_Button_Definition_Clicked) );
-      }
+	pButton = nullptr;
+	SSG::refBuilder->get_widget("SSG_MS_Button_Quit", pButton);
+	if(pButton)
+		{cout << "MainScreen made!" << endl; pButton->signal_clicked().connect( sigc::ptr_fun(SSG_MS_Button_Quit_Clicked) );}
 
-	  pButton = nullptr;
-      SSG::refBuilder->get_widget("SSG_SC_Button_Play", pButton);
-      if(pButton)
-      {
-        pButton->signal_clicked().connect( sigc::ptr_fun(SSG_SC_Button_Play_Clicked) );
-      }
+	pButton = nullptr;
+	SSG::refBuilder->get_widget("SSG_MS_Button_Spelling", pButton);
+	if(pButton)
+		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_MS_Button_Spelling_Clicked) );}
 
-      Gtk::Entry* pEntry = nullptr;
-      SSG::refBuilder->get_widget("SSG_SC_TextEntry",pEntry);
-      //pEntry->signal_changed().connect( sigc::ptr_fun(SSG_SC_TextEntry_insert) );
-      pEntry->signal_activate().connect( sigc::ptr_fun(SSG_SC_TextEntry_activate) );
-  }
+	pButton = nullptr;
+	SSG::refBuilder->get_widget("SSG_MS_Button_Keyboard", pButton);
+	if(pButton)
+		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_MS_Button_Keyboard_Clicked) );}
+
+	pButton = nullptr;
+	SSG::refBuilder->get_widget("SSG_MS_Button_Analysis", pButton);
+	if(pButton)
+		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_MS_Button_Analysis_Clicked) );}
+
+	pButton = nullptr;
+	SSG::refBuilder->get_widget("SSG_MS_Button_Games", pButton);
+	if(pButton)
+		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_MS_Button_Games_Clicked) );}
+
+	pButton = nullptr;
+	SSG::refBuilder->get_widget("SSG_SC_Button_Definition", pButton);
+	if(pButton)
+		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_SC_Button_Definition_Clicked) );}
+
+	pButton = nullptr;
+	SSG::refBuilder->get_widget("SSG_SC_Button_Play", pButton);
+	if(pButton)
+		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_SC_Button_Play_Clicked) );}
+
+	Gtk::Entry* pEntry = nullptr;
+	SSG::refBuilder->get_widget("SSG_SC_TextEntry",pEntry);
+	if (pEntry)
+		{pEntry->signal_activate().connect( sigc::ptr_fun(SSG_SC_TextEntry_activate) );}
+}
 }
