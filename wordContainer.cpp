@@ -125,18 +125,6 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 	        	cout << "Waring attempting to create badword with an empty word string!" << endl;
 	}
 
-	/*
-	int wordContainer::findNextBoundry(int startPosition)
-	{
-		for (int i=startPosition; i<26; i++)
-		{
-			if (wordIndex[i] != -1)
-				return i;
-		}
-		return wordList.size();
-	}
-	*/
-
 	void wordContainer::refreshwScores()
 	{
 		for (unsigned int i=0; i<wordList.size(); i++)
@@ -156,73 +144,11 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 	}
 
 //public
-	/*
-	void wordContainer::generateWordIndex()
-	{
-		//Improve, this won't work if not every character was a word eg no words that start with V
-		char lastChar = 'Z'; //first character of the last searched word
-		int wordListSize = wordList.size(); //minimise function calls
-		for (int i=0; i<wordListSize; i++) //for every word in the word list
-		{
-			if (wordList[i]->wordC[0] != lastChar) //if the first character of the current word is difference to the last word
-			{
-				lastChar = wordList[i]->wordC[0]; //update the last character
-				cout << lastChar << " found at " << i << endl; //testing purposes
-				wordIndex[static_cast<int>(lastChar)-65] = i; //change the letter into a number 0-25 A-Z and store the first word of the new letters position in the index
-			}
-		}
-		wordIndexValid = true;
-	}
 
-
-	void wordContainer::printWordIndexBoundaries()
-	{
-		for (int i=0; i<25; i++)
-		{
-			cout << wordList[wordIndex[i]]->wordC << " ... " << wordList[wordIndex[i+1]-1]->wordC << endl;
-		}
-		cout << wordList[wordIndex[25]]->wordC << " ... " << wordList[wordList.size()-1]->wordC << endl;
-	}
-
-	void wordContainer::printWordIndexBoundariesSimple()
-	{
-		for (int i=0; i<26; i++)
-		{
-			cout << i << ": " << wordIndex[i] << endl;
-		}
-	}
-	*/
 
 	void wordContainer::removeWord(int wordPosition)
 	{
 		wordList.erase(wordList.begin()+wordPosition); //Remove the word* at position wordPosition. erase function takes a vector iterator which points at the word to be removed, begin function returns an iterator pointing to the start which is then incremented by wordPosition
-
-		/*
-		if (!wordIndexValid) //If the wordIndex is stale generate it again
-			generateWordIndex();
-		else //If the wordIndex was correct, lets update it rather than searching through all 20,000+ words again
-		{
-			for (int i=0; i<26; i++) //for all letter in the alphabet
-			{
-				if (wordIndex[i] > wordPosition) //if the position along the wordlist for a new starting character has passed the word we removed we want to shift all the values along by one
-				{
-					for (int j=i; j<26; j++)
-					{
-						wordIndex[j] = wordIndex[j] - 1;
-					}
-					break;
-				}
-				if (wordIndex[i] == wordPosition) //If they are equivilant then the new letter will still start at the same place but all later letters need to be shifted one
-				{
-					for (int j=i+1; j<26; j++)
-					{
-						wordIndex[j] = wordIndex[j] - 1;
-					}
-					break;
-				}
-			}
-		}
-		*/
 
 		//Update wordPos to reflect the fact that a word has been removed
 		for (int i=0; i<wordPos.size(); i++) //For every item in the list
@@ -289,34 +215,6 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 
 	int wordContainer::findWordLocation(const string& wordToFind)
 	{
-		/*
-		//Add exception for no word found
-		//unsigned int wordListSize = wordList.size(); //minimise unnessissary function calls
-		if (!wordIndexValid)
-			generateWordIndex();
-		int startPosition = wordIndex[static_cast<int>(wordToFind[0])-65]; //find the starting location to search for the word, wordToFind[0] is the first letter which is cast to an int between 65 and 90, removing 65 gives the letters position in the alphabet and so the position in the index array to get that letters starting position
-		int stopPosition = wordIndex[static_cast<int>(wordToFind[0])-64];
-
-		if (startPosition==-1)
-		{
-			return -1; //If the first letter has not been found, word does not exist
-		}
-
-		if (stopPosition==-1)
-		{
-			stopPosition=findNextBoundry(startPosition);
-
-		}
-
-
-		//cout << stopPosition-startPosition << endl;
-		for (unsigned int i=startPosition; i< stopPosition; i++) //For every word with the same letter
-		{
-			if (wordToFind == wordList[i]->wordC) //if the word is found
-				return i; //Return the position along the vector, also stops execution of loop
-		}
-		return -1; //If failed return an invalid position
-		*/
 		return binSearch(wordToFind,0,wordList.size());
 	}
 
@@ -334,45 +232,12 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 		containsBadWords = false;
 	}
 
-	//Overloaded constructor, remove in future
-	/*
-	wordContainer(badWord& myBadWord)
-	{
-		containsBadWords = true;
-		wordList.push_back(new badWord(myBadWord));
-		//generateWordIndex();
-	}
-	*/
-
 
 	wordContainer::wordContainer()
 	{
 		cout << "WARNING DEFAULT WORDCONTAINER CONSTRUCTOR IS BEING CALLED" << endl;
 		//wordIndexValid = false;
 	}
-
-	/*
-	wordContainer::wordContainer(wordContainer& fullWordList, string filename) //For use when building a bwordContainer from a file and the current known words
-	{
-		containsBadWords = true;
-		vector<string> wrongWordVector = loadDictFile(filename);
-		if (!fullWordList.wordIndexValid) //If the index is not valid, generate the index
-			fullWordList.generateWordIndex();
-		unsigned int wrongWordVectorSize = wrongWordVector.size();
-		for (unsigned int i=0; i<wrongWordVectorSize; i++)
-		{
-			string badWordWord = "";
-			findWord(wrongWordVector[i],badWordWord);
-			word* originalWord = fullWordList.wordList[fullWordList.findWordLocation(badWordWord)];
-			//wordList.push_back(new badWord());
-			cout << originalWord->wordC << endl;
-
-			wordList.push_back(new badWord(originalWord, wrongWordVector[i]));
-		}
-
-		generateWordIndex();
-	}
-	*/
 
 	void wordContainer::wordWrong(int wordPosition, std::string attempt, wordContainer* containerToAddTo)
 	{
