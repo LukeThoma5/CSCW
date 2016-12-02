@@ -86,21 +86,23 @@ void SSG_MS_Button_Analysis_Clicked()
 	SSG::winContainer.AnalysisScreen->show();
 }
 
-string seperateWord(const vector<string>& syllables)
+string seperateWord(const string& wordToSep)
 {
+	cout << wordToSep << endl;
 	string retString;
-	/*
+
 	for (int i=0; i<wordToSep.size(); i++)
 	{
-		retString += wordToSep.at(i) + ".";
+		retString = retString + wordToSep[i] + ' ';
 	}
-	*/
 
+	/*
 	for (int i=0; i<syllables.size(); i++)
 	{
 		retString += syllables[i] + " ";
 	}
-
+	*/
+	cout << retString << endl;
 	return retString;
 }
 
@@ -116,7 +118,10 @@ void SSG_SC_TextEntry_activate()
 	word* cWord = SSG::SpellingWords.getCurrentWord();
 	if (attempt != cWord->getWord())
 	{
-		string sentenceToSay = "That is incorrect, it is spelt " + seperateWord(cWord->syllables);
+		cout << "The correct spelling is " << SSG::SpellingWords.getCurrentWord()->getWord() << endl;
+		string spelling = seperateWord(SSG::SpellingWords.getCurrentWord()->getWord());
+		cout << SSG::SpellingWords.getCurrentWord()->getWord() << " " << spelling << endl;
+		string sentenceToSay = "That is incorrect, it is spelt " + spelling;
 		//EntryBuffer->set_text("The correct spelling is: " + cWord->getWord() + " not " + attempt);
 		say(sentenceToSay);
 		SSG::SpellingWords.wordWrong(SSG::SpellingWords.getCurrentPosition(),attempt);

@@ -107,6 +107,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 		for (int i=0; i<wordList.size(); i++)
 		{
 			int compResult = stringCompare(searchWord,wordList[i]->getWord());
+			cout << "Current word location " << wordList[i]->getWord() << " " << i  << " with compResult" << compResult << endl;
 			if (compResult < 0)
 			{
 				cout << "Current word location " << wordList[i]->getWord() << " " << i  << endl;
@@ -114,7 +115,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 			}
 
 		}
-		return -1;
+		return wordList.size(); //If it doesn't find a location, it must be the highest word so add to back.
 	}
 
 	//modified from here http://stackoverflow.com/questions/236129/split-a-string-in-c
@@ -174,9 +175,12 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 
 	int wordContainer::addWord(word* wordToAdd)
 	{
+		//cout << "Trying to add word " << wordToAdd->getWord() << endl;
 		//Needs to be improved/fixed
 		//ADD the wordPos fixing!!
-		int insertPos = findWordInsertionPoint(wordToAdd->getWord());
+		int insertPos = findWordInsertionPoint(wordToAdd->getWord()); //Currently crashes the program on -1
+		//cout << "Insertion position " << insertPos << endl;
+
 		//wordList.push_back(wordToAdd);
 		//Fix abstraction
 		for (int i=0; i<wordPos.size(); i++)
@@ -194,7 +198,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 		} */
 		cout << "addWord Complete" << endl;
 
-		int wordPosSize = wordPos.size();
+		int wordPosSize = wordPos.size(); //Convert to signed int so -1 doesn't cause an underflow
 		//return insertPos;
 		return wordPosSize-1;
 	}
