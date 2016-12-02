@@ -126,11 +126,11 @@ int main(int argc, char const *argv[]) {
 	testWordContainerSearch(goodWords);
 	createRandomWordWrongCounts();
 	testMSLMap("MSL Map Creation Test ");
-	printVector(SSG::MSL.syllables);
-	printVector(SSG::MSL.wrongCount);
+	//printVector(SSG::MSL.syllables);
+	//printVector(SSG::MSL.wrongCount);
 	SSG::MSL.sortList();
-	printVector(SSG::MSL.syllables);
-	printVector(SSG::MSL.wrongCount);
+	//printVector(SSG::MSL.syllables);
+	//printVector(SSG::MSL.wrongCount);
 	testMSLMap("Merge sorted Map Test ");
 	cout << "Tests complete" << endl;
     return 0;
