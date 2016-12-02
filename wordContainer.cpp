@@ -191,19 +191,12 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 		for (int i=insertPos-1;i<insertPos+2;i++)
 		{
 			cout << i << ": " << wordList[i]->getWord() << endl;
-		}
+		} */
 		cout << "addWord Complete" << endl;
-		*/
 
 		int wordPosSize = wordPos.size();
 		//return insertPos;
 		return wordPosSize-1;
-	}
-
-	void wordContainer::addBadWord(word* wordToAdd, string& badWordLine)
-	{
-		cout << wordToAdd << endl;
-		cout << badWordLine << endl;
 	}
 
 	word* wordContainer::at(int wordToGet)
@@ -211,7 +204,6 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 		//This function gets the word from the wordPos list, eg sorted by wScore
 		return wordList[wordPos[wordToGet]];
 	}
-
 
 	int wordContainer::findWordLocation(const string& wordToFind)
 	{
@@ -226,17 +218,13 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 			word* wordToAdd = new word(dictionaryVector[i]);
 			wordList.push_back(wordToAdd); //create a word and store it in the wordList as a pointer
 		}
-
 		//All words now generated
-		//generateWordIndex(); //generate the index to speed up searches
-		containsBadWords = false;
 	}
 
 
 	wordContainer::wordContainer()
 	{
 		cout << "WARNING DEFAULT WORDCONTAINER CONSTRUCTOR IS BEING CALLED" << endl;
-		//wordIndexValid = false;
 	}
 
 	void wordContainer::wordWrong(int wordPosition, std::string attempt, wordContainer* containerToAddTo)
@@ -260,27 +248,6 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 			delete wordList.back(); //returns the pointer at the back of the wordList and deletes the object it points to. As the destructor call is virtual the correct call will be made so no need to cast the pointer to the derived type
 			wordList.pop_back(); //removes the last pointer from wordList which is destroyed
 		}
-	}
-
-	badWord* wordContainer::getBadWord(int wordToGet)
-	{
-		if (wordToGet > -1)
-		{
-			if (wordToGet < wordList.size())
-			{
-				if (wordList[wordToGet]->wordFlags[0] == 1) //If the word is a bad word
-					return static_cast<badWord*>(wordList[wordToGet]);
-				else
-					throw "wordContainer badWord* to word";
-			}
-			else
-				throw "wordContainer Out of Bounds, int too large";
-		}
-		else
-			throw "wordContainer Out of Bounds, negative!";
-
-		//Add boundry checking and exception handling
-		//Go back to fixing wordContainer::wordWrong
 	}
 
 	void wordContainer::sortWordContainer()

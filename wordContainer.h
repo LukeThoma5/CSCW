@@ -12,8 +12,6 @@ class wordContainer {
 protected:
 	std::vector<std::string> loadDictFile(std::string filename="finalDictwithDef.txt");
 
-	bool containsBadWords = false;
-
 	//modified from here http://stackoverflow.com/questions/236129/split-a-string-in-c
 	void findWord(const std::string &s, std::string& badwordWord);
 
@@ -37,8 +35,6 @@ public:
 	void deleteWord(int wordPosition);
 
 	int addWord(word* wordToAdd);
-
-	void addBadWord(word* wordToAdd, std::string& badWordLine);
 
 	void wordWrong(int wordPosition, std::string attempt, wordContainer* containerToAddTo);
 
@@ -69,8 +65,6 @@ public:
 	}
 
 	word* at(int wordToGet);
-
-	badWord* getBadWord(int wordToGet);
 
 	void DisplaywScores(int start=0, int stop=-1);
 

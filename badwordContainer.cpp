@@ -14,12 +14,10 @@ using namespace std;
 badwordContainer::badwordContainer(): wordContainer()
 {
     cout << "badwordContainer created!" << endl;
-    containsBadWords = true;
 }
 
 badwordContainer::badwordContainer(wordContainer& fullWordList, string filename) //For use when building a bwordContainer from a file and the current known words
 {
-    containsBadWords = true;
     vector<string> wrongWordVector = loadDictFile(filename);
     unsigned int wrongWordVectorSize = wrongWordVector.size();
     for (unsigned int i=0; i<wrongWordVectorSize; i++)
@@ -49,4 +47,25 @@ vector<string> badwordContainer::getBadWordList()
         returnVector.push_back(wordList[i]->getWord());
     }
     return returnVector;
+}
+
+badWord* badwordContainer::getBadWord(int wordToGet)
+{
+    if (wordToGet > -1)
+    {
+        if (wordToGet < wordList.size())
+        {
+            if (wordList[wordToGet]->wordFlags[0] == 1) //If the word is a bad word
+                return static_cast<badWord*>(wordList[wordToGet]);
+            else
+                throw "wordContainer badWord* to word";
+        }
+        else
+            throw "wordContainer Out of Bounds, int too large";
+    }
+    else
+        throw "wordContainer Out of Bounds, negative!";
+
+    //Add boundry checking and exception handling
+    //Go back to fixing wordContainer::wordWrong
 }

@@ -18,6 +18,8 @@ public:
 
     std::vector<std::string> getBadWordList();
 
+    badWord* getBadWord(int wordToGet);
+
 };
 
 #endif
