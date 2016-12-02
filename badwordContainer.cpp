@@ -21,8 +21,6 @@ badwordContainer::badwordContainer(wordContainer& fullWordList, string filename)
 {
     containsBadWords = true;
     vector<string> wrongWordVector = loadDictFile(filename);
-    if (!fullWordList.wordIndexValid) //If the index is not valid, generate the index
-        fullWordList.generateWordIndex();
     unsigned int wrongWordVectorSize = wrongWordVector.size();
     for (unsigned int i=0; i<wrongWordVectorSize; i++)
     {
@@ -34,8 +32,6 @@ badwordContainer::badwordContainer(wordContainer& fullWordList, string filename)
 
         wordList.push_back(new badWord(originalWord, wrongWordVector[i]));
     }
-
-    generateWordIndex();
 }
 
 badWord* badwordContainer::at(int wordToGet)

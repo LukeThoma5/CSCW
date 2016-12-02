@@ -125,6 +125,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 	        	cout << "Waring attempting to create badword with an empty word string!" << endl;
 	}
 
+	/*
 	int wordContainer::findNextBoundry(int startPosition)
 	{
 		for (int i=startPosition; i<26; i++)
@@ -134,6 +135,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 		}
 		return wordList.size();
 	}
+	*/
 
 	void wordContainer::refreshwScores()
 	{
@@ -154,7 +156,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 	}
 
 //public
-
+	/*
 	void wordContainer::generateWordIndex()
 	{
 		//Improve, this won't work if not every character was a word eg no words that start with V
@@ -172,6 +174,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 		wordIndexValid = true;
 	}
 
+
 	void wordContainer::printWordIndexBoundaries()
 	{
 		for (int i=0; i<25; i++)
@@ -188,6 +191,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 			cout << i << ": " << wordIndex[i] << endl;
 		}
 	}
+	*/
 
 	void wordContainer::removeWord(int wordPosition)
 	{
@@ -285,6 +289,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 
 	int wordContainer::findWordLocation(const string& wordToFind)
 	{
+		/*
 		//Add exception for no word found
 		//unsigned int wordListSize = wordList.size(); //minimise unnessissary function calls
 		if (!wordIndexValid)
@@ -311,6 +316,8 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 				return i; //Return the position along the vector, also stops execution of loop
 		}
 		return -1; //If failed return an invalid position
+		*/
+		return binSearch(wordToFind,0,wordList.size());
 	}
 
 	wordContainer::wordContainer(string filename)
@@ -323,7 +330,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 		}
 
 		//All words now generated
-		generateWordIndex(); //generate the index to speed up searches
+		//generateWordIndex(); //generate the index to speed up searches
 		containsBadWords = false;
 	}
 
@@ -333,7 +340,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 	{
 		containsBadWords = true;
 		wordList.push_back(new badWord(myBadWord));
-		generateWordIndex();
+		//generateWordIndex();
 	}
 	*/
 
@@ -341,7 +348,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 	wordContainer::wordContainer()
 	{
 		cout << "WARNING DEFAULT WORDCONTAINER CONSTRUCTOR IS BEING CALLED" << endl;
-		wordIndexValid = false;
+		//wordIndexValid = false;
 	}
 
 	/*

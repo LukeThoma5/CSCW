@@ -122,8 +122,7 @@ void wordCC::removeDuplicates(const vector<string>& dupWords)
 wordCC::wordCC(std::string goodFilename, std::string badFilename) : goodWords(goodFilename), badWords(goodWords,badFilename)
 {
         cout << "Creating wordContainers from filenames" << endl;
-        goodWords.printWordIndexBoundariesSimple();
-        badWords.printWordIndexBoundariesSimple();
+        
         //Improve addWord, make it virtual and add a version for badwordContainer.
         vector<string> dupWords = badWords.getBadWordList();
         removeDuplicates(dupWords);
