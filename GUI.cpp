@@ -20,7 +20,7 @@
 
 using namespace std;
 
-void speak(const string& wordToSay);
+void speak(const string& wordToSay, const bool isCorrect);
 void say(const string& sentence);
 
 static void SSG_SC_Button_Return_Clicked()
@@ -68,7 +68,7 @@ void SSG_SC_Button_Definition_Clicked()
 void SSG_SC_Button_Play_Clicked()
 {
 	string wordToSpell = SSG::SpellingWords.getCurrentWord()->getWord();
-	speak(wordToSpell);
+	speak(wordToSpell,false);
 }
 
 void SSG_MS_Button_Spelling_Clicked()
@@ -115,6 +115,8 @@ void SSG_SC_TextEntry_activate()
     string attempt = pEntry->get_text();
     cout << attempt << endl;
 
+	bool isCorrect = false;
+
 	word* cWord = SSG::SpellingWords.getCurrentWord();
 	if (attempt != cWord->getWord())
 	{
@@ -128,11 +130,11 @@ void SSG_SC_TextEntry_activate()
 	}
 	else
 	{
-		say("Correct");
+		isCorrect = true;
 	}
 
 	SSG::SpellingWords.nextWord();
-	speak(SSG::SpellingWords.getCurrentWord()->getWord());
+	speak(SSG::SpellingWords.getCurrentWord()->getWord(),isCorrect);
 	EntryBuffer->set_text("");
 }
 

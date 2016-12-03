@@ -6,6 +6,12 @@
 
 #include <cstdlib> //Declare system() which comes from a c library
 
+//Needed for say functin and pipe functionality
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
+
 #include <gtkmm.h>
 
 #include "randng.h" //My random number generator header
@@ -31,19 +37,45 @@ namespace SSG {
 	wordCC SpellingWords("finalDictwithDef.txt", "wrongWords.txt");
 }
 
-void speak(const string& wordToSay)
-{
-	//string Command = "flite -voice slt -t \"Please spell the word " + wordToSay + "\"";
-	string Command = "flite -t \"Please spell the word " + wordToSay + "\"";
-    system(Command.c_str());
-}
+
 
 void say(const string& sentence)
 {
+	/* //Old say function
 	//string Command = "flite -voice slt -t \"" + sentence + "\"";
 	string Command = "flite -t \"" + sentence + "\"";
 
     system(Command.c_str());
+	*/
+
+	int fd;
+    std::string myfifo = "/tmp/myfifo";
+    //char * myfifo = "/tmp/myfifo";
+
+    /* create the FIFO (named pipe) */
+    mkfifo(myfifo.c_str(), 0666);
+
+    /* write "Hi" to the FIFO */
+    fd = open(myfifo.c_str(), O_WRONLY);
+    //write(fd, argv[1], sizeof(argv[1]));
+    write(fd,sentence.c_str(),100);
+    close(fd);
+
+    /* remove the FIFO */
+    unlink(myfifo.c_str());
+}
+
+void speak(const string& wordToSay, const bool isCorrect)
+{
+	/*
+	//string Command = "flite -voice slt -t \"Please spell the word " + wordToSay + "\"";
+	string Command = "flite -t \"Please spell the word " + wordToSay + "\"";
+    system(Command.c_str());
+	*/
+	if (isCorrect)
+		say("That is correct, please spell the word " + wordToSay);
+	else
+		say("Please spell the word " + wordToSay);
 }
 
 void printVector(const vector<string>& sV, int start=0, int stop=-1)
@@ -111,7 +143,7 @@ void SpellingTest(wordCC& SpellingWords)
 	{
 		//SpellingWords.printwordCC();
 		string wordToSpell = SpellingWords[i]->getWord();
-		speak(wordToSpell);
+		speak(wordToSpell,false);
 		string userInput;
 		cin >> userInput;
 		if (userInput == "exit")
@@ -252,9 +284,6 @@ int main (int argc, char **argv)
 	//SpellingWords.wordWrong(4,wordToGetWrong->getWord().substr(1,wordToGetWrong->getWord().size()));
 	//SpellingTest(SpellingWords);
 	//SpellingTest(SpellingWords);
-
-	string wordToSpell = SSG::SpellingWords[0]->getWord();
-	speak(wordToSpell);
 
 	//app->run(*pDialog);
 	app->run(*(SSG::winContainer.MainScreen));
