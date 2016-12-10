@@ -49,8 +49,9 @@ void SSG_MS_Button_Quit_Clicked()
 
 void SSG_MS_Button_Games_Clicked()
 {
-	SSG::SpellingWords.generatewScore();
-	SSG::SpellingWords.findHardest();
+	//SSG::SpellingWords.generatewScore();
+	//SSG::SpellingWords.findHardest();
+	SSG::SpellingWords.findSpellingWords();
 }
 
 void SSG_SC_Button_Definition_Clicked()
@@ -74,11 +75,18 @@ void SSG_SC_Button_Play_Clicked()
 void SSG_MS_Button_Spelling_Clicked()
 {
 	SSG::winContainer.SpellingScreen->show();
+	SSG::SpellingWords.findSpellingWords();
 }
 
 void SSG_MS_Button_Keyboard_Clicked()
 {
+	SSG::SpellingWords.findKeyboardWords();
 	SSG::winContainer.KeyboardScreen->show();
+	Gtk::TextView* pSSG_KS_WordList = nullptr;
+	SSG::refBuilder->get_widget("SSG_KS_WordList",pSSG_KS_WordList);
+	Glib::RefPtr<Gtk::TextBuffer> WordListBuffer =  pSSG_KS_WordList->get_buffer();
+	WordListBuffer->set_text(SSG::SpellingWords.getKeyboardWords());
+	//pSSG_KS_WordList->set_wrap_mode(Gtk::Wrap_Word);
 }
 
 void SSG_MS_Button_Analysis_Clicked()

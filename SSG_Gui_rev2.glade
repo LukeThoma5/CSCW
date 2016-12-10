@@ -179,6 +179,8 @@
           <object class="GtkTextView" id="SSG_KS_WordList">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="editable">False</property>
+            <property name="wrap_mode">word</property>
           </object>
           <packing>
             <property name="expand">True</property>

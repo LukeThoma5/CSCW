@@ -18,6 +18,7 @@
               <item translatable="yes">This session</item>
               <item translatable="yes">Last week</item>
               <item translatable="yes">Last month</item>
+              <item translatable="yes">All time</item>
             </items>
             <child internal-child="entry">
               <object class="GtkEntry">
@@ -178,10 +179,12 @@
           <object class="GtkTextView" id="SSG_KS_WordList">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="editable">False</property>
+            <property name="wrap_mode">word</property>
           </object>
           <packing>
             <property name="expand">True</property>
-            <property name="fill">True</property>
+            <property name="fill">False</property>
             <property name="position">0</property>
           </packing>
         </child>

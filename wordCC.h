@@ -22,6 +22,8 @@ class wordCC{
 
     void removeDuplicates(const std::vector<std::string>& dupWords);
 
+    bool notHave30goodWords();
+
 public:
     wordContainer goodWords;
     badwordContainer badWords;
@@ -56,8 +58,13 @@ public:
 
     void addWord(word* wordToAdd);
 
-    void printwordCC();
+    void printwordCC(int stop=0);
 
+    void findSpellingWords();
+
+    void findKeyboardWords();
+
+    std::string getKeyboardWords();
 
     void printTop(int start=0, int end=10);
 };

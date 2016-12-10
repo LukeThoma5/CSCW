@@ -230,10 +230,17 @@ void wordCC::addWord(word* wordToAdd)
     goodWords.addWord(wordToAdd);
 }
 
-void wordCC::printwordCC()
+void wordCC::printwordCC(int stop)
 {
+    if (stop == 0)
+        stop = goodWords.size()+badWords.size();
+    else
+    {
+        if (stop > (goodWords.size()+badWords.size()))
+            stop = goodWords.size()+badWords.size();
+    }
     cout << "PRINTING WORDCC\n";
-    for (int i=0; i<(goodWords.size()+badWords.size()); i++)
+    for (int i=0; i<stop; i++)
     {
         cout << "Word " << i;
         if (goodBadPos[i] == true)
@@ -263,4 +270,40 @@ void wordCC::nextWord()
     currentWord++;
 }
 
-void wordCC::nextWord();
+void wordCC::findSpellingWords()
+{
+    generatewScore();
+    findHardest();
+}
+
+bool wordCC::notHave30goodWords()
+{
+    int goodCount=0;
+    for (int i=0; i<200; i++)
+    {
+        if (goodBadPos[i] == false)
+            if (++goodCount == 30)
+                return false;
+    }
+    return true;
+}
+
+void wordCC::findKeyboardWords()
+{
+    cout << "FINDING KEYBOARD WORDS" << endl;
+    generatewScore();// Now goodwords and badwords have sorted list
+    findHardest();
+    if (notHave30goodWords())
+        cout << "SOMETHINE HAS GONE HORRIBLY WRONG IN findKeyboardWords!" << endl;
+    //printwordCC(20);
+}
+
+string wordCC::getKeyboardWords()
+{
+    string retString = "";
+    for (int i=0; i<200; i++)
+    {
+        retString += getWord(i)->getWord() + " ";
+    }
+    return retString;
+}

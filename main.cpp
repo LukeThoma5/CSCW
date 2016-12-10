@@ -265,11 +265,11 @@ int main (int argc, char **argv)
 	//printVector(static_cast<badWord*>(SSG::badWordList->wordList[0])->syllableWrongCount);
 	//wordCC SpellingWords("shortDict.txt", "wrongWords.txt");
 
-	SSG::SpellingWords.generatewScore();
+	//SSG::SpellingWords.generatewScore();
 
-	SSG::SpellingWords.findHardest();
+	//SSG::SpellingWords.findHardest();
 
-	SSG::SpellingWords.printTop();
+	//SSG::SpellingWords.printTop();
 
 
 	//callTest(allWords.wordList[0]);
