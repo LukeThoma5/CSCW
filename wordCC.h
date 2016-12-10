@@ -7,6 +7,8 @@
 #include <fstream>
 #include <vector>
 
+#include <ctime>
+
 #include "wordContainer.h"
 #include "badwordContainer.h"
 
@@ -24,12 +26,16 @@ class wordCC{
 
     bool notHave30goodWords();
 
+    std::time_t keyboardStart = std::time(0);
+    int mistakes = 0;
+
 public:
     wordContainer goodWords;
     badwordContainer badWords;
     std::vector<int> wordPos;
     std::vector<bool> goodBadPos;
     int currentWord = 0;
+
     wordCC();
     wordCC(std::string goodFilename, std::string badFilename);
 
@@ -63,6 +69,10 @@ public:
     void findSpellingWords();
 
     void findKeyboardWords();
+
+    bool keyboardAttempt(const std::string& attempt);
+
+    std::string makeUpperCase(const std::string& attempt);
 
     std::string getKeyboardWords();
 

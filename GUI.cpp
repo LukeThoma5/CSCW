@@ -146,6 +146,17 @@ void SSG_SC_TextEntry_activate()
 	EntryBuffer->set_text("");
 }
 
+void SSG_KS_TextEntry_insert()
+{
+	Gtk::Entry* pEntry = nullptr;
+    SSG::refBuilder->get_widget("SSG_KS_TextEntry",pEntry);
+    Glib::RefPtr<Gtk::EntryBuffer> EntryBuffer =  pEntry->get_buffer();
+    string attempt = pEntry->get_text();
+    cout << attempt << endl;
+	if (SSG::SpellingWords.keyboardAttempt(attempt))
+		EntryBuffer->set_text("");
+}
+
 void connectSignals()
 {
 if(SSG::winContainer.SpellingScreen)
@@ -205,5 +216,10 @@ if(SSG::winContainer.SpellingScreen)
 	SSG::refBuilder->get_widget("SSG_SC_TextEntry",pEntry);
 	if (pEntry)
 		{pEntry->signal_activate().connect( sigc::ptr_fun(SSG_SC_TextEntry_activate) );}
+		SSG::refBuilder->get_widget("SSG_SC_TextEntry",pEntry);
+	pEntry = nullptr;
+	SSG::refBuilder->get_widget("SSG_KS_TextEntry",pEntry);
+	if (pEntry)
+		{pEntry->signal_changed().connect( sigc::ptr_fun(SSG_KS_TextEntry_insert) );}
 }
 }

@@ -4,6 +4,8 @@
 #include <fstream>
 #include <vector>
 
+#include <ctime>
+
 #include "wordContainer.h"
 #include "badwordContainer.h"
 #include "wordCC.h"
@@ -295,6 +297,11 @@ void wordCC::findKeyboardWords()
     findHardest();
     if (notHave30goodWords())
         cout << "SOMETHINE HAS GONE HORRIBLY WRONG IN findKeyboardWords!" << endl;
+
+    currentWord = 0;
+    mistakes = 0;
+    keyboardStart = std::time(0);
+    cout << "starting test at " << keyboardStart << endl;
     //printwordCC(20);
 }
 
@@ -306,4 +313,50 @@ string wordCC::getKeyboardWords()
         retString += getWord(i)->getWord() + " ";
     }
     return retString;
+}
+
+string wordCC::makeUpperCase(const string& attempt)
+{
+    //Should be ok but some shortcuts were made for efficency. May cause errors
+    string upperString;
+    for (unsigned int i=0; i<attempt.size(); i++)
+    {
+        char currentChar = attempt[i];
+        int charInt = static_cast<int>(currentChar);
+        if (charInt>96)
+        {
+            charInt -= 32;
+        }
+        upperString += static_cast<char>(charInt);
+    }
+    return upperString;
+}
+
+bool wordCC::keyboardAttempt(const string& attempt)
+{
+    //cout << "Current word is " << currentWord;
+    cout << "Mistakes: " << mistakes << endl; 
+    word* currentWordp = getCurrentWord();
+    string currentWordString = currentWordp->getWord();
+    string attemptUpper = makeUpperCase(attempt);
+    if (attemptUpper == currentWordString)
+    {
+        cout << attemptUpper << " passed!" << endl;
+        currentWord++;
+        return true;
+    }
+    if (attemptUpper.size() > currentWordString.size())
+    {
+        cout << "Keyboard overrun!" << endl;
+        mistakes++;
+        return false;
+    }
+    //not the same and not greater than
+    if (attemptUpper != currentWordString.substr(0,attempt.size()))
+    {
+        mistakes++;
+        cout << "Word is diverging from correct!" << endl;
+    }
+    return false;
+
 }
