@@ -14,7 +14,7 @@ protected:
 public:
 
 	std::vector<int> syllableWrongCount;
-	float weight;
+	//float weight;
 
 	badWord(const std::string& wordline, const std::string& badwordline);
 

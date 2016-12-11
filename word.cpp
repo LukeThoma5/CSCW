@@ -238,8 +238,21 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 	void word::determineScore()
 	{
 		wScoreHelper();
-		wScore *= 0.5; //Makes good words less valuable than badWords
+		wScore *= weight; //Makes good words less valuable than badWords
 		//cout << "Final score for " << wordC << wScore << endl;
+	}
+
+	bool word::wordCorrect()
+	{
+		weight -= 0.1;
+		if (weight<0)
+			weight=0;
+		return false; //Needed for check of badword
+	}
+
+	float word::getWeight()
+	{
+		return weight;
 	}
 
 	word::word(const string& wordline) {

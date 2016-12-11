@@ -335,6 +335,26 @@ string wordCC::makeUpperCase(const string& attempt)
     return upperString;
 }
 
+void wordCC::wordCorrect(const int& wordPosition)
+{
+    //Add code to check if in good/bad container then call appropriate wordCorrect
+    if (goodBadPos[wordPosition] == true)
+    {
+        cout << "Badword correction not yet created ERROR!" << endl;
+        //getWord(wordPosition)->wordWrong(attempt);
+        //getWord(wordPosition)->determineScore();
+        //printTop(0,10);
+    }
+    if (goodBadPos[wordPosition] == false)
+    {
+        cout << "goodWord wordCorrect will be called" << endl;
+        goodWords.wordCorrect(wordPos[wordPosition]);
+        printTop(0,10);
+        //goodWords.DisplaywScores(0,10);
+        //badWords.DisplaywScores(0,10);
+    }
+}
+
 void wordCC::spellingAttempt(const string& attempt)
 {
     bool isCorrect = false;
@@ -352,6 +372,7 @@ void wordCC::spellingAttempt(const string& attempt)
 	else
 	{
 		isCorrect = true;
+        wordCorrect(currentWord);
 	}
 	//nextWord();
     currentWord++;

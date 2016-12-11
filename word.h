@@ -32,6 +32,7 @@ public:
 	std::string definition;
 	std::vector<bool> wordFlags;
 	float wScore = 0.0;
+	float weight = 0.5;
 	//int size = 0;
 
 	word(bool safteyMechanism);
@@ -42,9 +43,11 @@ public:
 
 	std::string getWord();
 
+	float getWeight(); 
+
 	virtual void determineScore();
 
-
+	virtual bool wordCorrect();
 
 	virtual ~word();
 

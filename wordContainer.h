@@ -72,6 +72,8 @@ public:
 
 	int getABSIndex(const int& wordToGet);
 
+	void wordCorrect(const int& correctWord);
+
 	wordContainer();
 
 	wordContainer(std::string filename); //Can't default the value or else will get ambiguity error as 2 constructors callable with no arguments

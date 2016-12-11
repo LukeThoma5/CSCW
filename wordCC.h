@@ -62,6 +62,8 @@ public:
 
     void wordWrong(const int& wordPosition,const std::string& attempt);
 
+    void wordCorrect(const int& wordPosition);
+
     void addWord(word* wordToAdd);
 
     void printwordCC(int stop=0);

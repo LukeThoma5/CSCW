@@ -415,3 +415,13 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 
 		cout << "An error has occured in searching for word " << comp << endl;
 	}
+
+	void wordContainer::wordCorrect(const int& correctWord)
+	{
+		if (correctWord > size() || correctWord < 0)
+			throw "wordContainer out of range";
+		word* cWord = at(correctWord);
+		cout << cWord->getWord() << " is correct with a weight of " << cWord->getWeight() << " down to ";
+		cWord->wordCorrect();
+		cout << cWord->getWeight() << endl;
+	}
