@@ -66,6 +66,8 @@ public:
 
     void printwordCC(int stop=0);
 
+    void spellingAttempt(const std::string& attempt);
+
     void findSpellingWords();
 
     void findKeyboardWords();

@@ -15,6 +15,9 @@ using namespace std;
 void printVector(const vector<string>& sV, int start=0, int stop=-1); //Early declaration
 void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 void printVector(const std::vector<bool>& sV, int start=0, int stop=-1);
+void speak(const string& wordToSay, const bool isCorrect);
+void say(const string& sentence);
+string seperateWord(const string& wordToSep);
 
 wordCC::wordCC()
 {
@@ -332,10 +335,33 @@ string wordCC::makeUpperCase(const string& attempt)
     return upperString;
 }
 
+void wordCC::spellingAttempt(const string& attempt)
+{
+    bool isCorrect = false;
+	word* cWord = getCurrentWord();
+	if (makeUpperCase(attempt) != cWord->getWord())
+	{
+		cout << "The correct spelling is " << cWord->getWord() << endl;
+		string spelling = seperateWord(cWord->getWord());
+		cout << cWord->getWord() << " " << spelling << endl;
+		string sentenceToSay = "That is incorrect, it is spelt " + spelling;
+		//EntryBuffer->set_text("The correct spelling is: " + cWord->getWord() + " not " + attempt);
+		say(sentenceToSay);
+		wordWrong(currentWord,attempt);
+	}
+	else
+	{
+		isCorrect = true;
+	}
+	//nextWord();
+    currentWord++;
+	speak(getCurrentWord()->getWord(),isCorrect);
+}
+
 bool wordCC::keyboardAttempt(const string& attempt)
 {
     //cout << "Current word is " << currentWord;
-    cout << "Mistakes: " << mistakes << endl; 
+    cout << "Mistakes: " << mistakes << endl;
     word* currentWordp = getCurrentWord();
     string currentWordString = currentWordp->getWord();
     string attemptUpper = makeUpperCase(attempt);

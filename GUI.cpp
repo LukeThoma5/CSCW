@@ -123,26 +123,8 @@ void SSG_SC_TextEntry_activate()
     string attempt = pEntry->get_text();
     cout << attempt << endl;
 
-	bool isCorrect = false;
-
-	word* cWord = SSG::SpellingWords.getCurrentWord();
-	if (attempt != cWord->getWord())
-	{
-		cout << "The correct spelling is " << SSG::SpellingWords.getCurrentWord()->getWord() << endl;
-		string spelling = seperateWord(SSG::SpellingWords.getCurrentWord()->getWord());
-		cout << SSG::SpellingWords.getCurrentWord()->getWord() << " " << spelling << endl;
-		string sentenceToSay = "That is incorrect, it is spelt " + spelling;
-		//EntryBuffer->set_text("The correct spelling is: " + cWord->getWord() + " not " + attempt);
-		say(sentenceToSay);
-		SSG::SpellingWords.wordWrong(SSG::SpellingWords.getCurrentPosition(),attempt);
-	}
-	else
-	{
-		isCorrect = true;
-	}
-
-	SSG::SpellingWords.nextWord();
-	speak(SSG::SpellingWords.getCurrentWord()->getWord(),isCorrect);
+	SSG::SpellingWords.spellingAttempt(attempt);
+	
 	EntryBuffer->set_text("");
 }
 
@@ -155,6 +137,8 @@ void SSG_KS_TextEntry_insert()
     cout << attempt << endl;
 	if (SSG::SpellingWords.keyboardAttempt(attempt))
 		EntryBuffer->set_text("");
+	/*To create a tag Gtj::TextBuffer::create_tag(string) https://developer.gnome.org/gtkmm/stable/classGtk_1_1TextBuffer.html#ad42f4e41a4cb2d5a824e2f0ffa78e973
+	  use apply_tag to with the tagref, iterator start and iterator end https://developer.gnome.org/gtkmm/stable/classGtk_1_1TextBuffer.html#ad42f4e41a4cb2d5a824e2f0ffa78e973 https://developer.gnome.org/gtkmm/stable/classGtk_1_1TextTag.html*/
 }
 
 void connectSignals()
@@ -217,6 +201,7 @@ if(SSG::winContainer.SpellingScreen)
 	if (pEntry)
 		{pEntry->signal_activate().connect( sigc::ptr_fun(SSG_SC_TextEntry_activate) );}
 		SSG::refBuilder->get_widget("SSG_SC_TextEntry",pEntry);
+
 	pEntry = nullptr;
 	SSG::refBuilder->get_widget("SSG_KS_TextEntry",pEntry);
 	if (pEntry)
