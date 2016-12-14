@@ -9,4 +9,6 @@ ABATE+AH0+B+EY1+T+#DEF+(a) To bring entirely down or put an end to; to do away w
 ABATEMENT+AH0+B+EY1+T+M+AH0+N+T+#DEF+A mark of dishonor on an escutcheon.
 ABBA+AE1+B+AH0+#DEF+Father; religious superior; -- in the Syriac, Coptic, andEthiopic churches, a title given to the bishops, and by the bishopsto the patriarch.
 BLOODTHIRSTY+B+L+AH1+D+TH+ER2+S+T+IY0+#DEF+Eager to shed blood; cruel; sanguinary; murderous. -- Blood"thirst`i*ness (n.
+SHAFTED+SH+AE1+F+T+IH0+D+#DEF+Having a shaft; -- applied to a spear when the head and theshaft are of different tinctures.
 SNAPPY+S+N+AE1+P+IY0+#DEF+Snappish. [Colloq.]
+VULCAN+V+AH1+L+K+AH0+N+#DEF+The god of fire, who presided over the working of metals; --answering to the Greek Hephæstus.

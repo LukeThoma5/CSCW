@@ -309,7 +309,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 		definition=bwordToSlice->getDefinition();
 		wordFlags=bwordToSlice->getWordFlags();
 		wScore=bwordToSlice->getwScore();
-		weight=bwordToSlice->getWeight();
+		weight=0.5;
 	}
 
 	word::~word()

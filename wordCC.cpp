@@ -339,13 +339,6 @@ string wordCC::makeUpperCase(const string& attempt)
 void wordCC::wordCorrect(const int& wordPosition)
 {
     //Add code to check if in good/bad container then call appropriate wordCorrect
-    if (goodBadPos[wordPosition] == true)
-    {
-        cout << "Badword correction not yet created ERROR!" << endl;
-        //getWord(wordPosition)->wordWrong(attempt);
-        //getWord(wordPosition)->determineScore();
-        //printTop(0,10);
-    }
     if (goodBadPos[wordPosition] == false)
     {
         cout << "goodWord wordCorrect will be called" << endl;
@@ -353,6 +346,14 @@ void wordCC::wordCorrect(const int& wordPosition)
         printTop(0,10);
         //goodWords.DisplaywScores(0,10);
         //badWords.DisplaywScores(0,10);
+    }
+    if (goodBadPos[wordPosition] == true)
+    {
+        cout << "Badword wordCorrect will be called" << endl;
+        badwordCorrect(wordPosition);
+        //getWord(wordPosition)->wordWrong(attempt);
+        //getWord(wordPosition)->determineScore();
+        //printTop(0,10);
     }
 }
 
@@ -363,10 +364,40 @@ void wordCC::badwordCorrect(const int& wordPosition)
     //badWord* toConvert = getWord(wordPosition);
 
     bool needsFixing = badWords.wordCorrect(wordPos[wordPosition]);
+    
     if (needsFixing)
+    {
         cout << "Score has fallen to 0! need to delete!" << endl;
+        //goodWords.printWordContainer();
+        //badWords.printWordContainer();
+        printwordCC();
+        cout << "Word is bad and has value " << getWord(wordPosition)->getWord() << endl;
+        word* turnedGoodWord = new word(getWord(wordPosition));
+        cout << turnedGoodWord->getWord() << " has been created!" << endl;
+        goodWords.addWord(turnedGoodWord); //Adds word to goodWords, has no major change to abs as it is added to the end.
+        int goodWordSize = goodWords.size(); //cast to signed int
+        cout << goodWords.at(goodWordSize-1)->getWord() << " at the end of goodWords" << endl;
+
+        badWords.deleteWord(badWords.getABSIndex(wordPos[wordPosition])); //Delete the word at the index
+        goodBadPos[wordPosition] = false; //Minor update the wordCC index
+        wordPos[wordPosition] = goodWordSize-1;
+
+        cout << "Word is now good and has value " << getWord(wordPosition)->getWord() << endl;
+
+        //Fix abstraction
+        for (int i=0; i<goodBadPos.size(); i++)
+        {
+            if (goodBadPos[i]==true) //if a bad word
+                if (i>wordPosition)
+                    wordPos[i]--;
+        }
+
+        printwordCC();
+    }
     else
+    {
         cout << "word still got score > 0.0" << endl;
+    }
 
 }
 
@@ -390,7 +421,7 @@ void wordCC::spellingAttempt(const string& attempt)
         wordCorrect(currentWord);
 	}
 	//nextWord();
-    //currentWord++; //comment to repeatedly ask same word
+    currentWord++; //comment to repeatedly ask same word
 	speak(getCurrentWord()->getWord(),isCorrect);
 }
 
