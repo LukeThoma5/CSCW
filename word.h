@@ -39,9 +39,19 @@ public:
 
 	word(const std::string& wordline);
 
-	float getwScore();
+	word(word* bwordToSlice);
 
 	std::string getWord();
+
+	std::vector<std::string> getSyllables();
+
+	std::vector<int> getSyllablePositions();
+
+	std::string getDefinition();
+
+	std::vector<bool> getWordFlags();
+
+	float getwScore();
 
 	float getWeight(); 
 

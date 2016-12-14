@@ -390,7 +390,7 @@ void wordCC::spellingAttempt(const string& attempt)
         wordCorrect(currentWord);
 	}
 	//nextWord();
-    currentWord++;
+    //currentWord++; //comment to repeatedly ask same word
 	speak(getCurrentWord()->getWord(),isCorrect);
 }
 

@@ -231,9 +231,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 		cout << "WARNING DEFAULT CONSTRUCTER BEING CALLED, OBJECT *MUST* ALREADY BE CONSTRUCTED!" << endl;
 	}
 
-	float word::getwScore() {return wScore;}
 
-	string word::getWord() {return wordC;}
 
 	void word::determineScore()
 	{
@@ -250,10 +248,19 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 		return false; //Needed for check of badword
 	}
 
-	float word::getWeight()
-	{
-		return weight;
-	}
+	float word::getwScore() {return wScore;}
+
+	string word::getWord() {return wordC;}
+
+	float word::getWeight() {return weight;}
+
+	std::vector<std::string> word::getSyllables() {return syllables;}
+
+	std::vector<int> word::getSyllablePositions() {return syllablePositions;}
+
+	std::string word::getDefinition() {return definition;}
+
+	std::vector<bool> word::getWordFlags() {return wordFlags;}
 
 	word::word(const string& wordline) {
 		//cout << wordline << endl;
@@ -291,6 +298,18 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 			wordFlags.push_back(false);
 		}
 
+	}
+
+	word::word(word* bwordToSlice)
+	{
+		//This function intenionally slices a badWord back to a word;
+		wordC=bwordToSlice->getWord();
+		syllables=bwordToSlice->getSyllables();
+		syllablePositions=bwordToSlice->getSyllablePositions();
+		definition=bwordToSlice->getDefinition();
+		wordFlags=bwordToSlice->getWordFlags();
+		wScore=bwordToSlice->getwScore();
+		weight=bwordToSlice->getWeight();
 	}
 
 	word::~word()
