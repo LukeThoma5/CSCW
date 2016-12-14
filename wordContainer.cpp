@@ -178,18 +178,18 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 		//cout << "Trying to add word " << wordToAdd->getWord() << endl;
 		//Needs to be improved/fixed
 		//ADD the wordPos fixing!!
-		int insertPos = findWordInsertionPoint(wordToAdd->getWord()); //Currently crashes the program on -1
+		int insertPos = findWordInsertionPoint(wordToAdd->getWord()); //Find the alphabetical location in the list to add the word to
 		//cout << "Insertion position " << insertPos << endl;
 
 		//wordList.push_back(wordToAdd);
 		//Fix abstraction
-		for (int i=0; i<wordPos.size(); i++)
+		for (int i=0; i<wordPos.size(); i++) //for every word in the abstraction
 		{
-			if (wordPos[i] >= insertPos)
+			if (wordPos[i] >= insertPos) //if the index for wordList held in the abstraction layer is greater than the insertionPoint the index in the abstraction layer needs to be incremented needs to be shifted to the right one.
 				wordPos[i]++;
 		}
-		wordList.insert(wordList.begin()+insertPos,wordToAdd);
-		wordPos.push_back(insertPos);
+		wordList.insert(wordList.begin()+insertPos,wordToAdd); //Add the word at the insertionPoint
+		wordPos.push_back(insertPos); //Add the insertionPoint to the back of abstraction layer so everything else stays in order. Regardless of the words score it will be only acessible at the end until refreshwScores called.
 
 		/* //Test code for printing the words around the new inserted word for manual inspection.
 		for (int i=insertPos-1;i<insertPos+2;i++)
@@ -198,7 +198,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 		} */
 		cout << "addWord Complete" << endl;
 
-		int wordPosSize = wordPos.size(); //Convert to signed int so -1 doesn't cause an underflow
+		int wordPosSize = wordPos.size(); //Convert to signed int so -1 doesn't cause an underflow when size is 0
 		//return insertPos;
 		return wordPosSize-1;
 	}
@@ -416,12 +416,17 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 		cout << "An error has occured in searching for word " << comp << endl;
 	}
 
-	void wordContainer::wordCorrect(const int& correctWord)
+	bool wordContainer::wordCorrect(const int& correctWord)
 	{
 		if (correctWord > size() || correctWord < 0)
 			throw "wordContainer out of range";
 		word* cWord = at(correctWord);
 		cout << cWord->getWord() << " is correct with a weight of " << cWord->getWeight() << " down to ";
 		cWord->wordCorrect();
-		cout << cWord->getWeight() << endl;
+		float wordWeight = cWord->getWeight();
+		cout << wordWeight << endl;
+
+		if (wordWeight == 0.0)
+			return true;
+		return false;
 	}

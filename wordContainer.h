@@ -72,7 +72,7 @@ public:
 
 	int getABSIndex(const int& wordToGet);
 
-	void wordCorrect(const int& correctWord);
+	bool wordCorrect(const int& correctWord);
 
 	wordContainer();
 

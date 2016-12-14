@@ -40,12 +40,12 @@ void wordCC::goodWordWrong(const int& wordPosition,const std::string& attempt)
 {
     //cout << wordList[wordPosition]->wordC << endl;
     cout << "The word position is " << wordPosition << endl;
-    string badWordLine = getWord(wordPosition)->wordWrong(attempt);
+    string badWordLine = getWord(wordPosition)->wordWrong(attempt); //Generate the badwordline for the word that was wrong, wordPosition is the wordCC abs index, getword converts to wordContainer abs int then asks for the word behind that abs.
     cout << badWordLine << endl;
-    badWord* badWordToAdd = new badWord(getWord(wordPosition),badWordLine);
+    badWord* badWordToAdd = new badWord(getWord(wordPosition),badWordLine); //Create a badword from the word in memory and the generated badwordline
     cout << "bad word Created" << endl;
     //cout << badWordToAdd->wordFlags[0] << endl;
-    int badWordLocation = badWords.addWord(badWordToAdd);
+    int badWordLocation = badWords.addWord(badWordToAdd); //Add the badword to the badwordList
 
     //cout << "badWordLocation" << badWordLocation << endl;
 
@@ -232,6 +232,7 @@ void wordCC::wordWrong(const int& wordPosition,const string& attempt)
 
 void wordCC::addWord(word* wordToAdd)
 {
+    //Add code to fix wordCC not wordContainer abstraction?
     goodWords.addWord(wordToAdd);
 }
 
@@ -353,6 +354,20 @@ void wordCC::wordCorrect(const int& wordPosition)
         //goodWords.DisplaywScores(0,10);
         //badWords.DisplaywScores(0,10);
     }
+}
+
+void wordCC::badwordCorrect(const int& wordPosition)
+{
+    ;//wordContainer addword fixes its abstraction and places the location of the new word at the end of the wordPos vector Regardless of score or location in wordList. Adding word is fine, update the goodbadpos and set the value to the end of the wordContainer.
+    //wordContainer remove word all the indexes are updated to point to new locations and the words index is removed from the wordPos vector and wordlist, all wordPos indexes after the word point need to be shifted one to the right. The underlying indexes are correct but the wordPos of wordCC needs updating.
+    //badWord* toConvert = getWord(wordPosition);
+
+    bool needsFixing = badWords.wordCorrect(wordPos[wordPosition]);
+    if (needsFixing)
+        cout << "Score has fallen to 0! need to delete!" << endl;
+    else
+        cout << "word still got score > 0.0" << endl;
+
 }
 
 void wordCC::spellingAttempt(const string& attempt)

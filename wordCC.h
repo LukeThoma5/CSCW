@@ -64,6 +64,8 @@ public:
 
     void wordCorrect(const int& wordPosition);
 
+    void badwordCorrect(const int& wordPosition);
+
     void addWord(word* wordToAdd);
 
     void printwordCC(int stop=0);
