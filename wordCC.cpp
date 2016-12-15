@@ -273,7 +273,12 @@ int wordCC::getCurrentPosition()
 
 void wordCC::nextWord()
 {
-    currentWord++;
+    if (++currentWord == (goodWords.size()+badWords.size())) //Increase the currentword THEN compare it with the total amount of words
+    {
+        //If out of words, reset currentWord and regenerateSpellingWords
+        currentWord = 0;
+        findSpellingWords();
+    }
 }
 
 void wordCC::findSpellingWords()
@@ -364,12 +369,10 @@ void wordCC::badwordCorrect(const int& wordPosition)
     //badWord* toConvert = getWord(wordPosition);
 
     bool needsFixing = badWords.wordCorrect(wordPos[wordPosition]);
-    
+
     if (needsFixing)
     {
         cout << "Score has fallen to 0! need to delete!" << endl;
-        //goodWords.printWordContainer();
-        //badWords.printWordContainer();
         printwordCC();
         cout << "Word is bad and has value " << getWord(wordPosition)->getWord() << endl;
         word* turnedGoodWord = new word(getWord(wordPosition));
@@ -421,7 +424,7 @@ void wordCC::spellingAttempt(const string& attempt)
         wordCorrect(currentWord);
 	}
 	//nextWord();
-    currentWord++; //comment to repeatedly ask same word
+    nextWord(); //comment to repeatedly ask same word
 	speak(getCurrentWord()->getWord(),isCorrect);
 }
 
