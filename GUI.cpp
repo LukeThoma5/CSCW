@@ -78,14 +78,19 @@ void SSG_MS_Button_Spelling_Clicked()
 	SSG::SpellingWords.findSpellingWords();
 }
 
-void SSG_MS_Button_Keyboard_Clicked()
+void GUI_keyboard_Handler()
 {
 	SSG::SpellingWords.findKeyboardWords();
-	SSG::winContainer.KeyboardScreen->show();
 	Gtk::TextView* pSSG_KS_WordList = nullptr;
 	SSG::refBuilder->get_widget("SSG_KS_WordList",pSSG_KS_WordList);
 	Glib::RefPtr<Gtk::TextBuffer> WordListBuffer =  pSSG_KS_WordList->get_buffer();
 	WordListBuffer->set_text(SSG::SpellingWords.getKeyboardWords());
+}
+
+void SSG_MS_Button_Keyboard_Clicked()
+{
+	GUI_keyboard_Handler();
+	SSG::winContainer.KeyboardScreen->show();
 	//pSSG_KS_WordList->set_wrap_mode(Gtk::Wrap_Word);
 }
 
@@ -124,7 +129,7 @@ void SSG_SC_TextEntry_activate()
     cout << attempt << endl;
 
 	SSG::SpellingWords.spellingAttempt(attempt);
-	
+
 	EntryBuffer->set_text("");
 }
 

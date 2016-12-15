@@ -428,9 +428,43 @@ void wordCC::spellingAttempt(const string& attempt)
 	speak(getCurrentWord()->getWord(),isCorrect);
 }
 
+void GUI_keyboard_Handler(); //Decleration of GUI.cpp function;
+
+int wordCC::keyboardCharCount()
+{
+    int charTotal = 0;
+    for (int i=0; i<5; i++) //Change to 200 for final release
+    {
+        charTotal += getCurrentWord()->getWord().size();
+    }
+    return charTotal;
+}
+
+void wordCC::keyboardComplete()
+{
+    //In future generate dataitems for historyLog
+    time_t keyboardEnd = time(0);
+    int testLength = keyboardEnd - keyboardStart;
+    cout << "#########################################\nKeyboard Test complete!\n";
+    cout << "Time taken: " << testLength;
+    cout << "\nMistakes: " << mistakes;
+    int charCount = keyboardCharCount();
+    cout << "\nTotal characters: " << charCount;
+    float mistakesPerCharacter = float(mistakes)/float(charCount);
+    cout << "\nMistakes per character: " << mistakesPerCharacter << endl;
+    GUI_keyboard_Handler();
+}
+
 bool wordCC::keyboardAttempt(const string& attempt)
 {
     //cout << "Current word is " << currentWord;
+    if (attempt.back() == ' ')
+    {
+        cout << "space pressed moving on!" << endl;
+        if (++currentWord == 5) //Increase current word, if at limit end test
+            keyboardComplete();
+        return true; //Tell GUI to clear
+    }
     cout << "Mistakes: " << mistakes << endl;
     word* currentWordp = getCurrentWord();
     string currentWordString = currentWordp->getWord();
@@ -438,7 +472,8 @@ bool wordCC::keyboardAttempt(const string& attempt)
     if (attemptUpper == currentWordString)
     {
         cout << attemptUpper << " passed!" << endl;
-        currentWord++;
+        if (++currentWord == 5) //Change to 200 for final release, 5 is for testing
+            keyboardComplete();
         return true;
     }
     if (attemptUpper.size() > currentWordString.size())

@@ -78,6 +78,10 @@ public:
 
     bool keyboardAttempt(const std::string& attempt);
 
+    void keyboardComplete();
+
+    int keyboardCharCount();
+
     std::string makeUpperCase(const std::string& attempt);
 
     std::string getKeyboardWords();
