@@ -20,6 +20,9 @@ public:
 
 	void addEvent(const std::vector<std::string>& dItems,const std::time_t& etime,const std::string& etype);
 	
+	int findTimeStart(std::time_t comparisonTime);
+
+	std::string getEventString(std::time_t startTime=0);
 };
 
 #endif

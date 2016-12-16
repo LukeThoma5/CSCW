@@ -446,15 +446,20 @@ void wordCC::keyboardComplete()
 {
     //In future generate dataitems for historyLog
     time_t keyboardEnd = time(0);
+    vector<string> eventItems;
     int testLength = keyboardEnd - keyboardStart;
     cout << "#########################################\nKeyboard Test complete!\n";
     cout << "Time taken: " << testLength;
+    eventItems.push_back(to_string(testLength));
     cout << "\nMistakes: " << mistakes;
+    eventItems.push_back(to_string(mistakes));
     int charCount = keyboardCharCount();
     cout << "\nTotal characters: " << charCount;
+    eventItems.push_back(to_string(charCount));
     float mistakesPerCharacter = float(mistakes)/float(charCount);
+    eventItems.push_back(to_string(mistakesPerCharacter));
     cout << "\nMistakes per character: " << mistakesPerCharacter << endl;
-    SSG::histLog.addEvent("584C17BC+keyboardComplete+192+1389+72+21");
+    SSG::histLog.addEvent(eventItems,time(0),"keyboardComplete");
     GUI_keyboard_Handler();
 }
 

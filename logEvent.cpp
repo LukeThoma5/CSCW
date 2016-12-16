@@ -15,11 +15,11 @@ void logEvent::delimItems(std::vector<std::string>& elems, const std::string& ev
 
 logEvent::logEvent(const std::string& eventLine)
 {
-    vector<string> elems;
-    delimItems(elems,eventLine);
-    eTime=stoul(elems[0],nullptr,16);
-    eType=elems[1];
-    for (unsigned int i=2; i<elems.size(); i++)
+    vector<string> elems; //vector to store the event elements
+    delimItems(elems,eventLine); //Split string into individual items
+    eTime=stoul(elems[0],nullptr,16); //Set the time of the event equal to the int value after converting from hex
+    eType=elems[1]; //Element 1 is the event type
+    for (unsigned int i=2; i<elems.size(); i++) //Remaining items are data, add them to the dataItems vector
     {
         dataItems.push_back(elems[i]);
     }
@@ -32,3 +32,9 @@ logEvent::logEvent(const std::vector<std::string>& dItems,const std::time_t& eti
     eTime=etime;
     eType=etype;
 }
+
+time_t logEvent::getTime() {return eTime;}
+
+std::string logEvent::getType() {return eType;}
+
+std::vector<std::string> logEvent::getDataItems() {return dataItems;}

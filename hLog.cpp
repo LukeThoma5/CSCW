@@ -34,3 +34,25 @@ void hLog::addEvent(const std::vector<std::string>& dItems,const std::time_t& et
     logEvent* myLog = new logEvent(dItems,etime,etype);
     delete myLog;
 }
+
+int hLog::findTimeStart(std::time_t comparisonTime)
+{
+    if (comparisonTime > log.back().getTime())
+        return log.size();
+    for (int i=log.size(); i>=0; i--)
+    {
+        if (log[i].getTime() < comparisonTime) //If current event was before the comp time, return the item past it
+            return i+1;
+    }
+    return 0;
+}
+
+string hLog::getEventString(std::time_t startTime)
+{
+    string retString;
+    for (int i=findTimeStart(startTime); i<log.size(); i++)
+    {
+        retString += to_string(log[i].getTime()) + log[i].getType() + '\n';
+    }
+    return retString;
+}

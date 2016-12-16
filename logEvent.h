@@ -17,6 +17,12 @@ public:
 	logEvent(const std::string& eventLine);
 
 	logEvent(const std::vector<std::string>& dItems,const std::time_t& etime,const std::string& etype);
+
+	std::time_t getTime();
+
+	std::string getType();
+
+	std::vector<std::string> getDataItems();
 	
 };
 
