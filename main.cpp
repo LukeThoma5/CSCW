@@ -22,6 +22,7 @@
 #include "wordContainer.h"
 #include "badwordContainer.h"
 #include "wordCC.h"
+#include "hLog.h"
 
 #include "windowContainer.cpp"
 
@@ -35,6 +36,7 @@ namespace SSG {
 	Glib::RefPtr<Gtk::Builder> refBuilder;
 	windowContainer winContainer;
 	wordCC SpellingWords("finalDictwithDef.txt", "wrongWords.txt");
+	hLog histLog("SSGHistFile");
 	//wordCC SpellingWords("shortDict.txt", "wrongWords.txt");
 }
 

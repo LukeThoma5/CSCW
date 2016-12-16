@@ -9,6 +9,8 @@
 #include "wordContainer.h"
 #include "badwordContainer.h"
 #include "wordCC.h"
+#include "hLog.h"
+#include "SSG.h"
 
 using namespace std;
 
@@ -452,6 +454,7 @@ void wordCC::keyboardComplete()
     cout << "\nTotal characters: " << charCount;
     float mistakesPerCharacter = float(mistakes)/float(charCount);
     cout << "\nMistakes per character: " << mistakesPerCharacter << endl;
+    SSG::histLog.addEvent("584C17BC+keyboardComplete+192+1389+72+21");
     GUI_keyboard_Handler();
 }
 

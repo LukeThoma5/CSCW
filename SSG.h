@@ -8,6 +8,7 @@ class wordContainer; //Early decleration
 #include <gtkmm.h>
 #include "windowContainer.cpp"
 #include "wordCC.h"
+#include "hLog.h"
 
 namespace SSG {
 	//SSG SpellingSuiteGlobalVariables
@@ -17,6 +18,7 @@ namespace SSG {
 	extern Glib::RefPtr<Gtk::Builder> refBuilder;
 	extern windowContainer winContainer;
 	extern wordCC SpellingWords;
+	extern hLog histLog;
 }
 
 
