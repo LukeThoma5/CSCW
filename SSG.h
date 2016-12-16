@@ -10,6 +10,8 @@ class wordContainer; //Early decleration
 #include "wordCC.h"
 #include "hLog.h"
 
+#include <ctime>
+
 namespace SSG {
 	//SSG SpellingSuiteGlobalVariables
 	extern masterSyllablesList MSL; //MasterSyllablesList
@@ -19,6 +21,7 @@ namespace SSG {
 	extern windowContainer winContainer;
 	extern wordCC SpellingWords;
 	extern hLog histLog;
+	extern std::time_t sessionStartTime;
 }
 
 

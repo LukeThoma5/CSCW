@@ -37,6 +37,7 @@ namespace SSG {
 	windowContainer winContainer;
 	wordCC SpellingWords("finalDictwithDef.txt", "wrongWords.txt");
 	hLog histLog("SSGHistFile.txt");
+	time_t sessionStartTime = time(0);
 	//wordCC SpellingWords("shortDict.txt", "wrongWords.txt");
 }
 

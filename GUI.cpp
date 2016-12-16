@@ -94,9 +94,28 @@ void SSG_MS_Button_Keyboard_Clicked()
 	//pSSG_KS_WordList->set_wrap_mode(Gtk::Wrap_Word);
 }
 
+void SSG_AS_Combo_changed()
+{
+	Gtk::TextView* pSSG_AS_Text_Status = nullptr;
+	SSG::refBuilder->get_widget("SSG_AS_Text_Status",pSSG_AS_Text_Status);
+	Glib::RefPtr<Gtk::TextBuffer> StatusBuffer =  pSSG_AS_Text_Status->get_buffer();
+	Gtk::ComboBoxText* pSSG_AS_Combo_Timeframe = nullptr;
+	SSG::refBuilder->get_widget("SSG_AS_Combo_Timeframe", pSSG_AS_Combo_Timeframe);
+	string timeFrame = pSSG_AS_Combo_Timeframe->get_active_text();
+	if (timeFrame == "This session")
+		StatusBuffer->set_text(SSG::histLog.getEventString(SSG::sessionStartTime));
+	else
+		if (timeFrame == "Last week")
+			StatusBuffer->set_text(SSG::histLog.getEventString(time(0)-604800));
+		else
+			StatusBuffer->set_text(SSG::histLog.getEventString(0));
+}
+
 void SSG_MS_Button_Analysis_Clicked()
 {
 	SSG::winContainer.AnalysisScreen->show();
+	SSG_AS_Combo_changed();
+
 }
 
 string seperateWord(const string& wordToSep)
@@ -211,5 +230,10 @@ if(SSG::winContainer.SpellingScreen)
 	SSG::refBuilder->get_widget("SSG_KS_TextEntry",pEntry);
 	if (pEntry)
 		{pEntry->signal_changed().connect( sigc::ptr_fun(SSG_KS_TextEntry_insert) );}
+
+	Gtk::ComboBoxText* pCombo = nullptr;
+	SSG::refBuilder->get_widget("SSG_AS_Combo_Timeframe",pCombo);
+	if (pCombo)
+		{pCombo->signal_changed().connect( sigc::ptr_fun(SSG_AS_Combo_changed) );}
 }
 }

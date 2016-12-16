@@ -25,32 +25,40 @@ hLog::~hLog()
 
 void hLog::addEvent(const std::string& eventLine)
 {
-    logEvent* myLog = new logEvent(eventLine);
-    delete myLog;
+    log.push_back(logEvent(eventLine));
 }
 
 void hLog::addEvent(const std::vector<std::string>& dItems,const std::time_t& etime,const std::string& etype)
 {
-    logEvent* myLog = new logEvent(dItems,etime,etype);
-    delete myLog;
+    log.push_back(logEvent(dItems,etime,etype));
 }
 
 int hLog::findTimeStart(std::time_t comparisonTime)
 {
-    if (comparisonTime > log.back().getTime())
-        return log.size();
-    for (int i=log.size(); i>=0; i--)
+    // if (comparisonTime > log.back().getTime())
+    //     return log.size();
+    // for (int i=log.size(); i>=0; i--)
+    // {
+    //     if (log[i].getTime() < comparisonTime) //If current event was before the comp time, return the item past it
+    //         return i+1;
+    // }
+    // return 0;
+    //int lastValue=0;
+    for (int i=0; i<log.size(); i++)
     {
-        if (log[i].getTime() < comparisonTime) //If current event was before the comp time, return the item past it
-            return i+1;
+        if (log[i].getTime() > comparisonTime)
+            return i;
     }
-    return 0;
+    return log.size();
 }
 
 string hLog::getEventString(std::time_t startTime)
 {
+    cout << "Total events " << log.size() << "\nTotal items to display";
+    int startLocation = findTimeStart(startTime);
+    cout << int(log.size()) - startLocation << endl;
     string retString;
-    for (int i=findTimeStart(startTime); i<log.size(); i++)
+    for (int i=startLocation; i<log.size(); i++)
     {
         retString += to_string(log[i].getTime()) + log[i].getType() + '\n';
     }
