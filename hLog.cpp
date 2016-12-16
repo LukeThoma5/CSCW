@@ -5,12 +5,13 @@ using namespace std;
 
 hLog::hLog(const std::string& saveLocation): logLocation(saveLocation)
 {
-    cout << "Creating log" << endl;
-    ifstream logFile(saveLocation);
+    cout << "Creating log from file: " << logLocation << endl;
+    ifstream logFile(logLocation);
     string line; //string to store the current line that has been read in
-    while (getline(logFile, line)) //getline takes an istream object and reads until a /n then stores the result in line. If no more lines to read returns false
+    while (getline(logFile, line,'\n')) //getline takes an istream object and reads until a /n then stores the result in line. If no more lines to read returns false
     {
         cout << line << endl;
+        log.push_back(logEvent(line));
     }
     logFile.close();
     cout << "Log created!" << endl;

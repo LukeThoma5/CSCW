@@ -9,11 +9,11 @@
 
 class hLog
 {
-	std::vector<std::string> log;
+	std::vector<logEvent> log;
 	const std::string logLocation; 
 public:
 	hLog(const std::string& saveLocation);
-	
+
 	~hLog();
 
 	void addEvent(const std::string& eventLine);

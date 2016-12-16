@@ -36,7 +36,7 @@ namespace SSG {
 	Glib::RefPtr<Gtk::Builder> refBuilder;
 	windowContainer winContainer;
 	wordCC SpellingWords("finalDictwithDef.txt", "wrongWords.txt");
-	hLog histLog("SSGHistFile");
+	hLog histLog("SSGHistFile.txt");
 	//wordCC SpellingWords("shortDict.txt", "wrongWords.txt");
 }
 

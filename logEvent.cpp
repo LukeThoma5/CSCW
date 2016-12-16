@@ -17,10 +17,13 @@ logEvent::logEvent(const std::string& eventLine)
 {
     vector<string> elems;
     delimItems(elems,eventLine);
-    dataItems=elems;
-    eTime=time(0);
-    eType="Undefined";
-    cout << stoul(elems[0],nullptr,16) << endl;
+    eTime=stoul(elems[0],nullptr,16);
+    eType=elems[1];
+    for (unsigned int i=2; i<elems.size(); i++)
+    {
+        dataItems.push_back(elems[i]);
+    }
+    cout << eTime << eType <<endl;
 }
 
 logEvent::logEvent(const std::vector<std::string>& dItems,const std::time_t& etime,const std::string& etype)
