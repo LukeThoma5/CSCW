@@ -159,6 +159,7 @@ void SSG_KS_TextEntry_insert()
     Glib::RefPtr<Gtk::EntryBuffer> EntryBuffer =  pEntry->get_buffer();
     string attempt = pEntry->get_text();
     cout << attempt << endl;
+	
 	if (SSG::SpellingWords.keyboardAttempt(attempt))
 		EntryBuffer->set_text("");
 	/*To create a tag Gtj::TextBuffer::create_tag(string) https://developer.gnome.org/gtkmm/stable/classGtk_1_1TextBuffer.html#ad42f4e41a4cb2d5a824e2f0ffa78e973

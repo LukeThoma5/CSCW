@@ -466,9 +466,11 @@ void wordCC::keyboardComplete()
 bool wordCC::keyboardAttempt(const string& attempt)
 {
     //cout << "Current word is " << currentWord;
+    static string lastString = ""; //initialise value once to empty string
     if (attempt.back() == ' ')
     {
         cout << "space pressed moving on!" << endl;
+        lastString="";
         if (++currentWord == 5) //Increase current word, if at limit end test
             keyboardComplete();
         return true; //Tell GUI to clear
@@ -482,20 +484,28 @@ bool wordCC::keyboardAttempt(const string& attempt)
         cout << attemptUpper << " passed!" << endl;
         if (++currentWord == 5) //Change to 200 for final release, 5 is for testing
             keyboardComplete();
+        lastString="";
         return true;
     }
-    if (attemptUpper.size() > currentWordString.size())
+
+    if (lastString.size()>attemptUpper.size())
+        return false; //If trying to remove mistake, don't penalise
+
+    if (attemptUpper.back() != currentWordString[attemptUpper.size()-1])
     {
-        cout << "Keyboard overrun!" << endl;
+        cout << "last character incorrect, adding a mistake" << endl;
         mistakes++;
-        return false;
     }
-    //not the same and not greater than
-    if (attemptUpper != currentWordString.substr(0,attempt.size()))
+
+    if (attemptUpper.size() == currentWordString.size())
     {
-        mistakes++;
-        cout << "Word is diverging from correct!" << endl;
+        if (++currentWord == 5) //Change to 200 for final release, 5 is for testing
+            keyboardComplete();
+        lastString="";
+        return true;
     }
+    
+    lastString=attemptUpper;
     return false;
 
 }

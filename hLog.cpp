@@ -29,8 +29,8 @@ hLog::~hLog()
         ofstream logFile(logLocation, std::ofstream::app); //Open file in append mode to save the new events;
         for (int i=sessionLoc; i<log.size(); i++)
         {
-            cout << log[i].getType() << endl;
-            cout << log[i].generateEventLine() << endl;
+            //cout << log[i].getType() << endl;
+            //cout << log[i].generateEventLine() << endl;
             logFile << log[i].generateEventLine() << endl;
         }
         logFile.close();
