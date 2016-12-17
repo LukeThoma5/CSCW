@@ -311,6 +311,7 @@ void wordCC::findKeyboardWords()
 
     currentWord = 0;
     mistakes = 0;
+    keyboardWrongWordCount=0;
     keyboardStart = std::time(0);
     cout << "starting test at " << keyboardStart << endl;
     //printwordCC(20);
@@ -458,7 +459,8 @@ void wordCC::keyboardComplete()
     eventItems.push_back(to_string(charCount));
     float mistakesPerCharacter = float(mistakes)/float(charCount);
     eventItems.push_back(to_string(mistakesPerCharacter));
-    cout << "\nMistakes per character: " << mistakesPerCharacter << endl;
+    cout << "\nMistakes per character: " << mistakesPerCharacter;
+    cout << "\nIncorrect words: " << keyboardWrongWordCount << endl;
     SSG::histLog.addEvent(eventItems,time(0),"keyboardComplete");
     GUI_keyboard_Handler();
 }
@@ -467,12 +469,16 @@ bool wordCC::keyboardAttempt(const string& attempt)
 {
     //cout << "Current word is " << currentWord;
     static string lastString = ""; //initialise value once to empty string
+    static bool wordBeenWrong = false;
     if (attempt.back() == ' ')
     {
         cout << "space pressed moving on!" << endl;
         lastString="";
+        if (wordBeenWrong)
+            keyboardWrongWordCount++;
         if (++currentWord == 5) //Increase current word, if at limit end test
             keyboardComplete();
+        wordBeenWrong=false;
         return true; //Tell GUI to clear
     }
     cout << "Mistakes: " << mistakes << endl;
@@ -482,9 +488,12 @@ bool wordCC::keyboardAttempt(const string& attempt)
     if (attemptUpper == currentWordString)
     {
         cout << attemptUpper << " passed!" << endl;
+        if (wordBeenWrong)
+            keyboardWrongWordCount++;
         if (++currentWord == 5) //Change to 200 for final release, 5 is for testing
             keyboardComplete();
         lastString="";
+        wordBeenWrong=false;
         return true;
     }
 
@@ -495,16 +504,20 @@ bool wordCC::keyboardAttempt(const string& attempt)
     {
         cout << "last character incorrect, adding a mistake" << endl;
         mistakes++;
+        wordBeenWrong=true;
     }
 
     if (attemptUpper.size() == currentWordString.size())
     {
+        if (wordBeenWrong)
+            keyboardWrongWordCount++;
         if (++currentWord == 5) //Change to 200 for final release, 5 is for testing
             keyboardComplete();
         lastString="";
+        wordBeenWrong=0;
         return true;
     }
-    
+
     lastString=attemptUpper;
     return false;
 

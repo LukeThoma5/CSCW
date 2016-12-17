@@ -28,6 +28,7 @@ class wordCC{
 
     std::time_t keyboardStart = std::time(0);
     int mistakes = 0;
+    int keyboardWrongWordCount = 0;
 
 public:
     wordContainer goodWords;
