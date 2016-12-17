@@ -451,16 +451,29 @@ void wordCC::keyboardComplete()
     int testLength = keyboardEnd - keyboardStart;
     cout << "#########################################\nKeyboard Test complete!\n";
     cout << "Time taken: " << testLength;
-    eventItems.push_back(to_string(testLength));
-    cout << "\nMistakes: " << mistakes;
-    eventItems.push_back(to_string(mistakes));
+
     int charCount = keyboardCharCount();
     cout << "\nTotal characters: " << charCount;
-    eventItems.push_back(to_string(charCount));
+
+    cout << "\nMistakes: " << mistakes;
+
     float mistakesPerCharacter = float(mistakes)/float(charCount);
-    eventItems.push_back(to_string(mistakesPerCharacter));
     cout << "\nMistakes per character: " << mistakesPerCharacter;
+    cout << "\nMistakes per 100 characters: " << mistakesPerCharacter * 100;
+
     cout << "\nIncorrect words: " << keyboardWrongWordCount << endl;
+
+    float timeMinutes = testLength/60;
+    int wpm = float(5)/timeMinutes;
+    cout << "\nWords per minute" << wpm << endl;
+
+    eventItems.push_back(to_string(testLength));
+    eventItems.push_back(to_string(charCount));
+    eventItems.push_back(to_string(mistakes));
+    eventItems.push_back(to_string(mistakesPerCharacter*100));
+    eventItems.push_back(to_string(keyboardWrongWordCount));
+    eventItems.push_back(to_string(wpm));
+
     SSG::histLog.addEvent(eventItems,time(0),"keyboardComplete");
     GUI_keyboard_Handler();
 }
@@ -470,13 +483,14 @@ bool wordCC::keyboardAttempt(const string& attempt)
     //cout << "Current word is " << currentWord;
     static string lastString = ""; //initialise value once to empty string
     static bool wordBeenWrong = false;
+    const int testEnd = 5;
     if (attempt.back() == ' ')
     {
         cout << "space pressed moving on!" << endl;
         lastString="";
         if (wordBeenWrong)
             keyboardWrongWordCount++;
-        if (++currentWord == 5) //Increase current word, if at limit end test
+        if (++currentWord == testEnd) //Increase current word, if at limit end test
             keyboardComplete();
         wordBeenWrong=false;
         return true; //Tell GUI to clear
@@ -490,7 +504,7 @@ bool wordCC::keyboardAttempt(const string& attempt)
         cout << attemptUpper << " passed!" << endl;
         if (wordBeenWrong)
             keyboardWrongWordCount++;
-        if (++currentWord == 5) //Change to 200 for final release, 5 is for testing
+        if (++currentWord == testEnd) //Change to 200 for final release, 5 is for testing
             keyboardComplete();
         lastString="";
         wordBeenWrong=false;
@@ -511,7 +525,7 @@ bool wordCC::keyboardAttempt(const string& attempt)
     {
         if (wordBeenWrong)
             keyboardWrongWordCount++;
-        if (++currentWord == 5) //Change to 200 for final release, 5 is for testing
+        if (++currentWord == testEnd) //Change to 200 for final release, 5 is for testing
             keyboardComplete();
         lastString="";
         wordBeenWrong=0;
