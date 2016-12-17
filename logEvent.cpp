@@ -38,3 +38,16 @@ time_t logEvent::getTime() {return eTime;}
 std::string logEvent::getType() {return eType;}
 
 std::vector<std::string> logEvent::getDataItems() {return dataItems;}
+
+string logEvent::generateEventLine()
+{
+    string retString = "";
+    stringstream retStringStream(retString);
+    retStringStream << std::hex << eTime << '+' << eType;
+    for (int i=0; i<dataItems.size(); i++)
+    {
+        retStringStream << '+' << dataItems[i];
+    }
+    retStringStream.flush();
+    return retStringStream.str();
+}

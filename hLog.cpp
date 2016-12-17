@@ -1,5 +1,6 @@
 #include "hLog.h"
 #include "logEvent.h"
+#include "SSG.h"
 
 using namespace std;
 
@@ -21,6 +22,19 @@ hLog::hLog(const std::string& saveLocation): logLocation(saveLocation)
 hLog::~hLog()
 {
     cout << "TODO add log save back to file!" << endl;
+    int sessionLoc = findTimeStart(SSG::sessionStartTime);
+    cout << log.size() - sessionLoc << " events to save to disk" << endl;
+    if (log.size()-sessionLoc) //If number of items to save to disk is not 0
+    {
+        ofstream logFile(logLocation, std::ofstream::app); //Open file in append mode to save the new events;
+        for (int i=sessionLoc; i<log.size(); i++)
+        {
+            cout << log[i].getType() << endl;
+            cout << log[i].generateEventLine() << endl;
+            logFile << log[i].generateEventLine() << endl;
+        }
+        logFile.close();
+    }
 }
 
 void hLog::addEvent(const std::string& eventLine)

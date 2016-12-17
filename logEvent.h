@@ -23,6 +23,8 @@ public:
 	std::string getType();
 
 	std::vector<std::string> getDataItems();
+
+	std::string generateEventLine();
 	
 };
 
