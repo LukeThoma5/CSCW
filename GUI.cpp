@@ -22,6 +22,7 @@ using namespace std;
 
 void speak(const string& wordToSay, const bool isCorrect);
 void say(const string& sentence);
+string makeUpperCase(const string& attempt);
 
 static void SSG_SC_Button_Return_Clicked()
 {
@@ -168,7 +169,10 @@ void SSG_KS_TextEntry_insert()
     cout << attempt << endl;
 
 	if (SSG::SpellingWords.keyboardAttempt(attempt))
+	{
 		EntryBuffer->set_text("");
+
+	}
 	/*To create a tag Gtj::TextBuffer::create_tag(string) https://developer.gnome.org/gtkmm/stable/classGtk_1_1TextBuffer.html#ad42f4e41a4cb2d5a824e2f0ffa78e973
 	  use apply_tag to with the tagref, iterator start and iterator end https://developer.gnome.org/gtkmm/stable/classGtk_1_1TextBuffer.html#ad42f4e41a4cb2d5a824e2f0ffa78e973 https://developer.gnome.org/gtkmm/stable/classGtk_1_1TextTag.html*/
 }

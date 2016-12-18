@@ -83,8 +83,6 @@ public:
 
     int keyboardCharCount();
 
-    std::string makeUpperCase(const std::string& attempt);
-
     std::string getKeyboardWords();
 
     void printTop(int start=0, int end=10);
