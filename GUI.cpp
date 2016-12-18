@@ -91,7 +91,14 @@ void SSG_MS_Button_Keyboard_Clicked()
 {
 	GUI_keyboard_Handler();
 	SSG::winContainer.KeyboardScreen->show();
-	//pSSG_KS_WordList->set_wrap_mode(Gtk::Wrap_Word);
+	//Glib::RefPtr<Gtk::TextBuffer::Tag> refTagMatch = Gtk::TextBuffer::Tag::create();
+	//refTagMatch->property_background() = "orange";
+	Gtk::TextView* testView = nullptr;
+	SSG::refBuilder->get_widget("SSG_KS_Text_LastWord", testView);
+	Glib::RefPtr<Gtk::TextBuffer> WordListBuffer =  testView->get_buffer();
+	WordListBuffer->insert_with_tag(WordListBuffer->begin(),"red","redtag");
+	WordListBuffer->insert_with_tag(WordListBuffer->begin(),"orange","orangetag");
+	WordListBuffer->insert_with_tag(WordListBuffer->begin(),"green","greentag");
 }
 
 void SSG_AS_Combo_changed()
@@ -159,11 +166,29 @@ void SSG_KS_TextEntry_insert()
     Glib::RefPtr<Gtk::EntryBuffer> EntryBuffer =  pEntry->get_buffer();
     string attempt = pEntry->get_text();
     cout << attempt << endl;
-	
+
 	if (SSG::SpellingWords.keyboardAttempt(attempt))
 		EntryBuffer->set_text("");
 	/*To create a tag Gtj::TextBuffer::create_tag(string) https://developer.gnome.org/gtkmm/stable/classGtk_1_1TextBuffer.html#ad42f4e41a4cb2d5a824e2f0ffa78e973
 	  use apply_tag to with the tagref, iterator start and iterator end https://developer.gnome.org/gtkmm/stable/classGtk_1_1TextBuffer.html#ad42f4e41a4cb2d5a824e2f0ffa78e973 https://developer.gnome.org/gtkmm/stable/classGtk_1_1TextTag.html*/
+}
+
+void addTags(string textName)
+{
+	Gtk::TextView* testView = nullptr;
+	SSG::refBuilder->get_widget(textName, testView);
+	Glib::RefPtr<Gtk::TextBuffer> WordListBuffer =  testView->get_buffer();
+	//WordListBuffer->insert_with_tag(WordListBuffer->begin(),"Test",refTagMatch);
+	WordListBuffer->create_tag("redtag");
+	WordListBuffer->create_tag("orangetag");
+	WordListBuffer->create_tag("greentag");
+	Glib::RefPtr<Gtk::TextTagTable> mytagtable = WordListBuffer->get_tag_table();
+	Glib::RefPtr<Gtk::TextTag> myTag = mytagtable->lookup("redtag");
+	myTag->property_background() = "red";
+	myTag = mytagtable->lookup("orangetag");
+	myTag->property_background() = "orange";
+	myTag = mytagtable->lookup("greentag");
+	myTag->property_background() = "green";
 }
 
 void connectSignals()
@@ -237,4 +262,7 @@ if(SSG::winContainer.SpellingScreen)
 	if (pCombo)
 		{pCombo->signal_changed().connect( sigc::ptr_fun(SSG_AS_Combo_changed) );}
 }
+
+addTags("SSG_KS_Text_LastWord");
+
 }
