@@ -40,13 +40,21 @@ void wordCC::fixwordPos(const int& goodWordLocation)
 
 void wordCC::goodWordWrong(const int& wordPosition,const std::string& attempt)
 {
-    //cout << wordList[wordPosition]->wordC << endl;
+    //Create new logEvent
+    vector<string> eventData;
+    word* eventWordp = getWord(wordPosition);
+    eventData.push_back(eventWordp->getWord()); //Push back the word in question
+    eventData.push_back(to_string(eventWordp->getwScore())); //Add its score
+    eventData.push_back(attempt); //And the attempt at the word
+    SSG::histLog.addEvent(eventData,time(0),"GoodWordWrong"); //Create the event with the current time stamp
+
+    //Begin main function purpose
     cout << "The word position is " << wordPosition << endl;
     string badWordLine = getWord(wordPosition)->wordWrong(attempt); //Generate the badwordline for the word that was wrong, wordPosition is the wordCC abs index, getword converts to wordContainer abs int then asks for the word behind that abs.
     cout << badWordLine << endl;
     badWord* badWordToAdd = new badWord(getWord(wordPosition),badWordLine); //Create a badword from the word in memory and the generated badwordline
     cout << "bad word Created" << endl;
-    //cout << badWordToAdd->wordFlags[0] << endl;
+
     int badWordLocation = badWords.addWord(badWordToAdd); //Add the badword to the badwordList
 
     //cout << "badWordLocation" << badWordLocation << endl;
@@ -54,13 +62,11 @@ void wordCC::goodWordWrong(const int& wordPosition,const std::string& attempt)
     int goodWordLocation = wordPos[wordPosition];
 
     cout << "Begining fixing abstraction" << endl;
-    goodWords.deleteWord(goodWords.getABSIndex(wordPos[wordPosition]));
-    goodBadPos[wordPosition] = true;
-    wordPos[wordPosition] = badWordLocation;
+    goodWords.deleteWord(goodWords.getABSIndex(wordPos[wordPosition])); //Remove the word from the goodWord list
+    goodBadPos[wordPosition] = true; //Set the goodBadPos to say the word is bad
+    wordPos[wordPosition] = badWordLocation; //Update the abstraction to point to the location in badWords
 
     fixwordPos(goodWordLocation);
-
-
     //Add overloaded functions that don't include which removing words or deleting words ect. Improve the add words, make indexing turn off able.
 }
 
@@ -436,7 +442,7 @@ void GUI_keyboard_Handler(); //Decleration of GUI.cpp function;
 int wordCC::keyboardCharCount()
 {
     int charTotal = 0;
-    for (int i=0; i<5; i++) //Change to 200 for final release
+    for (int i=0; i<200; i++) //Change to 200 for final release
     {
         charTotal += getCurrentWord()->getWord().size();
     }
@@ -464,7 +470,7 @@ void wordCC::keyboardComplete()
     cout << "\nIncorrect words: " << keyboardWrongWordCount << endl;
 
     float timeMinutes = testLength/60;
-    int wpm = float(5)/timeMinutes;
+    int wpm = float(200)/timeMinutes;
     cout << "\nWords per minute" << wpm << endl;
 
     eventItems.push_back(to_string(testLength));
@@ -483,7 +489,7 @@ bool wordCC::keyboardAttempt(const string& attempt)
     //cout << "Current word is " << currentWord;
     static string lastString = ""; //initialise value once to empty string
     static bool wordBeenWrong = false;
-    const int testEnd = 5;
+    const int testEnd = 200;
     if (attempt.back() == ' ')
     {
         cout << "space pressed moving on!" << endl;
