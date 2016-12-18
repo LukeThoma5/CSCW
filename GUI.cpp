@@ -160,8 +160,59 @@ void SSG_SC_TextEntry_activate()
 	EntryBuffer->set_text("");
 }
 
+void keyboard_update_last_word(const string& attemptUpper, const string& wordString)
+{
+	int end = wordString.size(); //initialise end to max size
+	if (attemptUpper.size() < end); //If attempt smaller than max reduce end
+		end = attemptUpper.size();
+
+	Gtk::TextView* KSTextView = nullptr;
+	SSG::refBuilder->get_widget("SSG_KS_Text_LastWord", KSTextView); //Get the TextView widget
+	Glib::RefPtr<Gtk::TextBuffer> TBuffer =  KSTextView->get_buffer(); //Set reference pointer to the textBuffer
+	TBuffer->set_text(""); //Remove previous text
+	string buffer=""; int bufferStart=0; bool wasLastCorrect=true; //variables for the loop, that need to be accessed outside loop
+	for (int i=0; i<end; i++)
+	{
+		if (attemptUpper[i] != wordString[i]) //If letter incorrect
+		{
+			if (wasLastCorrect) //If the buffer is for correct letters
+			{
+				if (buffer != "") //If the buffer is not empty
+					TBuffer->insert_with_tag(TBuffer->get_iter_at_offset(bufferStart),buffer,"greentag"); //Flush the buffer to screen with green text
+				bufferStart=i; //Update the offset for the insert iterator
+				buffer=attemptUpper[i]; //Clear the buffer and set first value to new incorrect value
+				wasLastCorrect=false; //Mark buffer as incorrect
+			}
+			else //If buffer was previously wrong, add to buffer
+				buffer+=attemptUpper[i];
+			continue; //Soft break loop, don't execute next code
+		}
+
+		//letter must now be correct
+		if (wasLastCorrect) //If buffer correct, add to buffer
+			buffer+=attemptUpper[i];
+		else
+		{
+			if (buffer != "") //If buffer not empty flush bad characters
+				TBuffer->insert_with_tag(TBuffer->get_iter_at_offset(bufferStart),buffer,"redtag");
+			bufferStart=i;
+			buffer=attemptUpper[i];
+			wasLastCorrect=true;
+		}
+	}
+
+	if (buffer != "") //If still got buffer to flush, flush appropriately
+	{
+		if (wasLastCorrect)
+			TBuffer->insert_with_tag(TBuffer->get_iter_at_offset(bufferStart),buffer,"greentag");
+		else
+			TBuffer->insert_with_tag(TBuffer->get_iter_at_offset(bufferStart),buffer,"redtag");
+	}
+}
+
 void SSG_KS_TextEntry_insert()
 {
+	string currentWordString = SSG::SpellingWords.getCurrentWord()->getWord();
 	Gtk::Entry* pEntry = nullptr;
     SSG::refBuilder->get_widget("SSG_KS_TextEntry",pEntry);
     Glib::RefPtr<Gtk::EntryBuffer> EntryBuffer =  pEntry->get_buffer();
@@ -170,8 +221,8 @@ void SSG_KS_TextEntry_insert()
 
 	if (SSG::SpellingWords.keyboardAttempt(attempt))
 	{
+		keyboard_update_last_word(makeUpperCase(attempt), currentWordString);
 		EntryBuffer->set_text("");
-
 	}
 	/*To create a tag Gtj::TextBuffer::create_tag(string) https://developer.gnome.org/gtkmm/stable/classGtk_1_1TextBuffer.html#ad42f4e41a4cb2d5a824e2f0ffa78e973
 	  use apply_tag to with the tagref, iterator start and iterator end https://developer.gnome.org/gtkmm/stable/classGtk_1_1TextBuffer.html#ad42f4e41a4cb2d5a824e2f0ffa78e973 https://developer.gnome.org/gtkmm/stable/classGtk_1_1TextTag.html*/
