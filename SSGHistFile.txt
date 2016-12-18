@@ -1,2 +1,3 @@
 585563fa+keyboardComplete+60+35+1+2.857143+1+5
 5856902d+GoodWordWrong+SLEDGE+5.369318+sleddge
+5856df54+keyboardComplete+458+1200+71+5.916667+42+28

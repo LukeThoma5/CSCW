@@ -223,6 +223,12 @@ void SSG_KS_TextEntry_insert()
 	{
 		keyboard_update_last_word(makeUpperCase(attempt), currentWordString);
 		EntryBuffer->set_text("");
+
+		Gtk::TextView* KSTextView = nullptr;
+		SSG::refBuilder->get_widget("SSG_KS_Text_CurrentWord", KSTextView); //Get the TextView widget
+		Glib::RefPtr<Gtk::TextBuffer> TBuffer =  KSTextView->get_buffer(); //Set reference pointer to the textBuffer
+		TBuffer->set_text(SSG::SpellingWords.getCurrentWord()->getWord()); //Set buffer to the new word
+
 	}
 	/*To create a tag Gtj::TextBuffer::create_tag(string) https://developer.gnome.org/gtkmm/stable/classGtk_1_1TextBuffer.html#ad42f4e41a4cb2d5a824e2f0ffa78e973
 	  use apply_tag to with the tagref, iterator start and iterator end https://developer.gnome.org/gtkmm/stable/classGtk_1_1TextBuffer.html#ad42f4e41a4cb2d5a824e2f0ffa78e973 https://developer.gnome.org/gtkmm/stable/classGtk_1_1TextTag.html*/
