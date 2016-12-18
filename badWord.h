@@ -22,6 +22,8 @@ public:
 
 	badWord(const word* createFrom, std::string badWordLine);
 
+	std::vector<int> getSyllableWrongCount();
+
 	virtual std::string wordWrong(const std::string& attempt);
 
 	virtual void determineScore();

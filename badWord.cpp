@@ -96,3 +96,5 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 		wScore *= weight;
 		//cout << "Final score for " << wordC << wScore << endl;
 	}
+
+	vector<int> badWord::getSyllableWrongCount() {return syllableWrongCount;}

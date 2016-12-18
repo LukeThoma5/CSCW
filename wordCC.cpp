@@ -97,7 +97,7 @@ void wordCC::combineWordLists()
 
             else
             {
-                if (goodWords.at(leftPos)->getwScore() >= badWords.at(leftPos)->getwScore()) //If the wrongCount the leftvector postition points to is greater than the the wrongCount the rightvector postition points to
+                if (goodWords.at(leftPos)->getwScore() >= badWords.at(rightPos)->getwScore()) //If the wrongCount the leftvector postition points to is greater than the the wrongCount the rightvector postition points to
                 {
                     //cout << "Adding word " << leftPos << true;
                     wordPos.push_back(leftPos++); //Add the leftvector position
@@ -381,6 +381,16 @@ void wordCC::badwordCorrect(const int& wordPosition)
 
     if (needsFixing)
     {
+        //Create data for logEvent;
+        vector<string> dataItems;
+        badWord* bwordToFix = badWords.getBadWord(wordPos[wordPosition]);
+        dataItems.push_back(bwordToFix->getWord()); //Add the word
+        vector<int> bwordSWC = bwordToFix->getSyllableWrongCount();
+        for (unsigned int i=0; i<bwordSWC.size(); i++) //Add the syllableWrongCounts
+            dataItems.push_back(to_string(bwordSWC[i]));
+        SSG::histLog.addEvent(dataItems, time(0), "bwordToCorrect");
+
+        //Move badword from badWords to a word in goodWords
         cout << "Score has fallen to 0! need to delete!" << endl;
         printwordCC();
         cout << "Word is bad and has value " << getWord(wordPosition)->getWord() << endl;
@@ -400,8 +410,8 @@ void wordCC::badwordCorrect(const int& wordPosition)
         for (int i=0; i<goodBadPos.size(); i++)
         {
             if (goodBadPos[i]==true) //if a bad word
-                if (i>wordPosition)
-                    wordPos[i]--;
+                if (i>wordPosition) //if later in the list than the deleted word
+                    wordPos[i]--; //Update the position
         }
 
         printwordCC();
