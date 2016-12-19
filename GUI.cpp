@@ -146,68 +146,82 @@ string seperateWord(const string& wordToSep)
 	return retString;
 }
 
-void SSG_SC_TextEntry_activate()
-{
-    //cout << "Entered function" << endl;
-    Gtk::Entry* pEntry = nullptr;
-    SSG::refBuilder->get_widget("SSG_SC_TextEntry",pEntry);
-    Glib::RefPtr<Gtk::EntryBuffer> EntryBuffer =  pEntry->get_buffer();
-    string attempt = pEntry->get_text();
-    cout << attempt << endl;
-
-	SSG::SpellingWords.spellingAttempt(attempt);
-
-	EntryBuffer->set_text("");
-}
-
-void keyboard_update_last_word(const string& attemptUpper, const string& wordString)
+void keyboard_update_last_word(const string& attemptUpper, const string& wordString, const string& tViewName="SSG_KS_Text_LastWord")
 {
 	int end = wordString.size(); //initialise end to max size
 	if (attemptUpper.size() < end); //If attempt smaller than max reduce end
 		end = attemptUpper.size();
 
 	Gtk::TextView* KSTextView = nullptr;
-	SSG::refBuilder->get_widget("SSG_KS_Text_LastWord", KSTextView); //Get the TextView widget
+	SSG::refBuilder->get_widget(tViewName, KSTextView); //Get the TextView widget
 	Glib::RefPtr<Gtk::TextBuffer> TBuffer =  KSTextView->get_buffer(); //Set reference pointer to the textBuffer
 	TBuffer->set_text(""); //Remove previous text
-	string buffer=""; int bufferStart=0; bool wasLastCorrect=true; //variables for the loop, that need to be accessed outside loop
-	for (int i=0; i<end; i++)
+	if (attemptUpper == wordString) //If all correct, no need to check individual letters, mark all green
 	{
-		if (attemptUpper[i] != wordString[i]) //If letter incorrect
+		TBuffer->insert_with_tag(TBuffer->begin(),wordString,"greentag");
+	}
+	else
+	{
+		string buffer=""; int bufferStart=0; bool wasLastCorrect=true; //variables for the loop, that need to be accessed outside loop
+		for (int i=0; i<end; i++)
 		{
-			if (wasLastCorrect) //If the buffer is for correct letters
+			if (attemptUpper[i] != wordString[i]) //If letter incorrect
 			{
-				if (buffer != "") //If the buffer is not empty
-					TBuffer->insert_with_tag(TBuffer->get_iter_at_offset(bufferStart),buffer,"greentag"); //Flush the buffer to screen with green text
-				bufferStart=i; //Update the offset for the insert iterator
-				buffer=attemptUpper[i]; //Clear the buffer and set first value to new incorrect value
-				wasLastCorrect=false; //Mark buffer as incorrect
+				if (wasLastCorrect) //If the buffer is for correct letters
+				{
+					if (buffer != "") //If the buffer is not empty
+						TBuffer->insert_with_tag(TBuffer->get_iter_at_offset(bufferStart),buffer,"greentag"); //Flush the buffer to screen with green text
+					bufferStart=i; //Update the offset for the insert iterator
+					buffer=attemptUpper[i]; //Clear the buffer and set first value to new incorrect value
+					wasLastCorrect=false; //Mark buffer as incorrect
+				}
+				else //If buffer was previously wrong, add to buffer
+					buffer+=attemptUpper[i];
+				continue; //Soft break loop, don't execute next code
 			}
-			else //If buffer was previously wrong, add to buffer
+
+			//letter must now be correct
+			if (wasLastCorrect) //If buffer correct, add to buffer
 				buffer+=attemptUpper[i];
-			continue; //Soft break loop, don't execute next code
+			else
+			{
+				if (buffer != "") //If buffer not empty flush bad characters
+					TBuffer->insert_with_tag(TBuffer->get_iter_at_offset(bufferStart),buffer,"redtag");
+				bufferStart=i;
+				buffer=attemptUpper[i];
+				wasLastCorrect=true;
+			}
 		}
 
-		//letter must now be correct
-		if (wasLastCorrect) //If buffer correct, add to buffer
-			buffer+=attemptUpper[i];
-		else
+		if (buffer != "") //If still got buffer to flush, flush appropriately
 		{
-			if (buffer != "") //If buffer not empty flush bad characters
+			if (wasLastCorrect)
+				TBuffer->insert_with_tag(TBuffer->get_iter_at_offset(bufferStart),buffer,"greentag");
+			else
 				TBuffer->insert_with_tag(TBuffer->get_iter_at_offset(bufferStart),buffer,"redtag");
-			bufferStart=i;
-			buffer=attemptUpper[i];
-			wasLastCorrect=true;
 		}
 	}
+}
 
-	if (buffer != "") //If still got buffer to flush, flush appropriately
-	{
-		if (wasLastCorrect)
-			TBuffer->insert_with_tag(TBuffer->get_iter_at_offset(bufferStart),buffer,"greentag");
-		else
-			TBuffer->insert_with_tag(TBuffer->get_iter_at_offset(bufferStart),buffer,"redtag");
-	}
+void SSG_SC_TextEntry_activate()
+{
+	//Get attempt from TextEntry
+    Gtk::Entry* pEntry = nullptr;
+    SSG::refBuilder->get_widget("SSG_SC_TextEntry",pEntry);
+    Glib::RefPtr<Gtk::EntryBuffer> EntryBuffer =  pEntry->get_buffer();
+    string attempt = pEntry->get_text();
+
+	//Update textview to indicate success
+	string correctSpelling = SSG::SpellingWords.getCurrentWord()->getWord();
+	EntryBuffer->set_text("");
+	Gtk::TextView* pText = nullptr;
+	SSG::refBuilder->get_widget("SSG_SC_Text_CorrectSpelling", pText);
+	Glib::RefPtr<Gtk::TextBuffer> TextBuffer = pText->get_buffer();
+	TextBuffer->set_text(correctSpelling);
+	keyboard_update_last_word(makeUpperCase(attempt), correctSpelling, "SSG_SC_Text_AttemptedSpelling");
+
+	//Update word Logic
+	SSG::SpellingWords.spellingAttempt(attempt);
 }
 
 void SSG_KS_TextEntry_insert()
@@ -325,5 +339,6 @@ if(SSG::winContainer.SpellingScreen)
 }
 
 addTags("SSG_KS_Text_LastWord");
+addTags("SSG_SC_Text_AttemptedSpelling");
 
 }

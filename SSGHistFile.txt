@@ -1,3 +1,6 @@
 585563fa+keyboardComplete+60+35+1+2.857143+1+5
 5856902d+GoodWordWrong+SLEDGE+5.369318+sleddge
 5856df54+keyboardComplete+458+1200+71+5.916667+42+28
+58580300+GoodWordWrong+CHALLIS+5.875000+chalis
+5858030e+GoodWordWrong+ROULEAU+5.875000+rolow
+5858039e+GoodWordWrong+EVASIVE+5.500000+amazing
