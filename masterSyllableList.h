@@ -36,6 +36,8 @@ public:
 
 	int size();
 
+	bool hasNoValues();
+
 	std::string operator[](int syllableToGet)
 	{
 		return syllables[syllableToGet];

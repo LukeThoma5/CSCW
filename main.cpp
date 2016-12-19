@@ -251,19 +251,13 @@ int main (int argc, char **argv)
 	}
 	*/
 
-	wordContainer allWords("finalDictwithDef.txt");
-
-
-	SSG::goodWordList = &allWords;
-	//SSG::badWordList = &allBadWords;
-
-	cout << SSG::goodWordList->wordList[1]->wordC << endl;
 
 	printVector(SSG::MSL.syllables);
 
 	// printVector(SSG::MSL.wrongCount);
 
-	createRandomWordWrongCounts();
+	if (SSG::MSL.hasNoValues())
+		createRandomWordWrongCounts();
 
 	printVector(SSG::MSL.wrongCount);
 

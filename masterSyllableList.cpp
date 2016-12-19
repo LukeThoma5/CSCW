@@ -208,3 +208,15 @@ using namespace std;
 	{
 		return wrongCount[syllableMap[syllable]];
 	}
+
+	bool masterSyllablesList::hasNoValues()
+	{
+		return true; //For testing purposes allways have random wrong createRandomWordWrongCounts
+
+		for (int i=0; i<syllables.size(); i++) //For every syllable
+		{
+			if (wrongCount[i] != 0) //If a syllable has a value, exit
+				return false;
+		}
+		return true; //All values must be 0, create random values
+	}

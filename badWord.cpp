@@ -41,7 +41,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 		}
 
 		wordFlags[0] = true;
-
+		addToMSLTotal(syllableWrongCount);
 		determineScore();
 		//badWordCount++;
 	}

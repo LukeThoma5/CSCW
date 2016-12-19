@@ -332,7 +332,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 
 		cout << badWordLine << endl;
 
-		addToMSLTotal(syllableWrongCount);
+		//addToMSLTotal(syllableWrongCount);
 
 		return badWordLine;
 
