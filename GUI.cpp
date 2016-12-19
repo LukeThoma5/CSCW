@@ -55,16 +55,22 @@ void SSG_MS_Button_Games_Clicked()
 	SSG::SpellingWords.findSpellingWords();
 }
 
+void definitionHelper(const string& widgetName)
+{
+	Gtk::TextView* pText_DefintionBox = nullptr;
+    SSG::refBuilder->get_widget(widgetName,pText_DefintionBox);
+    Glib::RefPtr<Gtk::TextBuffer> DefinitionBuffer =  pText_DefintionBox->get_buffer();
+    DefinitionBuffer->set_text(SSG::SpellingWords.getCurrentWord()->getDefinition());
+}
+
 void SSG_SC_Button_Definition_Clicked()
 {
-  cout << "Insert definition here" << endl;
-  Gtk::TextView* pSSG_SC_Text_DefintionBox = nullptr;
-  SSG::refBuilder->get_widget("SSG_SC_Text_DefinitionBox",pSSG_SC_Text_DefintionBox);
-  Glib::RefPtr<Gtk::TextBuffer> DefinitionBuffer =  pSSG_SC_Text_DefintionBox->get_buffer();
-  word* cWord = SSG::SpellingWords.getCurrentWord();
+  definitionHelper("SSG_SC_Text_DefinitionBox");
+}
 
-  DefinitionBuffer->set_text(cWord->definition);
- // pSSG_SC_Text_DefintionBox->set_buffer(m_refTextBuffer2);
+void SSG_KS_Button_Definition_Clicked()
+{
+	definitionHelper("SSG_KS_Text_DefinitionBox");
 }
 
 void SSG_SC_Button_Play_Clicked()
@@ -315,6 +321,11 @@ if(SSG::winContainer.SpellingScreen)
 	SSG::refBuilder->get_widget("SSG_SC_Button_Definition", pButton);
 	if(pButton)
 		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_SC_Button_Definition_Clicked) );}
+
+	pButton = nullptr;
+	SSG::refBuilder->get_widget("SSG_KS_Button_Definition", pButton);
+	if(pButton)
+		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_KS_Button_Definition_Clicked) );}
 
 	pButton = nullptr;
 	SSG::refBuilder->get_widget("SSG_SC_Button_Play", pButton);
