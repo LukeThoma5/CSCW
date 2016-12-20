@@ -11,6 +11,7 @@
 #include "wordCC.h"
 #include "hLog.h"
 #include "SSG.h"
+#include "randng.h"
 
 using namespace std;
 
@@ -314,6 +315,20 @@ void wordCC::findKeyboardWords()
     cout << "FINDING KEYBOARD WORDS" << endl;
     generatewScore();// Now goodwords and badwords have sorted list
     findHardest();
+
+    for (int i=50; i<200; i++)
+    {
+        int location = randNG(i,size()-1); //Pick a random location that is further than the current position
+        int itemp = wordPos[i]; //Cache the value at the current location
+        bool btemp = goodBadPos[i];
+
+        wordPos[i] = wordPos[location]; //Set the current location to the random value
+        goodBadPos[i] = goodBadPos[location];
+
+        wordPos[location] = itemp; //Set the random location to the previous value
+        goodBadPos[location] = btemp;
+    }
+
     int goodShortFall = notHave30goodWords();
     if (goodShortFall) //If not 0 more goodwords to add
     {
