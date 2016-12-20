@@ -98,3 +98,15 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 	}
 
 	vector<int> badWord::getSyllableWrongCount() {return syllableWrongCount;}
+
+	string badWord::getBadWordLine()
+	{
+		string badwordLine = wordC + '+' + to_string(weight);
+
+		for (int i=0; i<syllableWrongCount.size(); i++)
+		{
+			badwordLine += '+' + to_string(syllableWrongCount[i]);
+		}
+
+		return badwordLine;
+	}

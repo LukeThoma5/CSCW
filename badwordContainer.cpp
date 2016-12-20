@@ -11,12 +11,12 @@
 
 using namespace std;
 
-badwordContainer::badwordContainer(): wordContainer()
-{
-    cout << "badwordContainer created!" << endl;
-}
+// badwordContainer::badwordContainer(): wordContainer()
+// {
+//     cout << "badwordContainer created!" << endl;
+// }
 
-badwordContainer::badwordContainer(wordContainer& fullWordList, string filename) //For use when building a bwordContainer from a file and the current known words
+badwordContainer::badwordContainer(wordContainer& fullWordList, string filename) : saveLocation(filename) //For use when building a bwordContainer from a file and the current known words
 {
     vector<string> wrongWordVector = loadDictFile(filename);
     unsigned int wrongWordVectorSize = wrongWordVector.size();
@@ -68,4 +68,12 @@ badWord* badwordContainer::getBadWord(int wordToGet)
 
     //Add boundry checking and exception handling
     //Go back to fixing wordContainer::wordWrong
+}
+
+badwordContainer::~badwordContainer()
+{
+    for (unsigned int i=0; i<wordList.size(); i++)
+    {
+        cout << static_cast<badWord*>(wordList[i])->getBadWordLine() << endl;
+    }
 }

@@ -21,10 +21,10 @@ void speak(const string& wordToSay, const bool isCorrect);
 void say(const string& sentence);
 string seperateWord(const string& wordToSep);
 
-wordCC::wordCC()
-{
-    cout << "Default wordCC constructor called!" << endl;
-}
+// wordCC::wordCC()
+// {
+//     cout << "Default wordCC constructor called!" << endl;
+// }
 
 void wordCC::fixwordPos(const int& goodWordLocation)
 {

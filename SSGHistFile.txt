@@ -4,3 +4,6 @@
 58580300+GoodWordWrong+CHALLIS+5.875000+chalis
 5858030e+GoodWordWrong+ROULEAU+5.875000+rolow
 5858039e+GoodWordWrong+EVASIVE+5.500000+amazing
+585954ab+GoodWordWrong+TATTOO+5.250000+bloodthirsty
+585954b5+GoodWordWrong+CHAISE+5.090909+chase
+5859559a+GoodWordWrong+GALLIUM+5.666667+galk

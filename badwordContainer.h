@@ -9,6 +9,7 @@
 #include "wordContainer.h"
 
 class badwordContainer : public wordContainer {
+	const std::string saveLocation;
 public:
     badwordContainer();
 
@@ -19,6 +20,8 @@ public:
     std::vector<std::string> getBadWordList();
 
     badWord* getBadWord(int wordToGet);
+
+    ~badwordContainer();
 
 };
 
