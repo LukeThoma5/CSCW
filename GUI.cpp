@@ -90,8 +90,11 @@ void GUI_keyboard_Handler()
 	if (SSG::SpellingWords.size() < 200) //If not enough words, close the screen
 	{
 		SSG::winContainer.KeyboardScreen->hide();
-		cout << "Not enough words to create the test, exiting";
-		//TODO add dialog for visual use
+		cout << "Not enough words to create the test, exiting" << endl;
+
+		Gtk::MessageDialog dialog(*SSG::winContainer.MainScreen, "Not enough words!");
+		dialog.set_secondary_text("You cannot use the keyboard mode with less than 200 words, only " + to_string(SSG::SpellingWords.size()) + " words have been loaded. Please change the loaded dictionary to access this mode.");
+		dialog.run();
 	}
 	else
 	{
