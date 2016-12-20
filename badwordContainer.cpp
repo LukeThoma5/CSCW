@@ -72,8 +72,9 @@ badWord* badwordContainer::getBadWord(int wordToGet)
 
 badwordContainer::~badwordContainer()
 {
+    ofstream badWordFile(saveLocation, std::ofstream::out); //Open file for writing
     for (unsigned int i=0; i<wordList.size(); i++)
     {
-        cout << static_cast<badWord*>(wordList[i])->getBadWordLine() << endl;
+        badWordFile << static_cast<badWord*>(wordList[i])->getBadWordLine() << endl; //Write the badWordLine to the file
     }
 }

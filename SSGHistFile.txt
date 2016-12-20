@@ -7,3 +7,4 @@
 585954ab+GoodWordWrong+TATTOO+5.250000+bloodthirsty
 585954b5+GoodWordWrong+CHAISE+5.090909+chase
 5859559a+GoodWordWrong+GALLIUM+5.666667+galk
+58595770+GoodWordWrong+BARRIER+5.400000+barier
