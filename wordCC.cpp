@@ -297,16 +297,16 @@ void wordCC::findSpellingWords()
     findHardest();
 }
 
-bool wordCC::notHave30goodWords()
+int wordCC::notHave30goodWords()
 {
     int goodCount=0;
     for (int i=0; i<200; i++)
     {
         if (goodBadPos[i] == false)
             if (++goodCount == 30)
-                return false;
+                return 0;
     }
-    return true;
+    return 30-goodCount;
 }
 
 void wordCC::findKeyboardWords()
@@ -314,8 +314,21 @@ void wordCC::findKeyboardWords()
     cout << "FINDING KEYBOARD WORDS" << endl;
     generatewScore();// Now goodwords and badwords have sorted list
     findHardest();
-    if (notHave30goodWords())
-        cout << "SOMETHINE HAS GONE HORRIBLY WRONG IN findKeyboardWords!" << endl;
+    int goodShortFall = notHave30goodWords();
+    if (goodShortFall) //If not 0 more goodwords to add
+    {
+        cout << "Adding more goodWords to the test" << endl;
+        for (int i=goodWords.size()-1-goodShortFall, j=199-goodShortFall; i<goodWords.size(); i++,j++)
+        {
+            goodBadPos[j] = false;  //Set the word to be goodBadPos
+            wordPos[j] = i;
+        }
+
+        //Verify 30 good words
+        if (notHave30goodWords())
+            cout << "KEYBOARD DOES NOT HAVE 30 GOOD WORDS!" << endl;
+    }
+
 
     currentWord = 0;
     mistakes = 0;

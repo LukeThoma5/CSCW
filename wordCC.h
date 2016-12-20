@@ -24,7 +24,7 @@ class wordCC{
 
     void removeDuplicates(const std::vector<std::string>& dupWords);
 
-    bool notHave30goodWords();
+    int notHave30goodWords();
 
     std::time_t keyboardStart = std::time(0);
     int mistakes = 0;
