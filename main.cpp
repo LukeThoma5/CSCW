@@ -35,10 +35,10 @@ namespace SSG {
 	wordContainer* badWordList = NULL; //Defaulting to null prevents manipulating objects that don't exist.
 	Glib::RefPtr<Gtk::Builder> refBuilder;
 	windowContainer winContainer;
-	wordCC SpellingWords("finalDictwithDef.txt", "wrongWords.txt");
+	//wordCC SpellingWords("finalDictwithDef.txt", "wrongWords.txt");
+	wordCC SpellingWords("shortDict.txt", "shortwrongWords.txt");
 	hLog histLog("SSGHistFile.txt");
 	time_t sessionStartTime = time(0);
-	//wordCC SpellingWords("shortDict.txt", "wrongWords.txt");
 }
 
 
@@ -214,44 +214,6 @@ int main (int argc, char **argv)
 	SSG::winContainer.addWindows(SSG::refBuilder);
 	connectSignals();
 
-    //Get the GtkBuilder-instantiated Dialog:
-	//Gtk::Window* MainScreen;
-
-	//refBuilder->get_widget("SSG_Spelling_Screen", pDialog);
-	//refBuilder->get_widget("SSG_Main_Screen", MainScreen);
-
-
-	/*
-	SSG::MSL = masterSyllablesList();
-	SSG::goodWordList = NULL;
-	SSG::badWordList = NULL;
-	*/
-
-	/*
-	vector<string> dictVec = loadDictFile();
-
-	//cout << dictVec[0] << endl;
-	//cout << dictVec[dictVec.size()-1] << endl;
-
-	vector<word> wordList;
-
-	//Load all the words from the word list
-	for (unsigned int i=0; i<dictVec.size(); i++)
-	{
-		//word* newWord = new word(dictVec[i]);
-		//wordList.push_back(*newWord);
-		//delete newWord;
-		wordList.push_back(word(dictVec[i]));
-	}
-
-	/*
-	for (unsigned int i=0; i<3; i++)
-	{
-		cout << wordList[i].wordC  << ": "<< wordList[i].definition << endl;
-	}
-	*/
-
-
 	printVector(SSG::MSL.syllables);
 
 	// printVector(SSG::MSL.wrongCount);
@@ -265,46 +227,8 @@ int main (int argc, char **argv)
 
 	cout << "List sorted ---------------------------------------------" << endl;
 
-	//printVector(SSG::MSL.syllables);
-	//printVector(SSG::MSL.wrongCount);
-	//cout << findWordLocation("ALLURING",wordList) << endl;
-	//cout << allWords.findWordLocation("BOIL") << endl;
-	//cout << SSG::goodWordList->findWordLocation("BOIL") << endl;
-	//int boilLocation = allWords.findWordLocation("ADEQUATELY");
-	//cout << boilLocation << endl;
-	//cout << allWords.wordList[boilLocation]->wordC << endl;
-	//allWords.wordList[boilLocation]->wordWrong("ADEKUAT3IYY",SSG::badWordList);
-	//allWords.wordWrong(boilLocation,"ADEKUAT3IYY",&allWords);
-	//badWord* test2 = SSG::badWordList->getBadWord(0);
-	//printVector(SSG::badWordList->getBadWord(0)->syllableWrongCount);
-	//printVector(static_cast<badWord*>(SSG::badWordList->wordList[0])->syllableWrongCount);
-	//wordCC SpellingWords("shortDict.txt", "wrongWords.txt");
-
-	//SSG::SpellingWords.generatewScore();
-
-	//SSG::SpellingWords.findHardest();
-
-	//SSG::SpellingWords.printTop();
-
-
-	//callTest(allWords.wordList[0]);
-	//speak(SpellingWords[0]->getWord());
-	//speak(SpellingWords[1]->getWord());
-	//string toSearch = "ADEQUATELY";
-	//SpellingWords.findRealWordLocation(toSearch);
-	//string testString = "ATTEMPTO+AH0+T+EH1+M+P+T+OW1+#DEF+The latin for test";
-	//SpellingWords.addWord(new word(testString));
-	//SpellingWords.wordWrong(0,"SNAPY");
-	//word* wordToGetWrong = SpellingWords[4];
-	//SpellingWords.wordWrong(4,wordToGetWrong->getWord().substr(1,wordToGetWrong->getWord().size()));
-	//SpellingTest(SpellingWords);
-	//SpellingTest(SpellingWords);
-
-	//app->run(*pDialog);
 	app->run(*(SSG::winContainer.MainScreen));
 
-
-	//delete pDialog;
 
 	cout << "Returning to OS" << endl;
 

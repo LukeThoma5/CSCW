@@ -279,6 +279,8 @@ int wordCC::getCurrentPosition()
     return currentWord;
 }
 
+int wordCC::size() {return goodWords.size()+badWords.size();}
+
 void wordCC::nextWord()
 {
     if (++currentWord == (goodWords.size()+badWords.size())) //Increase the currentword THEN compare it with the total amount of words
@@ -325,6 +327,7 @@ void wordCC::findKeyboardWords()
 
 string wordCC::getKeyboardWords()
 {
+    cout << "Getting keyboard words" << endl;
     string retString = "";
     for (int i=0; i<200; i++)
     {

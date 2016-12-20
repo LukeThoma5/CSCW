@@ -87,17 +87,26 @@ void SSG_MS_Button_Spelling_Clicked()
 
 void GUI_keyboard_Handler()
 {
-	SSG::SpellingWords.findKeyboardWords();
-	Gtk::TextView* pSSG_KS_WordList = nullptr;
-	SSG::refBuilder->get_widget("SSG_KS_WordList",pSSG_KS_WordList);
-	Glib::RefPtr<Gtk::TextBuffer> WordListBuffer =  pSSG_KS_WordList->get_buffer();
-	WordListBuffer->set_text(SSG::SpellingWords.getKeyboardWords());
+	if (SSG::SpellingWords.size() < 200) //If not enough words, close the screen
+	{
+		SSG::winContainer.KeyboardScreen->hide();
+		cout << "Not enough words to create the test, exiting";
+		//TODO add dialog for visual use
+	}
+	else
+	{
+		SSG::SpellingWords.findKeyboardWords();
+		Gtk::TextView* pSSG_KS_WordList = nullptr;
+		SSG::refBuilder->get_widget("SSG_KS_WordList",pSSG_KS_WordList);
+		Glib::RefPtr<Gtk::TextBuffer> WordListBuffer =  pSSG_KS_WordList->get_buffer();
+		WordListBuffer->set_text(SSG::SpellingWords.getKeyboardWords());
+	}
 }
 
 void SSG_MS_Button_Keyboard_Clicked()
 {
-	GUI_keyboard_Handler();
 	SSG::winContainer.KeyboardScreen->show();
+	GUI_keyboard_Handler();
 	//Glib::RefPtr<Gtk::TextBuffer::Tag> refTagMatch = Gtk::TextBuffer::Tag::create();
 	//refTagMatch->property_background() = "orange";
 	Gtk::TextView* testView = nullptr;

@@ -40,6 +40,8 @@ public:
     wordCC();
     wordCC(std::string goodFilename, std::string badFilename);
 
+    int size();
+
     void generatewScore();
 
     void findHardest();
