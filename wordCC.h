@@ -27,6 +27,7 @@ class wordCC{
     int notHave30goodWords();
 
     std::time_t keyboardStart = std::time(0);
+    std::time_t spellingStart = std::time(0);
     int mistakes = 0;
     int keyboardWrongWordCount = 0;
 

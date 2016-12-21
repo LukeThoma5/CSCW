@@ -287,7 +287,18 @@ void wordCC::nextWord()
     if (++currentWord == (goodWords.size()+badWords.size())) //Increase the currentword THEN compare it with the total amount of words
     {
         //If out of words, reset currentWord and regenerateSpellingWords
-        currentWord = 0;
+        currentWord = 0; //Reset word to the start
+
+        //Create the overflow event
+        time_t currentTime = time(0);
+        vector<string> dataItems;
+        int timeTaken = currentTime - spellingStart;
+        dataItems.push_back(to_string(timeTaken)); //Time taken
+        dataItems.push_back(to_string(goodWords.size())); //Amount of goodwords
+        dataItems.push_back(to_string(badWords.size())); //Amount of badWords
+        SSG::histLog.addEvent(dataItems,currentTime,"SpellingOverFlow"); //Add the event to the log
+
+        //Regenerate scores
         findSpellingWords();
     }
 }
@@ -296,6 +307,7 @@ void wordCC::findSpellingWords()
 {
     generatewScore();
     findHardest();
+    spellingStart = time(0);
 }
 
 int wordCC::notHave30goodWords()
@@ -316,6 +328,7 @@ void wordCC::findKeyboardWords()
     generatewScore();// Now goodwords and badwords have sorted list
     findHardest();
 
+    //Make the last 150 words random
     for (int i=50; i<200; i++)
     {
         int location = randNG(i,size()-1); //Pick a random location that is further than the current position
@@ -329,6 +342,7 @@ void wordCC::findKeyboardWords()
         goodBadPos[location] = btemp;
     }
 
+    //Check that the 200 words has atleast 300 good words
     int goodShortFall = notHave30goodWords();
     if (goodShortFall) //If not 0 more goodwords to add
     {
