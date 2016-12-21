@@ -30,6 +30,7 @@ class wordCC{
     std::time_t spellingStart = std::time(0);
     int mistakes = 0;
     int keyboardWrongWordCount = 0;
+    int spellingWrongWordCount = 0;
 
 public:
     wordContainer goodWords;
@@ -75,6 +76,8 @@ public:
     void printwordCC(int stop=0);
 
     void spellingAttempt(const std::string& attempt);
+
+    void userEndSpellingTest();
 
     void findSpellingWords();
 

@@ -28,6 +28,7 @@ static void SSG_SC_Button_Return_Clicked()
 {
 	if(SSG::winContainer.SpellingScreen)
 		SSG::winContainer.SpellingScreen->hide(); //hide() will close the window but keep the program running
+	SSG::SpellingWords.userEndSpellingTest(); //Create log event if appropriate
 }
 
 static void SSG_KS_Button_Return_Clicked()

@@ -41,6 +41,7 @@ void wordCC::fixwordPos(const int& goodWordLocation)
 
 void wordCC::goodWordWrong(const int& wordPosition,const std::string& attempt)
 {
+    spellingWrongWordCount++; //Increase the number of incorrect words this run
     //Create new logEvent
     vector<string> eventData;
     word* eventWordp = getWord(wordPosition);
@@ -303,11 +304,25 @@ void wordCC::nextWord()
     }
 }
 
+void wordCC::userEndSpellingTest()
+{
+    if (currentWord != 0) //If an actual test and not someone exiting after a SpellingOverFlow
+    {
+        vector<string> dataItems;
+        int timeTaken = time(0) - spellingStart;
+        dataItems.push_back(to_string(timeTaken)); //Time taken
+        dataItems.push_back(to_string(spellingWrongWordCount)); //Number of incorrect words
+        dataItems.push_back(to_string(currentWord)); //Number of words tested
+        SSG::histLog.addEvent(dataItems,time(0),"SpellingTestComplete");
+    }
+}
+
 void wordCC::findSpellingWords()
 {
     generatewScore();
     findHardest();
-    spellingStart = time(0);
+    spellingStart = time(0); //Reset spellingStart
+    spellingWrongWordCount = 0; //Reset wrongCount
 }
 
 int wordCC::notHave30goodWords()

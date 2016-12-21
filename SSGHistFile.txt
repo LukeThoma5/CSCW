@@ -11,3 +11,5 @@
 585a9bcb+SpellingOverFlow+50+12+2
 585a9fe5+GoodWordWrong+ABACK+3.863636+abba
 585aa01d+SpellingOverFlow+78+11+3
+585aa465+GoodWordWrong+ABATEMENT+3.352273+abament
+585aa46b+SpellingTestComplete+45+1+5
