@@ -41,7 +41,6 @@ void wordCC::fixwordPos(const int& goodWordLocation)
 
 void wordCC::goodWordWrong(const int& wordPosition,const std::string& attempt)
 {
-    spellingWrongWordCount++; //Increase the number of incorrect words this run
     //Create new logEvent
     vector<string> eventData;
     word* eventWordp = getWord(wordPosition);
@@ -220,6 +219,7 @@ int wordCC::findRealWordLocation(const string& comp)
 
 void wordCC::wordWrong(const int& wordPosition,const string& attempt)
 {
+    spellingWrongWordCount++; //Increase the number of incorrect words this run
     if (goodBadPos[wordPosition] == true)
     {
         cout << "badWord wordWrong will be called" << endl;

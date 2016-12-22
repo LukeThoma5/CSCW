@@ -101,6 +101,24 @@ void hLog::graphIncorrectWords(std::time_t startPoint)
 {
     vector<logEvent*> spellTestComplete;
     getEventPointers(startPoint,spellTestComplete,"SpellingTestComplete");
+    if (spellTestComplete.size()) //If not 0
+    {
+        vector<float> xcoords;
+        vector<float> ycoords;
+        for (int i=0; i<spellTestComplete.size(); i++)
+        {
+            vector<string> dataItems = spellTestComplete[i]->getDataItems();
+            float y1 = stof(dataItems[1]);
+            float y2 = stof(dataItems[2]);
+            double y = y1/y2;
+            y=y*100;
+            float x = spellTestComplete[i]->getTime();
+            cout << "X: " << x << " Y: " << y << endl;
+            xcoords.push_back(x);
+            ycoords.push_back(y);
+        }
+        createScatterGraph("Percentage of words wrong against time",xcoords,ycoords);
+    }
 }
 
 int hLog::findTimeStart(std::time_t comparisonTime)

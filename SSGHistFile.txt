@@ -13,3 +13,5 @@
 585aa01d+SpellingOverFlow+78+11+3
 585aa465+GoodWordWrong+ABATEMENT+3.352273+abament
 585aa46b+SpellingTestComplete+45+1+5
+585bed54+SpellingTestComplete+33+1+3
+585beef9+SpellingTestComplete+10+1+1
