@@ -86,6 +86,23 @@ void hLog::addEvent(const std::vector<std::string>& dItems,const std::time_t& et
     log.push_back(logEvent(dItems,etime,etype));
 }
 
+void hLog::getEventPointers(std::time_t startPoint, std::vector<logEvent*>& events, const std::string& eventType)
+{
+    int startLocation = findTimeStart(startPoint);
+    for (int i=startLocation; i<log.size(); i++)
+    {
+        if (log[i].getType() == eventType)
+            events.push_back(&log[i]);
+    }
+    cout << "Number of items found to plot " << events.size() << endl;
+}
+
+void hLog::graphIncorrectWords(std::time_t startPoint)
+{
+    vector<logEvent*> spellTestComplete;
+    getEventPointers(startPoint,spellTestComplete,"SpellingTestComplete");
+}
+
 int hLog::findTimeStart(std::time_t comparisonTime)
 {
     // if (comparisonTime > log.back().getTime())
@@ -115,6 +132,6 @@ string hLog::getEventString(std::time_t startTime)
     {
         retString += to_string(log[i].getTime()) + log[i].getType() + '\n';
     }
-    
+
     return retString;
 }

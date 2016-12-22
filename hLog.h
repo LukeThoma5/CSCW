@@ -16,6 +16,8 @@ class hLog
 
 	void createScatterGraph(const std::string& graphName, const std::vector<float>& xcoords, const std::vector<float>& ycoords);
 
+	void getEventPointers(std::time_t startPoint, std::vector<logEvent*>& events, const std::string& eventType);
+
 public:
 	hLog(const std::string& saveLocation);
 
@@ -28,6 +30,9 @@ public:
 	int findTimeStart(std::time_t comparisonTime);
 
 	std::string getEventString(std::time_t startTime=0);
+
+	void graphIncorrectWords(std::time_t startPoint);
+
 };
 
 #endif

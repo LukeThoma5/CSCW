@@ -129,13 +129,16 @@ void SSG_AS_Combo_changed()
 	Gtk::ComboBoxText* pSSG_AS_Combo_Timeframe = nullptr;
 	SSG::refBuilder->get_widget("SSG_AS_Combo_Timeframe", pSSG_AS_Combo_Timeframe);
 	string timeFrame = pSSG_AS_Combo_Timeframe->get_active_text();
+	time_t startTime;
 	if (timeFrame == "This session")
-		StatusBuffer->set_text(SSG::histLog.getEventString(SSG::sessionStartTime));
+		startTime=SSG::sessionStartTime;
 	else
 		if (timeFrame == "Last week")
-			StatusBuffer->set_text(SSG::histLog.getEventString(time(0)-604800));
+			startTime=(time(0)-604800);
 		else
-			StatusBuffer->set_text(SSG::histLog.getEventString(0));
+			startTime=0;
+	StatusBuffer->set_text(SSG::histLog.getEventString(startTime));
+	SSG::histLog.graphIncorrectWords(startTime);
 }
 
 void SSG_MS_Button_Analysis_Clicked()
