@@ -35,6 +35,8 @@ public:
 
 	void graphIncorrectWords(std::time_t startPoint);
 
+	void graphKeyboard(std::time_t startPoint, int eventItem, const std::string& graphName);
+
 };
 
 #endif

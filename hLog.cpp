@@ -121,6 +121,24 @@ void hLog::graphIncorrectWords(std::time_t startPoint)
     }
 }
 
+void hLog::graphKeyboard(std::time_t startPoint, int eventItem, const string& graphName)
+{
+    vector<logEvent*> keyboardComplete;
+    getEventPointers(startPoint, keyboardComplete, "keyboardComplete");
+    if (keyboardComplete.size())
+    {
+        vector<float> xcoords;
+        vector<float> ycoords;
+        for (int i=0; i<keyboardComplete.size(); i++)
+        {
+            vector<string> dataItems = keyboardComplete[i]->getDataItems();
+            xcoords.push_back(keyboardComplete[i]->getTime());
+            ycoords.push_back(stof(keyboardComplete[i]->getDataItems()[eventItem]));
+        }
+        createScatterGraph(graphName,xcoords,ycoords);
+    }
+}
+
 int hLog::findTimeStart(std::time_t comparisonTime)
 {
     // if (comparisonTime > log.back().getTime())
@@ -164,7 +182,7 @@ string hLog::getEventString(std::time_t startTime)
     cout << int(log.size()) - startLocation << endl;
     string retString;
     addGWW(retString, startTime);
-    
+
     for (int i=startLocation; i<log.size(); i++)
     {
         int etime = log[i].getTime();
@@ -172,6 +190,10 @@ string hLog::getEventString(std::time_t startTime)
         int daysSince = secondsSince / 86400;
         retString += to_string(daysSince) + " days ago " + log[i].getType() + '\n';
     }
+
+    graphKeyboard(startTime,2,"Mistakes per test");
+    graphKeyboard(startTime,3,"Mistakes per 100 characters");
+    graphKeyboard(startTime,5,"WPM");
 
     return retString;
 }
