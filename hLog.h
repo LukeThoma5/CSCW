@@ -18,6 +18,8 @@ class hLog
 
 	void getEventPointers(std::time_t startPoint, std::vector<logEvent*>& events, const std::string& eventType);
 
+	void addGWW(std::string& retString, std::time_t startTime);
+
 public:
 	hLog(const std::string& saveLocation);
 

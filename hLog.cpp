@@ -140,15 +140,37 @@ int hLog::findTimeStart(std::time_t comparisonTime)
     return log.size();
 }
 
+void hLog::addGWW(string& retString, std::time_t startTime)
+{
+    vector<logEvent*> gww;
+    getEventPointers(startTime,gww,"GoodWordWrong");
+    retString +="\n";
+    retString += to_string(gww.size());
+    retString += " words have been wrong during this time:\n";
+    for (int i=0; i<gww.size(); i++)
+    {
+        vector<string> eventData = gww[i]->getDataItems();
+        retString += eventData[0];
+        retString +=" -> ";
+        retString +=eventData[2];
+        retString += '\n';
+    }
+}
+
 string hLog::getEventString(std::time_t startTime)
 {
     cout << "Total events " << log.size() << "\nTotal items to display";
     int startLocation = findTimeStart(startTime);
     cout << int(log.size()) - startLocation << endl;
     string retString;
+    addGWW(retString, startTime);
+    
     for (int i=startLocation; i<log.size(); i++)
     {
-        retString += to_string(log[i].getTime()) + log[i].getType() + '\n';
+        int etime = log[i].getTime();
+        int secondsSince = time(0) - etime;
+        int daysSince = secondsSince / 86400;
+        retString += to_string(daysSince) + " days ago " + log[i].getType() + '\n';
     }
 
     return retString;

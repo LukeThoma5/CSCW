@@ -138,7 +138,7 @@ void SSG_AS_Combo_changed()
 		else
 			startTime=0;
 	StatusBuffer->set_text(SSG::histLog.getEventString(startTime));
-	SSG::histLog.graphIncorrectWords(startTime);
+	//SSG::histLog.graphIncorrectWords(startTime);
 }
 
 void SSG_MS_Button_Analysis_Clicked()
