@@ -1,9 +1,48 @@
 #include "hLog.h"
 #include "logEvent.h"
 #include "SSG.h"
+#include <cstdlib> //For system call
 
 using namespace std;
 
+//private
+std::string hLog::coordToString(const std::vector<float>& coords)
+{
+    string retString;
+    stringstream retSS(retString);
+    int lastFloat = coords.size()-1;
+    for (int i=0; i<lastFloat; i++)
+    {
+        retSS << to_string(coords[i]) << ',';
+    }
+    retSS << to_string(coords[lastFloat]);
+
+    return retSS.str();
+}
+
+void hLog::createScatterGraph(const std::string& graphName, const std::vector<float>& xcoords, const std::vector<float>& ycoords)
+{
+    //Write the data to file to be loaded in by python script
+    if (xcoords.size() == ycoords.size())
+        if (xcoords.size() > 0)
+        {
+            ofstream graphData("dataToPlot.txt", std::ofstream::out);
+            graphData << graphName << endl;
+            graphData << coordToString(xcoords) << endl << coordToString(ycoords);
+            graphData.close();
+            //Call the python script
+            system("python3 createGraph.py");
+        }
+        else
+        {
+            cout << "Cannot create an empty graph!" << endl;
+        }
+    else
+        cout << "Coordinate mismatch, exiting" << endl;
+
+}
+
+//public
 hLog::hLog(const std::string& saveLocation): logLocation(saveLocation)
 {
     cout << "Creating log from file: " << logLocation << endl;
@@ -76,5 +115,6 @@ string hLog::getEventString(std::time_t startTime)
     {
         retString += to_string(log[i].getTime()) + log[i].getType() + '\n';
     }
+    
     return retString;
 }

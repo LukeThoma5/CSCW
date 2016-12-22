@@ -10,7 +10,12 @@
 class hLog
 {
 	std::vector<logEvent> log;
-	const std::string logLocation; 
+	const std::string logLocation;
+
+	std::string coordToString(const std::vector<float>& coords);
+
+	void createScatterGraph(const std::string& graphName, const std::vector<float>& xcoords, const std::vector<float>& ycoords);
+
 public:
 	hLog(const std::string& saveLocation);
 
