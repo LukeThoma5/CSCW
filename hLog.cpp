@@ -191,9 +191,16 @@ string hLog::getEventString(std::time_t startTime)
         retString += to_string(daysSince) + " days ago " + log[i].getType() + '\n';
     }
 
-    graphKeyboard(startTime,2,"Mistakes per test");
-    graphKeyboard(startTime,3,"Mistakes per 100 characters");
-    graphKeyboard(startTime,5,"WPM");
+    SSG::MSL.sortList();
+    retString += "The complete syllable list and wrong count:\n";
+    for (int i=0; i<SSG::MSL.size(); i++)
+    {
+        retString += to_string(i+1) + ": " + SSG::MSL[i] + " with a wrong count of " + to_string(SSG::MSL.getSyllableWCount(i)) + '\n';
+    }
+
+    //graphKeyboard(startTime,2,"Mistakes per test");
+    //graphKeyboard(startTime,3,"Mistakes per 100 characters");
+    //graphKeyboard(startTime,5,"WPM");
 
     return retString;
 }
