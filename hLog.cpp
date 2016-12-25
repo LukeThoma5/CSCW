@@ -229,9 +229,9 @@ string hLog::getEventString(std::time_t startTime)
     vector<int> syllableWCount;
     for (int i=0; i<SSG::MSL.size(); i++)
     {
-        retString += to_string(i+1) + ": " + SSG::MSL[i] + " with a wrong count of " + to_string(SSG::MSL.getSyllableWCount(i)) + '\n';
         syllables.push_back(SSG::MSL[i]);
-        syllableWCount.push_back(SSG::MSL.getSyllableWCount(i));
+        retString += to_string(i+1) + ": " + SSG::MSL[i] + " with a wrong count of " + to_string(SSG::MSL.getSyllableWCount(syllables.back())) + '\n';
+        syllableWCount.push_back(SSG::MSL.getSyllableWCount(syllables.back()));
     }
 
     createBarGraph("SyllableData.txt","Syllable Wrong Counts", syllables, syllableWCount);
