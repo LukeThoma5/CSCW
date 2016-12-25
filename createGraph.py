@@ -10,7 +10,7 @@ def toFloats(line):
 	return intList
 
 import plotly
-from plotly.graph_objs import Scatter, Layout
+from plotly.graph_objs import Scatter, Layout, Bar
 
 def makeScatter(title,xcoord,ycoord):
 	plotly.offline.plot({
@@ -18,19 +18,31 @@ def makeScatter(title,xcoord,ycoord):
 		"layout": Layout(title=title)
 		})
 
-def loadCoords(fileData,xcoord,ycoord):
+def makeBar(title,xcoord,ycoord):
+	plotly.offline.plot({
+		"data": [Bar(x=xcoord, y=ycoord)],
+		"layout": Layout(title=title)
+		})
+
+def loadScatterCoords(fileData,xcoord,ycoord):
 	for i in range(1,len(fileData)):
-		print(fileData[i])
 		stringList = fileData[i].split(',')
 		print(stringList)
 		xcoord.append(float(stringList[0]))
 		ycoord.append(float(stringList[1]))
 
+def loadBarCoords(fileData,xcoord,ycoord):
+	for i in range(1,len(fileData)):
+		stringList = fileData[i].split(',')
+		print(stringList)
+		xcoord.append(stringList[0])
+		ycoord.append(int(stringList[1]))
+
 def __main__():
 	print(len(sys.argv))
-	if (len(sys.argv)>2):
+	if (len(sys.argv)>1):
 		gType = sys.argv[1]
-		if (len(sys.argv)>3):
+		if (len(sys.argv)>2):
 			fToOpen = sys.argv[2]
 		else:
 			fToOpen = "dataToPlot.txt"
@@ -44,9 +56,13 @@ def __main__():
 
 	xcoord = []
 	ycoord = []
-	loadCoords(fileData,xcoord,ycoord)
+	if (gType == "Scatter"):
+		loadScatterCoords(fileData,xcoord,ycoord)
+		makeScatter(fileData[0],xcoord,ycoord)
+	elif (gType == "Bar"):
+		loadBarCoords(fileData,xcoord,ycoord)
+		makeBar(fileData[0],xcoord,ycoord)
 
-	makeScatter(fileData[0],xcoord,ycoord)
 
 __main__()
 # import plotly.plotly as py
