@@ -198,7 +198,7 @@ string hLog::getEventString(std::time_t startTime)
         retString += to_string(i+1) + ": " + SSG::MSL[i] + " with a wrong count of " + to_string(SSG::MSL.getSyllableWCount(i)) + '\n';
     }
 
-    //graphKeyboard(startTime,2,"Mistakes per test");
+    graphKeyboard(startTime,2,"Mistakes per test");
     //graphKeyboard(startTime,3,"Mistakes per 100 characters");
     //graphKeyboard(startTime,5,"WPM");
 

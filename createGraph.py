@@ -1,4 +1,7 @@
 #! /bin/python3
+
+import sys
+
 def toFloats(line):
 	stringList = line.split(',')
 	intList = []
@@ -9,18 +12,34 @@ def toFloats(line):
 import plotly
 from plotly.graph_objs import Scatter, Layout
 
-fileData = []
-with open("dataToPlot.txt") as d:
-	fileData = d.read().splitlines()
+def makeScatter(title,xcoord,ycoord):
+	plotly.offline.plot({
+		"data": [Scatter(x=xcoord, y=ycoord)],
+		"layout": Layout(title=title)
+		})
 
-xcoord = toFloats(fileData[1])
-ycoord = toFloats(fileData[2])
+def __main__():
+	print(len(sys.argv))
+	if (len(sys.argv)>2):
+		gType = sys.argv[1]
+		if (len(sys.argv)>3):
+			fToOpen = sys.argv[2]
+		else:
+			fToOpen = "dataToPlot.txt"
+	else:
+		fToOpen = "dataToPlot.txt"
+		gType = "Scatter"
 
-plotly.offline.plot({
-	"data": [Scatter(x=xcoord, y=ycoord)],
-	"layout": Layout(title=fileData[0])
-	})
+	fileData = []
+	with open(fToOpen) as d:
+		fileData = d.read().splitlines()
 
+	xcoord = toFloats(fileData[1])
+	ycoord = toFloats(fileData[2])
+
+	makeScatter(fileData[0],xcoord,ycoord)
+
+__main__()
 # import plotly.plotly as py
 # import plotly.graph_objs as go
 
