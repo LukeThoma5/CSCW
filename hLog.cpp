@@ -28,10 +28,14 @@ void hLog::createScatterGraph(const std::string& graphName, const std::vector<fl
         {
             ofstream graphData("dataToPlot.txt", std::ofstream::out);
             graphData << graphName << endl;
-            graphData << coordToString(xcoords) << endl << coordToString(ycoords);
+            //graphData << coordToString(xcoords) << endl << coordToString(ycoords);
+            for (int i=0; i<xcoords.size(); i++)
+            {
+                graphData << to_string(xcoords[i]) << ',' << to_string(ycoords[i]) << endl;
+            }
             graphData.close();
             //Call the python script
-            system("python3 createGraph.py");
+            system("python3 createGraph.py \"Scatter\"");
         }
         else
         {
@@ -198,8 +202,8 @@ string hLog::getEventString(std::time_t startTime)
         retString += to_string(i+1) + ": " + SSG::MSL[i] + " with a wrong count of " + to_string(SSG::MSL.getSyllableWCount(i)) + '\n';
     }
 
-    graphKeyboard(startTime,2,"Mistakes per test");
-    //graphKeyboard(startTime,3,"Mistakes per 100 characters");
+    //graphKeyboard(startTime,2,"Mistakes per test");
+    graphKeyboard(startTime,3,"Mistakes per 100 characters");
     //graphKeyboard(startTime,5,"WPM");
 
     return retString;

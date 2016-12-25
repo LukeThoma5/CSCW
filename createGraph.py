@@ -18,6 +18,14 @@ def makeScatter(title,xcoord,ycoord):
 		"layout": Layout(title=title)
 		})
 
+def loadCoords(fileData,xcoord,ycoord):
+	for i in range(1,len(fileData)):
+		print(fileData[i])
+		stringList = fileData[i].split(',')
+		print(stringList)
+		xcoord.append(float(stringList[0]))
+		ycoord.append(float(stringList[1]))
+
 def __main__():
 	print(len(sys.argv))
 	if (len(sys.argv)>2):
@@ -34,8 +42,9 @@ def __main__():
 	with open(fToOpen) as d:
 		fileData = d.read().splitlines()
 
-	xcoord = toFloats(fileData[1])
-	ycoord = toFloats(fileData[2])
+	xcoord = []
+	ycoord = []
+	loadCoords(fileData,xcoord,ycoord)
 
 	makeScatter(fileData[0],xcoord,ycoord)
 
