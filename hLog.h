@@ -14,7 +14,7 @@ class hLog
 
 	std::string coordToString(const std::vector<float>& coords);
 
-	void createScatterGraph(const std::string& graphName, const std::vector<float>& xcoords, const std::vector<float>& ycoords);
+	void createScatterGraph(const std::string& graphName, const std::vector<float>& xcoords, const std::vector<float>& ycoords, const std::string& filename="dataToPlot.txt");
 
 	void getEventPointers(std::time_t startPoint, std::vector<logEvent*>& events, const std::string& eventType);
 
@@ -35,7 +35,7 @@ public:
 
 	void graphIncorrectWords(std::time_t startPoint);
 
-	void graphKeyboard(std::time_t startPoint, int eventItem, const std::string& graphName);
+	void graphKeyboard(std::time_t startPoint, int eventItem, const std::string& graphName, const std::string& filename="dataToPlot.txt");
 
 	void createBarGraph(const std::string& filename, const std::string& graphName, const std::vector<std::string>& xcoords, const std::vector<int>& ycoords);
 };

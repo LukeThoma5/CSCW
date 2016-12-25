@@ -47,13 +47,13 @@ void hLog::createBarGraph(const std::string& filename, const std::string& graphN
 
 }
 
-void hLog::createScatterGraph(const std::string& graphName, const std::vector<float>& xcoords, const std::vector<float>& ycoords)
+void hLog::createScatterGraph(const std::string& graphName, const std::vector<float>& xcoords, const std::vector<float>& ycoords, const std::string& filename)
 {
     //Write the data to file to be loaded in by python script
     if (xcoords.size() == ycoords.size())
         if (xcoords.size() > 0)
         {
-            ofstream graphData("dataToPlot.txt", std::ofstream::out);
+            ofstream graphData(filename, std::ofstream::out);
             graphData << graphName << endl;
             //graphData << coordToString(xcoords) << endl << coordToString(ycoords);
             for (int i=0; i<xcoords.size(); i++)
@@ -62,7 +62,8 @@ void hLog::createScatterGraph(const std::string& graphName, const std::vector<fl
             }
             graphData.close();
             //Call the python script
-            system("python3 createGraph.py \"Scatter\"");
+            string command = "python3 createGraph.py \"Scatter\" \"" + filename + "\"";
+            system(command.c_str());
         }
         else
         {
@@ -152,7 +153,7 @@ void hLog::graphIncorrectWords(std::time_t startPoint)
     }
 }
 
-void hLog::graphKeyboard(std::time_t startPoint, int eventItem, const string& graphName)
+void hLog::graphKeyboard(std::time_t startPoint, int eventItem, const string& graphName, const std::string& filename)
 {
     vector<logEvent*> keyboardComplete;
     getEventPointers(startPoint, keyboardComplete, "keyboardComplete");
@@ -166,7 +167,7 @@ void hLog::graphKeyboard(std::time_t startPoint, int eventItem, const string& gr
             xcoords.push_back(keyboardComplete[i]->getTime());
             ycoords.push_back(stof(keyboardComplete[i]->getDataItems()[eventItem]));
         }
-        createScatterGraph(graphName,xcoords,ycoords);
+        createScatterGraph(graphName,xcoords,ycoords,filename);
     }
 }
 
@@ -235,9 +236,9 @@ string hLog::getEventString(std::time_t startTime)
 
     createBarGraph("SyllableData.txt","Syllable Wrong Counts", syllables, syllableWCount);
 
-    //graphKeyboard(startTime,2,"Mistakes per test");
-    graphKeyboard(startTime,3,"Mistakes per 100 characters");
-    //graphKeyboard(startTime,5,"WPM");
+    //graphKeyboard(startTime,2,"Mistakes per test", "keyboardMistakes.csv");
+    graphKeyboard(startTime,3,"Mistakes per 100 characters","keyboard100Mistakes.csv");
+    //graphKeyboard(startTime,5,"WPM", "wordsPerMinute.csv");
 
     return retString;
 }
