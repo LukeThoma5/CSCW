@@ -1,0 +1,25 @@
+Syllable Wrong Counts
+D,12
+AH1,12
+ER2,11
+S,11
+AE1,9
+K,9
+IH0,9
+Y,8
+F,8
+B,7
+AE2,7
+IY0,7
+OW1,5
+N,5
+ZH,5
+SH,4
+P,4
+AH0,3
+EY1,3
+TH,3
+M,2
+L,1
+T,0
+V,0

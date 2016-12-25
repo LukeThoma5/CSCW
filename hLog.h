@@ -37,6 +37,7 @@ public:
 
 	void graphKeyboard(std::time_t startPoint, int eventItem, const std::string& graphName);
 
+	void createBarGraph(const std::string& filename, const std::string& graphName, const std::vector<std::string>& xcoords, const std::vector<int>& ycoords);
 };
 
 #endif

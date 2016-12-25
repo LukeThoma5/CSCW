@@ -20,6 +20,33 @@ std::string hLog::coordToString(const std::vector<float>& coords)
     return retSS.str();
 }
 
+void hLog::createBarGraph(const std::string& filename, const std::string& graphName, const std::vector<std::string>& xcoords, const std::vector<int>& ycoords)
+{
+    //Write the data to file to be loaded in by python script
+    if (xcoords.size() == ycoords.size())
+        if (xcoords.size() > 0)
+        {
+            ofstream graphData(filename, std::ofstream::out);
+            graphData << graphName << endl;
+
+            for (int i=0; i<xcoords.size(); i++)
+            {
+                graphData << xcoords[i] << ',' << to_string(ycoords[i]) << endl;
+            }
+            graphData.close();
+            //Call the python script
+            string command = "python3 createGraph.py \"Bar\" \"" + filename + "\"";
+            system(command.c_str());
+        }
+        else
+        {
+            cout << "Cannot create an empty graph!" << endl;
+        }
+    else
+        cout << "Coordinate mismatch, exiting" << endl;
+
+}
+
 void hLog::createScatterGraph(const std::string& graphName, const std::vector<float>& xcoords, const std::vector<float>& ycoords)
 {
     //Write the data to file to be loaded in by python script
@@ -197,10 +224,16 @@ string hLog::getEventString(std::time_t startTime)
 
     SSG::MSL.sortList();
     retString += "The complete syllable list and wrong count:\n";
+    vector<string> syllables;
+    vector<int> syllableWCount;
     for (int i=0; i<SSG::MSL.size(); i++)
     {
         retString += to_string(i+1) + ": " + SSG::MSL[i] + " with a wrong count of " + to_string(SSG::MSL.getSyllableWCount(i)) + '\n';
+        syllables.push_back(SSG::MSL[i]);
+        syllableWCount.push_back(SSG::MSL.getSyllableWCount(i));
     }
+
+    createBarGraph("SyllableData.txt","Syllable Wrong Counts", syllables, syllableWCount);
 
     //graphKeyboard(startTime,2,"Mistakes per test");
     graphKeyboard(startTime,3,"Mistakes per 100 characters");
