@@ -112,18 +112,6 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="SSG_ASGK_MovingAvg">
-                <property name="label" translatable="yes">Moving Average</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">2</property>
-                <property name="top_attach">0</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkButton" id="SSG_ASGK_Mistakes">
                 <property name="label" translatable="yes">Mistakes per test</property>
                 <property name="visible">True</property>
@@ -157,6 +145,18 @@
               <packing>
                 <property name="left_attach">2</property>
                 <property name="top_attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkToggleButton" id="SSG_ASGK_MovingAvg_Toggle">
+                <property name="label" translatable="yes">Moving Average</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+              </object>
+              <packing>
+                <property name="left_attach">2</property>
+                <property name="top_attach">0</property>
               </packing>
             </child>
           </object>

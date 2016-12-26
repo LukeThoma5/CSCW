@@ -26,6 +26,7 @@ string makeUpperCase(const string& attempt);
 
 namespace SSG {
 	std::time_t currentASComboTime = 0;
+	bool AnalysisMovAvg = false;
 }
 
 static void SSG_SC_Button_Return_Clicked()
@@ -293,6 +294,12 @@ void addTags(string textName)
 	myTag->property_background() = "green";
 }
 
+void SSG_ASGK_MovingAvg_Toggled()
+{
+	SSG::AnalysisMovAvg = !SSG::AnalysisMovAvg;
+	cout << "State Toggled!" << SSG::AnalysisMovAvg << endl;
+}
+
 void SSG_ASG_MSL_Clicked()
 {
 	//MSL assumed sorted due to AS opening
@@ -316,25 +323,28 @@ void SSG_ASG_IncorrectWords_Clicked()
 	SSG::histLog.graphIncorrectWords(SSG::currentASComboTime);
 }
 
-void SSG_ASGK_MovingAvg_Clicked()
-{
-	cout << "TODO" << endl;
-	SSG::histLog.graphKeyboardMovingAvg(SSG::currentASComboTime,3,"Mistakes per 100 characters (1 Week moving average)","keyboard100MistakesAVG.csv");
-}
-
 void SSG_ASGK_Mistakes_Clicked()
 {
-	SSG::histLog.graphKeyboard(SSG::currentASComboTime,2,"Mistakes per test", "keyboardMistakes.csv");
+	if (SSG::AnalysisMovAvg)
+		SSG::histLog.graphKeyboardMovingAvg(SSG::currentASComboTime,2,"Mistakes per test (1 Week Moving Average)", "keyboardMistakesAVG.csv");
+	else
+		SSG::histLog.graphKeyboard(SSG::currentASComboTime,2,"Mistakes per test", "keyboardMistakes.csv");
 }
 
 void SSG_ASGK_Mistakes100_Clicked()
 {
-	SSG::histLog.graphKeyboard(SSG::currentASComboTime,3,"Mistakes per 100 characters","keyboard100Mistakes.csv");
+	if (SSG::AnalysisMovAvg)
+		SSG::histLog.graphKeyboardMovingAvg(SSG::currentASComboTime,3,"Mistakes per 100 characters (1 Week Moving Average)","keyboard100MistakesAVG.csv");
+	else
+		SSG::histLog.graphKeyboard(SSG::currentASComboTime,3,"Mistakes per 100 characters","keyboard100Mistakes.csv");
 }
 
 void SSG_ASGK_WPM_Clicked()
 {
-	SSG::histLog.graphKeyboard(SSG::currentASComboTime,5,"WPM", "wordsPerMinute.csv");
+	if (SSG::AnalysisMovAvg)
+		SSG::histLog.graphKeyboardMovingAvg(SSG::currentASComboTime,5,"WPM (1 Week Moving Average)", "wordsPerMinuteAVG.csv");
+	else
+		SSG::histLog.graphKeyboard(SSG::currentASComboTime,5,"WPM", "wordsPerMinute.csv");
 }
 
 void connectSignals()
@@ -407,10 +417,10 @@ if(SSG::winContainer.SpellingScreen)
 	if(pButton)
 		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_ASG_IncorrectWords_Clicked) );}
 
-	pButton = nullptr;
-	SSG::refBuilder->get_widget("SSG_ASGK_MovingAvg", pButton);
-	if(pButton)
-		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_ASGK_MovingAvg_Clicked) );}
+	Gtk::ToggleButton* pToggle = nullptr;
+	SSG::refBuilder->get_widget("SSG_ASGK_MovingAvg_Toggle", pToggle);
+	if (pToggle)
+		{pToggle->signal_toggled().connect( sigc::ptr_fun(SSG_ASGK_MovingAvg_Toggled) );}
 
 	pButton = nullptr;
 	SSG::refBuilder->get_widget("SSG_ASGK_Mistakes", pButton);
