@@ -6,6 +6,8 @@
 
 #include <cstdlib> //Declare system() which comes from a c library
 
+#include "sha256.h" //External code, not mine
+
 #include <gtkmm.h>
 
 #include "masterSyllableList.h" //MSL declaration
@@ -83,6 +85,11 @@ void SSG_SC_Button_Play_Clicked()
 {
 	string wordToSpell = SSG::SpellingWords.getCurrentWord()->getWord();
 	speak(wordToSpell,false);
+}
+
+void SSG_AS_Button_Options_Clicked()
+{
+	SSG::winContainer.OptionsScreen->show();
 }
 
 void SSG_MS_Button_Spelling_Clicked()
@@ -366,6 +373,11 @@ if(SSG::winContainer.SpellingScreen)
 	SSG::refBuilder->get_widget("SSG_AS_Button_Return", pButton);
 	if(pButton)
 		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_AS_Button_Return_Clicked) );}
+
+	pButton = nullptr;
+	SSG::refBuilder->get_widget("SSG_AS_Button_Options", pButton);
+	if(pButton)
+		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_AS_Button_Options_Clicked) );}
 
 	pButton = nullptr;
 	SSG::refBuilder->get_widget("SSG_MS_Button_Quit", pButton);
