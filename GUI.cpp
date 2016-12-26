@@ -24,6 +24,10 @@ void speak(const string& wordToSay, const bool isCorrect);
 void say(const string& sentence);
 string makeUpperCase(const string& attempt);
 
+namespace SSG {
+	std::time_t currentASComboTime = 0;
+}
+
 static void SSG_SC_Button_Return_Clicked()
 {
 	if(SSG::winContainer.SpellingScreen)
@@ -137,6 +141,7 @@ void SSG_AS_Combo_changed()
 			startTime=(time(0)-604800);
 		else
 			startTime=0;
+	SSG::currentASComboTime = startTime;
 	StatusBuffer->set_text(SSG::histLog.getEventString(startTime));
 	//SSG::histLog.graphIncorrectWords(startTime);
 }
@@ -288,6 +293,36 @@ void addTags(string textName)
 	myTag->property_background() = "green";
 }
 
+void SSG_ASG_MSL_Clicked()
+{
+	cout << "TODO" << endl;
+}
+
+void SSG_ASG_IncorrectWords_Clicked()
+{
+	SSG::histLog.graphIncorrectWords(SSG::currentASComboTime);
+}
+
+void SSG_ASGK_MovingAvg_Clicked()
+{
+	cout << "TODO" << endl;
+}
+
+void SSG_ASGK_Mistakes_Clicked()
+{
+	cout << "TODO" << endl;
+}
+
+void SSG_ASGK_Mistakes100_Clicked()
+{
+	cout << "TODO" << endl;
+}
+
+void SSG_ASGK_WPM_Clicked()
+{
+	cout << "TODO" << endl;
+}
+
 void connectSignals()
 {
 if(SSG::winContainer.SpellingScreen)
@@ -347,6 +382,36 @@ if(SSG::winContainer.SpellingScreen)
 	SSG::refBuilder->get_widget("SSG_SC_Button_Play", pButton);
 	if(pButton)
 		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_SC_Button_Play_Clicked) );}
+
+	pButton = nullptr;
+	SSG::refBuilder->get_widget("SSG_ASG_MSL", pButton);
+	if(pButton)
+		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_ASG_MSL_Clicked) );}
+
+	pButton = nullptr;
+	SSG::refBuilder->get_widget("SSG_ASG_IncorrectWords", pButton);
+	if(pButton)
+		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_ASG_IncorrectWords_Clicked) );}
+
+	pButton = nullptr;
+	SSG::refBuilder->get_widget("SSG_ASGK_MovingAvg", pButton);
+	if(pButton)
+		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_ASGK_MovingAvg_Clicked) );}
+
+	pButton = nullptr;
+	SSG::refBuilder->get_widget("SSG_ASGK_Mistakes", pButton);
+	if(pButton)
+		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_ASGK_Mistakes_Clicked) );}
+
+	pButton = nullptr;
+	SSG::refBuilder->get_widget("SSG_ASGK_Mistakes100", pButton);
+	if(pButton)
+		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_ASGK_Mistakes100_Clicked) );}
+
+	pButton = nullptr;
+	SSG::refBuilder->get_widget("SSG_ASGK_WPM", pButton);
+	if(pButton)
+		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_ASGK_WPM_Clicked) );}
 
 	Gtk::Entry* pEntry = nullptr;
 	SSG::refBuilder->get_widget("SSG_SC_TextEntry",pEntry);

@@ -37,6 +37,7 @@
           <object class="GtkTextView" id="SSG_AS_Text_Status">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="vscroll_policy">natural</property>
           </object>
           <packing>
             <property name="expand">True</property>
