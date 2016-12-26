@@ -295,7 +295,20 @@ void addTags(string textName)
 
 void SSG_ASG_MSL_Clicked()
 {
-	cout << "TODO" << endl;
+	//MSL assumed sorted due to AS opening
+	vector<string> syllables;
+    vector<int> syllableWCount;
+
+	syllables.reserve(SSG::MSL.size()); //Reduce mem allocs
+	syllableWCount.reserve(SSG::MSL.size());
+	
+    for (int i=0; i<SSG::MSL.size(); i++)
+    {
+        syllables.push_back(SSG::MSL[i]);
+        syllableWCount.push_back(SSG::MSL.getSyllableWCount(syllables.back()));
+    }
+
+    SSG::histLog.createBarGraph("SyllableData.txt","Syllable Wrong Counts", syllables, syllableWCount);
 }
 
 void SSG_ASG_IncorrectWords_Clicked()
@@ -310,17 +323,17 @@ void SSG_ASGK_MovingAvg_Clicked()
 
 void SSG_ASGK_Mistakes_Clicked()
 {
-	cout << "TODO" << endl;
+	SSG::histLog.graphKeyboard(SSG::currentASComboTime,2,"Mistakes per test", "keyboardMistakes.csv");
 }
 
 void SSG_ASGK_Mistakes100_Clicked()
 {
-	cout << "TODO" << endl;
+	SSG::histLog.graphKeyboard(SSG::currentASComboTime,3,"Mistakes per 100 characters","keyboard100Mistakes.csv");
 }
 
 void SSG_ASGK_WPM_Clicked()
 {
-	cout << "TODO" << endl;
+	SSG::histLog.graphKeyboard(SSG::currentASComboTime,5,"WPM", "wordsPerMinute.csv");
 }
 
 void connectSignals()

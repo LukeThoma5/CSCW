@@ -234,11 +234,11 @@ string hLog::getEventString(std::time_t startTime)
         syllableWCount.push_back(SSG::MSL.getSyllableWCount(syllables.back()));
     }
 
-    createBarGraph("SyllableData.txt","Syllable Wrong Counts", syllables, syllableWCount);
+    //createBarGraph("SyllableData.txt","Syllable Wrong Counts", syllables, syllableWCount);
 
-    //graphKeyboard(startTime,2,"Mistakes per test", "keyboardMistakes.csv");
-    graphKeyboard(startTime,3,"Mistakes per 100 characters","keyboard100Mistakes.csv");
-    //graphKeyboard(startTime,5,"WPM", "wordsPerMinute.csv");
+    // //graphKeyboard(startTime,2,"Mistakes per test", "keyboardMistakes.csv");
+    // graphKeyboard(startTime,3,"Mistakes per 100 characters","keyboard100Mistakes.csv");
+    // //graphKeyboard(startTime,5,"WPM", "wordsPerMinute.csv");
 
     return retString;
 }
