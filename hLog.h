@@ -18,6 +18,8 @@ class hLog
 
 	void getEventPointers(std::time_t startPoint, std::vector<logEvent*>& events, const std::string& eventType);
 
+	void getWeekEventPointers(std::time_t startPoint, std::vector<logEvent*>& events, const std::string& eventType);
+
 	void addGWW(std::string& retString, std::time_t startTime);
 
 public:
@@ -36,6 +38,8 @@ public:
 	void graphIncorrectWords(std::time_t startPoint);
 
 	void graphKeyboard(std::time_t startPoint, int eventItem, const std::string& graphName, const std::string& filename="dataToPlot.txt");
+
+	void graphKeyboardMovingAvg(std::time_t startPoint, int eventItem, const std::string& graphName, const std::string& filename="dataToPlot.txt");
 
 	void createBarGraph(const std::string& filename, const std::string& graphName, const std::vector<std::string>& xcoords, const std::vector<int>& ycoords);
 };

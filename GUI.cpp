@@ -301,7 +301,7 @@ void SSG_ASG_MSL_Clicked()
 
 	syllables.reserve(SSG::MSL.size()); //Reduce mem allocs
 	syllableWCount.reserve(SSG::MSL.size());
-	
+
     for (int i=0; i<SSG::MSL.size(); i++)
     {
         syllables.push_back(SSG::MSL[i]);
@@ -319,6 +319,7 @@ void SSG_ASG_IncorrectWords_Clicked()
 void SSG_ASGK_MovingAvg_Clicked()
 {
 	cout << "TODO" << endl;
+	SSG::histLog.graphKeyboardMovingAvg(SSG::currentASComboTime,3,"Mistakes per 100 characters (1 Week moving average)","keyboard100MistakesAVG.csv");
 }
 
 void SSG_ASGK_Mistakes_Clicked()

@@ -129,6 +129,26 @@ void hLog::getEventPointers(std::time_t startPoint, std::vector<logEvent*>& even
     cout << "Number of items found to plot " << events.size() << endl;
 }
 
+void hLog::getWeekEventPointers(std::time_t startPoint, std::vector<logEvent*>& events, const std::string& eventType)
+{
+    time_t weekStart = startPoint - 302400;
+    time_t weekEnd = startPoint + 302400;
+    if (startPoint == 0)
+        weekStart = 0;
+    if (weekStart < 0)
+        weekStart = 0;
+    int startLocation = findTimeStart(weekStart);
+    for (int i=startLocation; i<log.size(); i++)
+    {
+        if (log[i].getTime() > weekEnd)
+            break;
+
+        if (log[i].getType() == eventType)
+            events.push_back(&log[i]);
+    }
+    cout << "Number of items to average " << events.size() << endl;
+}
+
 void hLog::graphIncorrectWords(std::time_t startPoint)
 {
     vector<logEvent*> spellTestComplete;
@@ -166,6 +186,31 @@ void hLog::graphKeyboard(std::time_t startPoint, int eventItem, const string& gr
             vector<string> dataItems = keyboardComplete[i]->getDataItems();
             xcoords.push_back(keyboardComplete[i]->getTime());
             ycoords.push_back(stof(keyboardComplete[i]->getDataItems()[eventItem]));
+        }
+        createScatterGraph(graphName,xcoords,ycoords,filename);
+    }
+}
+
+void hLog::graphKeyboardMovingAvg(std::time_t startPoint, int eventItem, const string& graphName, const std::string& filename)
+{
+    vector<logEvent*> keyboardComplete;
+    getEventPointers(startPoint, keyboardComplete, "keyboardComplete");
+    if (keyboardComplete.size())
+    {
+        vector<float> xcoords;
+        vector<float> ycoords;
+        for (int i=0; i<keyboardComplete.size(); i++)
+        {
+            vector<logEvent*> itemsToAvg;
+            getWeekEventPointers(keyboardComplete[i]->getTime(), itemsToAvg, "keyboardComplete");
+            float itemTotal = 0;
+            for (int j=0; j<itemsToAvg.size(); j++)
+            {
+                itemTotal += stof(itemsToAvg[j]->getDataItems()[eventItem]);
+            }
+
+            xcoords.push_back(keyboardComplete[i]->getTime());
+            ycoords.push_back(itemTotal/float(itemsToAvg.size()));
         }
         createScatterGraph(graphName,xcoords,ycoords,filename);
     }
