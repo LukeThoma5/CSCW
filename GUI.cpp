@@ -354,6 +354,22 @@ void SSG_ASGK_WPM_Clicked()
 		SSG::histLog.graphKeyboard(SSG::currentASComboTime,5,"WPM", "wordsPerMinute.csv");
 }
 
+void SSG_OP_Button_Password_Clicked()
+{
+	cout << "Showing" << endl;
+	SSG::winContainer.PasswordReset->show();
+}
+void SSG_OP_Button_Clear_Data_Clicked()
+{
+	cout << "Showing" << endl;
+	SSG::winContainer.ResetData->show();
+}
+void SSG_OP_Button_Close_Clicked()
+{
+	cout << "closing" << endl;
+	SSG::winContainer.OptionsScreen->hide();
+}
+
 void connectSignals()
 {
 if(SSG::winContainer.SpellingScreen)
@@ -403,6 +419,21 @@ if(SSG::winContainer.SpellingScreen)
 	SSG::refBuilder->get_widget("SSG_MS_Button_Games", pButton);
 	if(pButton)
 		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_MS_Button_Games_Clicked) );}
+
+	pButton = nullptr;
+	SSG::refBuilder->get_widget("SSG_OP_Button_Password", pButton);
+	if(pButton)
+		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_OP_Button_Password_Clicked) );}
+
+	pButton = nullptr;
+	SSG::refBuilder->get_widget("SSG_OP_Button_Clear_Data", pButton);
+	if(pButton)
+		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_OP_Button_Clear_Data_Clicked) );}
+
+	pButton = nullptr;
+	SSG::refBuilder->get_widget("SSG_OP_Button_Close", pButton);
+	if(pButton)
+		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_OP_Button_Close_Clicked) );}
 
 	pButton = nullptr;
 	SSG::refBuilder->get_widget("SSG_SC_Button_Definition", pButton);
