@@ -528,7 +528,6 @@
   </object>
   <object class="GtkWindow" id="SSG_PassWord_Reset">
     <property name="can_focus">False</property>
-    <property name="type">popup</property>
     <child>
       <object class="GtkBox">
         <property name="visible">True</property>

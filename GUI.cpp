@@ -25,6 +25,8 @@ using namespace std;
 void speak(const string& wordToSay, const bool isCorrect);
 void say(const string& sentence);
 string makeUpperCase(const string& attempt);
+string saltPassword(string password, string salt);
+string makeSalt();
 
 namespace SSG {
 	std::time_t currentASComboTime = 0;
@@ -370,6 +372,51 @@ void SSG_OP_Button_Close_Clicked()
 	SSG::winContainer.OptionsScreen->hide();
 }
 
+void SSG_PWR_Button_Accept_Clicked()
+{
+	Gtk::Entry* pEntry = nullptr;
+    SSG::refBuilder->get_widget("SSG_PWR_TextEntry_Attempt1",pEntry);
+    string attempt1 = pEntry->get_text();
+	SSG::refBuilder->get_widget("SSG_PWR_TextEntry_Attempt2",pEntry);
+    string attempt2 = pEntry->get_text();
+
+	if (attempt1 != attempt2)
+	{
+		Gtk::MessageDialog dialog(*SSG::winContainer.PasswordReset, "Text fields do not match"); //Create a dialog with PasswordReset as the parent
+		dialog.set_secondary_text("To set a password the fields must match!");
+		dialog.run(); //Run the dialog, when ok'ed continue execution
+	}
+	else
+	{
+
+		if (attempt1.size() < 6)
+		{
+			Gtk::MessageDialog dialog(*SSG::winContainer.PasswordReset, "Password must be at least 6 characters long!"); //Create a dialog with PasswordReset as the parent
+			dialog.run(); //Run the dialog, when ok'ed continue execution
+		}
+
+		else
+		{
+			//cout << "Password: " << attempt1 << " hash: " << sha256(attempt1) << endl;
+			string salt = makeSalt();
+			string password = saltPassword(attempt1, salt);
+			cout << password << endl;
+			ofstream passFile("userPassword.hash", std::ofstream::out);
+			passFile << salt << endl;
+			passFile << password << endl;
+			SSG::winContainer.PasswordReset->hide();
+		}
+	}
+}
+void SSG_RD_Button_Clear_Data_Confirm_Clicked()
+{
+
+}
+void SSG_RD_Button_Close_Clicked()
+{
+
+}
+
 void connectSignals()
 {
 if(SSG::winContainer.SpellingScreen)
@@ -434,6 +481,22 @@ if(SSG::winContainer.SpellingScreen)
 	SSG::refBuilder->get_widget("SSG_OP_Button_Close", pButton);
 	if(pButton)
 		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_OP_Button_Close_Clicked) );}
+
+	pButton = nullptr;
+	SSG::refBuilder->get_widget("SSG_PWR_Button_Accept", pButton);
+	if(pButton)
+		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_PWR_Button_Accept_Clicked) );}
+
+	pButton = nullptr;
+	SSG::refBuilder->get_widget("SSG_RD_Button_Clear_Data_Confirm", pButton);
+	if(pButton)
+		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_RD_Button_Clear_Data_Confirm_Clicked) );}
+
+	pButton = nullptr;
+	SSG::refBuilder->get_widget("SSG_RD_Button_Close", pButton);
+	if(pButton)
+		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_RD_Button_Close_Clicked) );}
+
 
 	pButton = nullptr;
 	SSG::refBuilder->get_widget("SSG_SC_Button_Definition", pButton);
