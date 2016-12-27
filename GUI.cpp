@@ -27,6 +27,7 @@ void say(const string& sentence);
 string makeUpperCase(const string& attempt);
 string saltPassword(string password, string salt);
 string makeSalt();
+vector<string> readPasswordFile();
 
 namespace SSG {
 	std::time_t currentASComboTime = 0;
@@ -408,13 +409,26 @@ void SSG_PWR_Button_Accept_Clicked()
 		}
 	}
 }
+
 void SSG_RD_Button_Clear_Data_Confirm_Clicked()
 {
+	Gtk::Entry* pEntry = nullptr;
+    SSG::refBuilder->get_widget("SSG_RD_TextEntry_Password_Attempt",pEntry);
+    string attempt = pEntry->get_text();
 
+	vector<string> passVector = readPasswordFile();
+	if (passVector.size() > 1)
+	{
+		string passwordAttempt = saltPassword(attempt,passVector[0]);
+		if (passwordAttempt != passVector[1])
+			cout << "PASSWORDS DO NOT MATCH" << endl;
+		else
+			SSG::histLog.clearLog();
+	}
 }
 void SSG_RD_Button_Close_Clicked()
 {
-
+	SSG::winContainer.ResetData->close();
 }
 
 void connectSignals()

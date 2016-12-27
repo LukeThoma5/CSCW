@@ -198,10 +198,10 @@ vector<string> readPasswordFile()
 	ifstream passFile("userPassword.hash");
 	vector<string> retVec;
 	string line;
-	getline(passFile, line);
-	retVec.push_back(line);
-	getline(passFile, line);
-	retVec.push_back(line);
+	while (getline(passFile, line))
+	{
+		retVec.push_back(line);
+	}
 	return retVec;
 }
 

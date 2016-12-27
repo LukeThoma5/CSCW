@@ -33,6 +33,8 @@ public:
 	
 	int findTimeStart(std::time_t comparisonTime);
 
+	void clearLog();
+
 	std::string getEventString(std::time_t startTime=0);
 
 	void graphIncorrectWords(std::time_t startPoint);

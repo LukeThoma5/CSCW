@@ -588,7 +588,6 @@
   </object>
   <object class="GtkWindow" id="SSG_Reset_Data">
     <property name="can_focus">False</property>
-    <property name="type">popup</property>
     <child>
       <object class="GtkBox">
         <property name="visible">True</property>

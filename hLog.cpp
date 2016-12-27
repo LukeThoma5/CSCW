@@ -191,6 +191,16 @@ void hLog::graphKeyboard(std::time_t startPoint, int eventItem, const string& gr
     }
 }
 
+void hLog::clearLog()
+{
+    cout << "Passwords MATCH, log clearing currently disabled!" << endl;
+    /*
+    ofstream logFile(logLocation, std::ofstream::out);
+    logFile << endl;
+    logFile.close();
+    */
+}
+
 void hLog::graphKeyboardMovingAvg(std::time_t startPoint, int eventItem, const string& graphName, const std::string& filename)
 {
     vector<logEvent*> keyboardComplete;
