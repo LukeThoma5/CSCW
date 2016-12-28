@@ -24,7 +24,7 @@ badwordContainer::badwordContainer(wordContainer& fullWordList, string filename)
     {
         string badWordWord = "";
         findWord(wrongWordVector[i],badWordWord);
-        word* originalWord = fullWordList.wordList[fullWordList.findWordLocation(badWordWord)];
+        word* originalWord = fullWordList[fullWordList.findWordLocation(badWordWord)];
         //wordList.push_back(new badWord());
         cout << originalWord->getWord() << endl;
 

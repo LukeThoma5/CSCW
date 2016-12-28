@@ -97,7 +97,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 		//cout << "Final score for " << wordC << wScore << endl;
 	}
 
-	vector<int> badWord::getSyllableWrongCount() {return syllableWrongCount;}
+	vector<int> badWord::getSyllableWrongCount() const {return syllableWrongCount;}
 
 	string badWord::getBadWordLine()
 	{

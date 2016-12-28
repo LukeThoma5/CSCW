@@ -27,8 +27,8 @@ protected:
 
 	int findWordInsertionPoint(const std::string& searchWord);
 
-public:
 	std::vector<word*> wordList;
+public:
 
 	void removeWord(int wordPosition);
 

@@ -11,9 +11,9 @@ class badWord : public word { //New class badWord inherits from word, keep datam
 protected:
 	void constructorHelper(const std::string& badwordline);
 
+	std::vector<int> syllableWrongCount;
 public:
 
-	std::vector<int> syllableWrongCount;
 	//float weight;
 
 	badWord(const std::string& wordline, const std::string& badwordline);
@@ -22,7 +22,7 @@ public:
 
 	badWord(const word* createFrom, std::string badWordLine);
 
-	std::vector<int> getSyllableWrongCount();
+	std::vector<int> getSyllableWrongCount() const;
 
 	virtual std::string wordWrong(const std::string& attempt);
 
