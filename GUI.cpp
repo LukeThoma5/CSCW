@@ -313,16 +313,14 @@ bool revealHangmanWord(const string& wordToGuess, string& hiddenLine, const char
 
 	for (int i=0; i<wordToGuess.size(); i++)
 	{
-		cout << attempt << "," << wordToGuess[i];
+		//cout << attempt << "," << wordToGuess[i];
 		if (attempt == wordToGuess[i])
 		{
-			cout << "CLEARING" << endl;
 			wasMistake = false;
 			hiddenLine[i] = attempt;
 		}
 	}
-	cout << endl;
-
+	//cout << endl;
 	return wasMistake;
 }
 
@@ -335,6 +333,7 @@ void ensureCharUpperCase(char& toUpper)
 
 void SSG_HM_TextEntry_activate()
 {
+	static int leftOverAttempts = 8;
 	Gtk::Entry* pEntry = nullptr;
     SSG::refBuilder->get_widget("SSG_HM_TextEntry",pEntry);
     Glib::RefPtr<Gtk::EntryBuffer> EntryBuffer =  pEntry->get_buffer();
@@ -356,33 +355,24 @@ void SSG_HM_TextEntry_activate()
 		{
 			//TODO Add penalty code
 			Guesses->get_buffer()->insert_at_cursor(attempt);
-		}
-		else
-		{
-			//TODO add end of game checking
-			if (SSG::HMwordToGuess == SSG::HMhiddenLine)
-			{
-				SSG::SpellingWords.nextWord();
-				SSG::HMwordToGuess = SSG::SpellingWords.getCurrentWord()->getWord();
-				SSG::HMhiddenLine = createDash(SSG::HMwordToGuess.size());
-			}
-		}
-	}
-	else
-	{
-		if (attempt == SSG::HMwordToGuess)
-		{
-			SSG::SpellingWords.nextWord();
-			SSG::HMwordToGuess = SSG::SpellingWords.getCurrentWord()->getWord();
-			SSG::HMhiddenLine = createDash(SSG::HMwordToGuess.size());
-			Guesses->get_buffer()->set_text("");
-		}
-		else
-		{
-			Guesses->get_buffer()->insert_at_cursor('"' + attempt + '"');
+			leftOverAttempts--;
 		}
 	}
 
+	if (attempt == SSG::HMwordToGuess || SSG::HMwordToGuess == SSG::HMhiddenLine || leftOverAttempts==0)
+	{
+		SSG::SpellingWords.nextWord();
+		SSG::HMwordToGuess = SSG::SpellingWords.getCurrentWord()->getWord();
+		SSG::HMhiddenLine = createDash(SSG::HMwordToGuess.size());
+		Guesses->get_buffer()->set_text("");
+		leftOverAttempts = 8;
+	}
+	else
+	{
+		if (attempt.size() > 1)
+			Guesses->get_buffer()->insert_at_cursor('"' + attempt + '"');
+	}
+	
 	HiddenText->get_buffer()->set_text(SSG::HMhiddenLine);
 }
 
