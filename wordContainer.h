@@ -42,7 +42,7 @@ public:
 
 	void sortWordContainer();
 
-	int size();
+	int size() const;
 
 	int binSearch(const std::string& comp, int start, int stop);
 

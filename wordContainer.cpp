@@ -296,7 +296,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 		cout << endl;
 	}
 
-	int wordContainer::size()
+	int wordContainer::size() const
 	{
 		return wordList.size();
 	}

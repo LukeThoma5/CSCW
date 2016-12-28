@@ -32,17 +32,17 @@ class wordCC{
     int keyboardWrongWordCount = 0;
     int spellingWrongWordCount = 0;
 
-public:
     wordContainer goodWords;
     badwordContainer badWords;
     std::vector<int> wordPos;
     std::vector<bool> goodBadPos;
     int currentWord = 0;
+public:
 
     wordCC();
     wordCC(std::string goodFilename, std::string badFilename);
 
-    int size();
+    int size() const;
 
     void generatewScore();
 
@@ -52,7 +52,7 @@ public:
 
     word* getCurrentWord();
 
-    int getCurrentPosition();
+    int getCurrentPosition() const;
 
     void nextWord();
 

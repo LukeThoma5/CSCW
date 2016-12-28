@@ -276,12 +276,12 @@ word* wordCC::getCurrentWord()
     return getWord(currentWord);
 }
 
-int wordCC::getCurrentPosition()
+int wordCC::getCurrentPosition() const
 {
     return currentWord;
 }
 
-int wordCC::size() {return goodWords.size()+badWords.size();}
+int wordCC::size() const {return goodWords.size()+badWords.size();}
 
 void wordCC::nextWord()
 {
