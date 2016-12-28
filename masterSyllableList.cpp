@@ -8,14 +8,9 @@ using namespace std;
 
 //private
 
-	void masterSyllablesList::printVector(const vector<int>& sV) //Remove
-	{
-		for (unsigned int i=0; i < sV.size(); i++)
-		{
-			cout << i << ":" << sV[i] << ' ';
-		}
-		cout << endl;
-	}
+void printVector(const vector<string>& sV, int start=0, int stop=-1);
+void printVector(const vector<int>& sV, int start=0, int stop=-1);
+
 
 	void masterSyllablesList::addToTotal(const std::string& syllable, const int& amountToInc)
 	{
@@ -219,4 +214,10 @@ using namespace std;
 				return false;
 		}
 		return true; //All values must be 0, create random values
+	}
+
+	void masterSyllablesList::print()
+	{
+		printVector(syllables);
+		printVector(wrongCount);
 	}
