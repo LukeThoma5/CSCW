@@ -20,6 +20,27 @@ std::string hLog::coordToString(const std::vector<float>& coords)
     return retSS.str();
 }
 
+int hLog::findTotalWREPlaytime(const std::vector<logEvent*>& events)
+{
+    int retInt = 0;
+    for (unsigned int i=0; i<events.size(); i++)
+    {
+        retInt += stoi(events[i]->getDataItems()[0]);
+    }
+    return retInt;
+}
+
+string hLog::generateWREStat(time_t startTime)
+{
+    string statLine = "The user has spent a total of ";
+    vector<logEvent*> events;
+    getEventPointers(startTime,events,"HangmanComplete");
+    statLine += to_string(findTotalWREPlaytime(events));
+    statLine += " seconds playing over " + to_string(events.size()) + " play sessions.\n";
+    return statLine;
+
+}
+
 void hLog::createBarGraph(const std::string& filename, const std::string& graphName, const std::vector<std::string>& xcoords, const std::vector<int>& ycoords)
 {
     //Write the data to file to be loaded in by python script
@@ -267,7 +288,7 @@ string hLog::getEventString(std::time_t startTime)
     cout << "Total events " << log.size() << "\nTotal items to display";
     int startLocation = findTimeStart(startTime);
     cout << int(log.size()) - startLocation << endl;
-    string retString;
+    string retString = generateWREStat(startTime);
     addGWW(retString, startTime);
 
     for (int i=startLocation; i<log.size(); i++)
@@ -278,16 +299,16 @@ string hLog::getEventString(std::time_t startTime)
         retString += to_string(daysSince) + " days ago " + log[i].getType() + '\n';
     }
 
-    SSG::MSL.sortList();
-    retString += "The complete syllable list and wrong count:\n";
-    vector<string> syllables;
-    vector<int> syllableWCount;
-    for (int i=0; i<SSG::MSL.size(); i++)
-    {
-        syllables.push_back(SSG::MSL[i]);
-        retString += to_string(i+1) + ": " + SSG::MSL[i] + " with a wrong count of " + to_string(SSG::MSL.getSyllableWCount(syllables.back())) + '\n';
-        syllableWCount.push_back(SSG::MSL.getSyllableWCount(syllables.back()));
-    }
+    // SSG::MSL.sortList();
+    // retString += "The complete syllable list and wrong count:\n";
+    // vector<string> syllables;
+    // vector<int> syllableWCount;
+    // for (int i=0; i<SSG::MSL.size(); i++)
+    // {
+    //     syllables.push_back(SSG::MSL[i]);
+    //     retString += to_string(i+1) + ": " + SSG::MSL[i] + " with a wrong count of " + to_string(SSG::MSL.getSyllableWCount(syllables.back())) + '\n';
+    //     syllableWCount.push_back(SSG::MSL.getSyllableWCount(syllables.back()));
+    // }
 
     //createBarGraph("SyllableData.txt","Syllable Wrong Counts", syllables, syllableWCount);
 

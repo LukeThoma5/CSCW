@@ -22,6 +22,10 @@ class hLog
 
 	void addGWW(std::string& retString, std::time_t startTime);
 
+	int findTotalWREPlaytime(const std::vector<logEvent*>& events);
+
+	std::string generateWREStat(std::time_t startTime);
+
 public:
 	hLog(const std::string& saveLocation);
 

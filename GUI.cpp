@@ -34,6 +34,7 @@ namespace SSG {
 	bool AnalysisMovAvg = false;
 	string HMwordToGuess;
 	string HMhiddenLine;
+	std::time_t hangmanStartTime;
 }
 
 static void SSG_SC_Button_Return_Clicked()
@@ -52,7 +53,13 @@ static void SSG_KS_Button_Return_Clicked()
 static void SSG_HM_Return_Clicked()
 {
 	if (SSG::winContainer.HangmanScreen)
+	{
 		SSG::winContainer.HangmanScreen->hide();
+		vector<string> eventData;
+		eventData.push_back(to_string(time(0)-SSG::hangmanStartTime));//The amount of time in WRE
+		eventData.push_back(to_string(SSG::SpellingWords.getCurrentPosition())); //The amount of words they played through
+		SSG::histLog.addEvent(eventData,time(0),"HangmanComplete");
+	}
 }
 
 static void SSG_AS_Button_Return_Clicked()
@@ -85,6 +92,7 @@ void SSG_MS_Button_Games_Clicked()
 	Gtk::TextView* HiddenText = nullptr;
 	SSG::refBuilder->get_widget("SSG_HM_Text_Current_Guess", HiddenText);
 	HiddenText->get_buffer()->set_text(SSG::HMhiddenLine);
+	SSG::hangmanStartTime = time(0);
 }
 
 void definitionHelper(const string& widgetName)

@@ -20,3 +20,4 @@
 5863df06+GoodWordWrong+VULCAN+2.465909+vulcun
 5863df0c+SpellingTestComplete+42+2+5
 5863e0a8+SpellingTestComplete+25+1+3
+5864183a+HangmanComplete+59+3
