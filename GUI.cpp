@@ -81,6 +81,10 @@ void SSG_MS_Button_Games_Clicked()
 	SSG::SpellingWords.findSpellingWords();
 	SSG::HMwordToGuess = SSG::SpellingWords.getCurrentWord()->getWord();
 	SSG::HMhiddenLine = createDash(SSG::HMwordToGuess.size());
+
+	Gtk::TextView* HiddenText = nullptr;
+	SSG::refBuilder->get_widget("SSG_HM_Text_Current_Guess", HiddenText);
+	HiddenText->get_buffer()->set_text(SSG::HMhiddenLine);
 }
 
 void definitionHelper(const string& widgetName)
@@ -309,16 +313,24 @@ bool revealHangmanWord(const string& wordToGuess, string& hiddenLine, const char
 
 	for (int i=0; i<wordToGuess.size(); i++)
 	{
+		cout << attempt << "," << wordToGuess[i];
 		if (attempt == wordToGuess[i])
 		{
+			cout << "CLEARING" << endl;
 			wasMistake = false;
 			hiddenLine[i] = attempt;
 		}
 	}
+	cout << endl;
 
 	return wasMistake;
 }
 
+void ensureCharUpperCase(char& toUpper)
+{
+	if (toUpper > 96)
+		toUpper -= 32;
+}
 
 
 void SSG_HM_TextEntry_activate()
@@ -329,17 +341,49 @@ void SSG_HM_TextEntry_activate()
     string attempt = pEntry->get_text();
 	EntryBuffer->set_text("");
 	cout << attempt << endl;
+
+	Gtk::TextView* Guesses = nullptr;
+	SSG::refBuilder->get_widget("SSG_HM_Text_Guesses", Guesses);
+
+	Gtk::TextView* HiddenText = nullptr;
+	SSG::refBuilder->get_widget("SSG_HM_Text_Current_Guess", HiddenText);
+
 	if (attempt.size() == 1)
 	{
+		ensureCharUpperCase(attempt[0]);
+
 		if (revealHangmanWord(SSG::HMwordToGuess,SSG::HMhiddenLine,attempt[0]))
 		{
 			//TODO Add penalty code
+			Guesses->get_buffer()->insert_at_cursor(attempt);
 		}
 		else
 		{
 			//TODO add end of game checking
+			if (SSG::HMwordToGuess == SSG::HMhiddenLine)
+			{
+				SSG::SpellingWords.nextWord();
+				SSG::HMwordToGuess = SSG::SpellingWords.getCurrentWord()->getWord();
+				SSG::HMhiddenLine = createDash(SSG::HMwordToGuess.size());
+			}
 		}
 	}
+	else
+	{
+		if (attempt == SSG::HMwordToGuess)
+		{
+			SSG::SpellingWords.nextWord();
+			SSG::HMwordToGuess = SSG::SpellingWords.getCurrentWord()->getWord();
+			SSG::HMhiddenLine = createDash(SSG::HMwordToGuess.size());
+			Guesses->get_buffer()->set_text("");
+		}
+		else
+		{
+			Guesses->get_buffer()->insert_at_cursor('"' + attempt + '"');
+		}
+	}
+
+	HiddenText->get_buffer()->set_text(SSG::HMhiddenLine);
 }
 
 void addTags(string textName)
