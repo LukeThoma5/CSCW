@@ -250,7 +250,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 
 	float word::getwScore() {return wScore;}
 
-	string word::getWord() {return wordC;}
+	string word::getWord() const {return wordC;}
 
 	float word::getWeight() {return weight;}
 

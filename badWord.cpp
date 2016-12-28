@@ -67,7 +67,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 
 	badWord::badWord(const word* createFrom, string badWordLine) : word(true)
 	{
-		wordC=createFrom->wordC;
+		wordC=createFrom->getWord();		
 		syllables=createFrom->syllables;
 		definition=createFrom->definition;
 		wordFlags=createFrom->wordFlags;

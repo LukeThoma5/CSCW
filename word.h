@@ -25,8 +25,8 @@ protected:
 	void addToMSLTotal(const std::vector<int>& syllableWrongCount);
 
 
-public:
 	std::string wordC;//wordCapitalised
+public:
 	std::vector<std::string> syllables;
 	std::vector<int> syllablePositions;
 	std::string definition;
@@ -41,7 +41,7 @@ public:
 
 	word(word* bwordToSlice);
 
-	std::string getWord();
+	std::string getWord() const;
 
 	std::vector<std::string> getSyllables();
 

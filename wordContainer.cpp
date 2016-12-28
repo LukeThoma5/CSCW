@@ -233,7 +233,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 
 	void wordContainer::wordWrong(int wordPosition, std::string attempt, wordContainer* containerToAddTo)
 	{
-		cout << wordList[wordPosition]->wordC << endl;
+		cout << wordList[wordPosition]->getWord() << endl;
 		string badWordLine = wordList[wordPosition]->wordWrong(attempt);
 		cout << badWordLine << endl;
 		badWord* badWordToAdd = new badWord(wordList[wordPosition],badWordLine);
@@ -266,7 +266,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 		printVector(wordPos,0,stop);
 		for (unsigned int i=0; i<stop; i++)
 		{
-			cout << "Word: " << wordList[wordPos[i]]->wordC << " at " << wordPos[i] << " with a value of " << wordList[wordPos[i]]->wScore << endl;
+			cout << "Word: " << wordList[wordPos[i]]->getWord() << " at " << wordPos[i] << " with a value of " << wordList[wordPos[i]]->wScore << endl;
 		}
 	}
 
