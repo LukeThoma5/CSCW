@@ -17,3 +17,5 @@
 585beef9+SpellingTestComplete+10+1+1
 5863da3b+SpellingTestComplete+28+1+3
 5863dc07+SpellingTestComplete+31+1+3
+5863df06+GoodWordWrong+VULCAN+2.465909+vulcun
+5863df0c+SpellingTestComplete+42+2+5

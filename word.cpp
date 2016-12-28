@@ -248,19 +248,19 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 		return false; //Needed for check of badword
 	}
 
-	float word::getwScore() {return wScore;}
+	float word::getwScore() const {return wScore;}
 
 	string word::getWord() const {return wordC;}
 
-	float word::getWeight() {return weight;}
+	float word::getWeight() const {return weight;}
 
-	std::vector<std::string> word::getSyllables() {return syllables;}
+	std::vector<std::string> word::getSyllables() const {return syllables;}
 
-	std::vector<int> word::getSyllablePositions() {return syllablePositions;}
+	std::vector<int> word::getSyllablePositions() const {return syllablePositions;}
 
-	std::string word::getDefinition() {return definition;}
+	std::string word::getDefinition() const {return definition;}
 
-	std::vector<bool> word::getWordFlags() {return wordFlags;}
+	std::vector<bool> word::getWordFlags() const {return wordFlags;}
 
 	word::word(const string& wordline) {
 		//cout << wordline << endl;

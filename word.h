@@ -26,13 +26,13 @@ protected:
 
 
 	std::string wordC;//wordCapitalised
-public:
 	std::vector<std::string> syllables;
 	std::vector<int> syllablePositions;
 	std::string definition;
 	std::vector<bool> wordFlags;
 	float wScore = 0.0;
 	float weight = 0.5;
+public:
 	//int size = 0;
 
 	word(bool safteyMechanism);
@@ -43,17 +43,17 @@ public:
 
 	std::string getWord() const;
 
-	std::vector<std::string> getSyllables();
+	std::vector<std::string> getSyllables() const;
 
-	std::vector<int> getSyllablePositions();
+	std::vector<int> getSyllablePositions() const;
 
-	std::string getDefinition();
+	std::string getDefinition() const;
 
-	std::vector<bool> getWordFlags();
+	std::vector<bool> getWordFlags() const;
 
-	float getwScore();
+	float getwScore() const;
 
-	float getWeight(); 
+	float getWeight() const; 
 
 	virtual void determineScore();
 

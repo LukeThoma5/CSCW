@@ -55,7 +55,7 @@ badWord* badwordContainer::getBadWord(int wordToGet)
     {
         if (wordToGet < wordList.size())
         {
-            if (wordList[wordToGet]->wordFlags[0] == 1) //If the word is a bad word
+            if (wordList[wordToGet]->getWordFlags()[0] == 1) //If the word is a bad word
                 return static_cast<badWord*>(wordList[wordToGet]);
             else
                 throw "wordContainer badWord* to word";

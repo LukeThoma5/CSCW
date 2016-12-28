@@ -36,7 +36,7 @@ public:
 
 	int addWord(word* wordToAdd);
 
-	void wordWrong(int wordPosition, std::string attempt, wordContainer* containerToAddTo);
+	//void wordWrong(int wordPosition, std::string attempt, wordContainer* containerToAddTo);
 
 	int findWordLocation(const std::string& wordToFind);
 

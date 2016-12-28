@@ -67,12 +67,12 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 
 	badWord::badWord(const word* createFrom, string badWordLine) : word(true)
 	{
-		wordC=createFrom->getWord();		
-		syllables=createFrom->syllables;
-		definition=createFrom->definition;
-		wordFlags=createFrom->wordFlags;
-		syllablePositions=createFrom->syllablePositions;
-		wScore=createFrom->wScore;
+		wordC=createFrom->getWord();
+		syllables=createFrom->getSyllables();
+		definition=createFrom->getDefinition();
+		wordFlags=createFrom->getWordFlags();
+		syllablePositions=createFrom->getSyllablePositions();
+		wScore=createFrom->getwScore();
 		constructorHelper(badWordLine);
 	}
 

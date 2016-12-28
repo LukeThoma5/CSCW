@@ -86,7 +86,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 
 				else
 				{
-					if (wordList[leftVector[leftPos]]->wScore >= wordList[rightVector[rightPos]]->wScore) //If the wrongCount the leftvector postition points to is greater than the the wrongCount the rightvector postition points to
+					if (wordList[leftVector[leftPos]]->getwScore() >= wordList[rightVector[rightPos]]->getwScore()) //If the wrongCount the leftvector postition points to is greater than the the wrongCount the rightvector postition points to
 					{
 						returnVector.push_back(leftVector[leftPos++]); //Add the leftvector position
 					}
@@ -231,18 +231,20 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 		cout << "WARNING DEFAULT WORDCONTAINER CONSTRUCTOR IS BEING CALLED" << endl;
 	}
 
+	/* //Functionality moved to wordCC
 	void wordContainer::wordWrong(int wordPosition, std::string attempt, wordContainer* containerToAddTo)
 	{
 		cout << wordList[wordPosition]->getWord() << endl;
 		string badWordLine = wordList[wordPosition]->wordWrong(attempt);
 		cout << badWordLine << endl;
 		badWord* badWordToAdd = new badWord(wordList[wordPosition],badWordLine);
-		cout << badWordToAdd->wordFlags[0] << endl;
+		cout << badWordToAdd->getWordFlags()[0] << endl;
 		delete badWordToAdd; //Remove when adding to a container
 		if (containerToAddTo == this)
 			cout << "You are trying to add to your self!" << endl;
 		//Add overloaded functions that don't include which removing words or deleting words ect. Improve the add words, make indexing turn off able.
 	}
+	*/
 
 	wordContainer::~wordContainer()
 	{
@@ -266,7 +268,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 		printVector(wordPos,0,stop);
 		for (unsigned int i=0; i<stop; i++)
 		{
-			cout << "Word: " << wordList[wordPos[i]]->getWord() << " at " << wordPos[i] << " with a value of " << wordList[wordPos[i]]->wScore << endl;
+			cout << "Word: " << wordList[wordPos[i]]->getWord() << " at " << wordPos[i] << " with a value of " << wordList[wordPos[i]]->getwScore() << endl;
 		}
 	}
 
@@ -289,7 +291,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 			stop = wordList.size();
 		for (unsigned int i=start; i<stop; i++)
 		{
-			cout << wordList[i]->wScore << ",";
+			cout << wordList[i]->getwScore() << ",";
 		}
 		cout << endl;
 	}
