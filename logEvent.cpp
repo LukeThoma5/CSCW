@@ -33,11 +33,11 @@ logEvent::logEvent(const std::vector<std::string>& dItems,const std::time_t& eti
     eType=etype;
 }
 
-time_t logEvent::getTime() {return eTime;}
+time_t logEvent::getTime() const {return eTime;}
 
-std::string logEvent::getType() {return eType;}
+std::string logEvent::getType() const {return eType;}
 
-std::vector<std::string> logEvent::getDataItems() {return dataItems;}
+std::vector<std::string> logEvent::getDataItems() const {return dataItems;}
 
 string logEvent::generateEventLine()
 {

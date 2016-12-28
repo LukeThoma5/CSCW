@@ -18,11 +18,11 @@ public:
 
 	logEvent(const std::vector<std::string>& dItems,const std::time_t& etime,const std::string& etype);
 
-	std::time_t getTime();
+	std::time_t getTime() const;
 
-	std::string getType();
+	std::string getType() const;
 
-	std::vector<std::string> getDataItems();
+	std::vector<std::string> getDataItems() const;
 
 	std::string generateEventLine();
 	

@@ -25,7 +25,7 @@ using namespace std;
 void speak(const string& wordToSay, const bool isCorrect);
 void say(const string& sentence);
 string makeUpperCase(const string& attempt);
-string saltPassword(string password, string salt);
+string saltPassword(const string& password, const string& salt);
 string makeSalt();
 vector<string> readPasswordFile();
 
@@ -195,12 +195,6 @@ string seperateWord(const string& wordToSep)
 		retString = retString + wordToSep[i] + ' ';
 	}
 
-	/*
-	for (int i=0; i<syllables.size(); i++)
-	{
-		retString += syllables[i] + " ";
-	}
-	*/
 	cout << retString << endl;
 	return retString;
 }
@@ -333,47 +327,51 @@ void ensureCharUpperCase(char& toUpper)
 
 void SSG_HM_TextEntry_activate()
 {
-	static int leftOverAttempts = 8;
+	static int leftOverAttempts = 8; //Persistant value between function calls, initialised once.
+
+	//Get the users attempt from the entry
 	Gtk::Entry* pEntry = nullptr;
     SSG::refBuilder->get_widget("SSG_HM_TextEntry",pEntry);
     Glib::RefPtr<Gtk::EntryBuffer> EntryBuffer =  pEntry->get_buffer();
     string attempt = pEntry->get_text();
-	EntryBuffer->set_text("");
+
+	EntryBuffer->set_text(""); //Reset the text entry buffer to empty
 	cout << attempt << endl;
 
+	//Get the pointers to display outputs
 	Gtk::TextView* Guesses = nullptr;
 	SSG::refBuilder->get_widget("SSG_HM_Text_Guesses", Guesses);
-
 	Gtk::TextView* HiddenText = nullptr;
 	SSG::refBuilder->get_widget("SSG_HM_Text_Current_Guess", HiddenText);
 
-	if (attempt.size() == 1)
+	if (attempt.size() == 1) //If only a single character
 	{
-		ensureCharUpperCase(attempt[0]);
+		ensureCharUpperCase(attempt[0]); //Remove need to have caps lock on when playing as word::wordC is capitalised
 
-		if (revealHangmanWord(SSG::HMwordToGuess,SSG::HMhiddenLine,attempt[0]))
+		if (revealHangmanWord(SSG::HMwordToGuess,SSG::HMhiddenLine,attempt[0])) //Reveal all instances of this letter, if none found enter {}
 		{
 			//TODO Add penalty code
-			Guesses->get_buffer()->insert_at_cursor(attempt);
-			leftOverAttempts--;
+			Guesses->get_buffer()->insert_at_cursor(attempt); //Add to incorrect guesses
+			leftOverAttempts--; //Remove an attempt
 		}
 	}
 
-	if (attempt == SSG::HMwordToGuess || SSG::HMwordToGuess == SSG::HMhiddenLine || leftOverAttempts==0)
+	if (attempt == SSG::HMwordToGuess || SSG::HMwordToGuess == SSG::HMhiddenLine || leftOverAttempts==0) //If game over
 	{
-		SSG::SpellingWords.nextWord();
+		SSG::SpellingWords.nextWord(); //Update the wordCC word
+		//Reset the user interface
 		SSG::HMwordToGuess = SSG::SpellingWords.getCurrentWord()->getWord();
 		SSG::HMhiddenLine = createDash(SSG::HMwordToGuess.size());
 		Guesses->get_buffer()->set_text("");
-		leftOverAttempts = 8;
+		leftOverAttempts = 8; //Reset the attempts
 	}
 	else
 	{
-		if (attempt.size() > 1)
-			Guesses->get_buffer()->insert_at_cursor('"' + attempt + '"');
+		if (attempt.size() > 1) //If not a character eg not already been added to guess list
+			Guesses->get_buffer()->insert_at_cursor('"' + attempt + '"'); //Add to guess list in quotes to differentiate between quesses
 	}
-	
-	HiddenText->get_buffer()->set_text(SSG::HMhiddenLine);
+
+	HiddenText->get_buffer()->set_text(SSG::HMhiddenLine); //Update UI to current state
 }
 
 void addTags(string textName)

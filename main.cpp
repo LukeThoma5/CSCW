@@ -163,7 +163,7 @@ string makeSalt()
 	return salt;
 }
 
-string saltPassword(string password, string salt)
+string saltPassword(const string& password, const string& salt)
 {
 	string saltedPass = "";
 	int passSize = password.size();
