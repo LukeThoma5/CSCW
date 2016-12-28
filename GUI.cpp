@@ -32,6 +32,8 @@ vector<string> readPasswordFile();
 namespace SSG {
 	std::time_t currentASComboTime = 0;
 	bool AnalysisMovAvg = false;
+	string HMwordToGuess;
+	string HMhiddenLine;
 }
 
 static void SSG_SC_Button_Return_Clicked()
@@ -47,6 +49,12 @@ static void SSG_KS_Button_Return_Clicked()
 		SSG::winContainer.KeyboardScreen->hide(); //hide() will close the window but keep the program running
 }
 
+static void SSG_HM_Return_Clicked()
+{
+	if (SSG::winContainer.HangmanScreen)
+		SSG::winContainer.HangmanScreen->hide();
+}
+
 static void SSG_AS_Button_Return_Clicked()
 {
 	if(SSG::winContainer.AnalysisScreen)
@@ -59,11 +67,20 @@ void SSG_MS_Button_Quit_Clicked()
 		SSG::winContainer.MainScreen->hide();
 }
 
+string createDash(const int& length)
+{
+	string retString;
+	for (int i=0; i<length; i++)
+		retString += '_';
+	return retString;
+}
+
 void SSG_MS_Button_Games_Clicked()
 {
-	//SSG::SpellingWords.generatewScore();
-	//SSG::SpellingWords.findHardest();
+	SSG::winContainer.HangmanScreen->show();
 	SSG::SpellingWords.findSpellingWords();
+	SSG::HMwordToGuess = SSG::SpellingWords.getCurrentWord()->getWord();
+	SSG::HMhiddenLine = createDash(SSG::HMwordToGuess.size());
 }
 
 void definitionHelper(const string& widgetName)
@@ -286,6 +303,45 @@ void SSG_KS_TextEntry_insert()
 	  use apply_tag to with the tagref, iterator start and iterator end https://developer.gnome.org/gtkmm/stable/classGtk_1_1TextBuffer.html#ad42f4e41a4cb2d5a824e2f0ffa78e973 https://developer.gnome.org/gtkmm/stable/classGtk_1_1TextTag.html*/
 }
 
+bool revealHangmanWord(const string& wordToGuess, string& hiddenLine, const char attempt)
+{
+	bool wasMistake = true;
+
+	for (int i=0; i<wordToGuess.size(); i++)
+	{
+		if (attempt == wordToGuess[i])
+		{
+			wasMistake = false;
+			hiddenLine[i] = attempt;
+		}
+	}
+
+	return wasMistake;
+}
+
+
+
+void SSG_HM_TextEntry_activate()
+{
+	Gtk::Entry* pEntry = nullptr;
+    SSG::refBuilder->get_widget("SSG_HM_TextEntry",pEntry);
+    Glib::RefPtr<Gtk::EntryBuffer> EntryBuffer =  pEntry->get_buffer();
+    string attempt = pEntry->get_text();
+	EntryBuffer->set_text("");
+	cout << attempt << endl;
+	if (attempt.size() == 1)
+	{
+		if (revealHangmanWord(SSG::HMwordToGuess,SSG::HMhiddenLine,attempt[0]))
+		{
+			//TODO Add penalty code
+		}
+		else
+		{
+			//TODO add end of game checking
+		}
+	}
+}
+
 void addTags(string textName)
 {
 	Gtk::TextView* testView = nullptr;
@@ -447,6 +503,11 @@ if(SSG::winContainer.SpellingScreen)
 		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_KS_Button_Return_Clicked) );}
 
 	pButton = nullptr;
+	SSG::refBuilder->get_widget("SSG_HM_Return", pButton);
+	if(pButton)
+		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_HM_Return_Clicked) );}
+
+	pButton = nullptr;
 	SSG::refBuilder->get_widget("SSG_AS_Button_Return", pButton);
 	if(pButton)
 		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_AS_Button_Return_Clicked) );}
@@ -561,12 +622,16 @@ if(SSG::winContainer.SpellingScreen)
 	SSG::refBuilder->get_widget("SSG_SC_TextEntry",pEntry);
 	if (pEntry)
 		{pEntry->signal_activate().connect( sigc::ptr_fun(SSG_SC_TextEntry_activate) );}
-		SSG::refBuilder->get_widget("SSG_SC_TextEntry",pEntry);
 
 	pEntry = nullptr;
 	SSG::refBuilder->get_widget("SSG_KS_TextEntry",pEntry);
 	if (pEntry)
 		{pEntry->signal_changed().connect( sigc::ptr_fun(SSG_KS_TextEntry_insert) );}
+
+	pEntry = nullptr;
+	SSG::refBuilder->get_widget("SSG_HM_TextEntry",pEntry);
+	if (pEntry)
+		{pEntry->signal_activate().connect( sigc::ptr_fun(SSG_HM_TextEntry_activate) );}
 
 	Gtk::ComboBoxText* pCombo = nullptr;
 	SSG::refBuilder->get_widget("SSG_AS_Combo_Timeframe",pCombo);
