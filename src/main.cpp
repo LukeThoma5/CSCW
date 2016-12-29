@@ -47,7 +47,6 @@ namespace SSG {
 
 masterSyllablesList::~masterSyllablesList() {std::cout<<"ClosingMSL"<<std::endl;}
 
-
 void say(const string& sentence)
 {
     std::string myfifo = "/tmp/myfifo";
@@ -60,7 +59,7 @@ void say(const string& sentence)
     write(fileDescriptor,sentence.c_str(),100);
     close(fileDescriptor);
 
-    /* remove the FIFO */
+    /* unlick the FIFO */
     unlink(myfifo.c_str());
 }
 
