@@ -1,9 +1,9 @@
-//#include "masterSyllableListTree.h"
-#include "masterSyllableList.h"
+#include "masterSyllableListTree.h"
+//#include "masterSyllableList.h"
 
 using namespace std;
 
-std::vector<std::string> masterSyllablesList::findUniqueSyllables(const std::vector<std::string>& inSyllables)
+std::vector<std::string> masterSyllablesListTree::findUniqueSyllables(const std::vector<std::string>& inSyllables)
 {
     cout << "masterSyllablesList::findUniqueSyllables" << endl;
     vector<string> returnVector;
@@ -23,7 +23,7 @@ std::vector<std::string> masterSyllablesList::findUniqueSyllables(const std::vec
 }
 
 
-void masterSyllablesList::addSyllables(const std::vector<std::string>& inSyllables)
+void masterSyllablesListTree::addSyllables(const std::vector<std::string>& inSyllables)
 {
     if (isSortedOnWrongCount)
         makeAlphabetical();
@@ -51,7 +51,7 @@ void masterSyllablesList::addSyllables(const std::vector<std::string>& inSyllabl
     }
 }
 
-void masterSyllablesList::addToTotal(const std::string& syllableToFind, const int& amountToInc)
+void masterSyllablesListTree::addToTotal(const std::string& syllableToFind, const int& amountToInc)
 {
     if (isSortedOnWrongCount)
         makeAlphabetical();
@@ -71,13 +71,13 @@ void masterSyllablesList::addToTotal(const std::string& syllableToFind, const in
     }
 }
 
-int masterSyllablesList::size()
+int masterSyllablesListTree::size()
 {
     cout << "masterSyllablesList::size" << endl;
     return allNodes.size();
 }
 
-void masterSyllablesList::sortList()
+void masterSyllablesListTree::sortList()
 {
     cout << "masterSyllablesList::sortList" << endl;
     root->clearPointers();
@@ -91,7 +91,7 @@ void masterSyllablesList::sortList()
     root->addInOrder(allNodes);
 }
 
-void masterSyllablesList::makeAlphabetical()
+void masterSyllablesListTree::makeAlphabetical()
 {
     root->clearPointers();
     isSortedOnWrongCount = false;
@@ -102,25 +102,25 @@ void masterSyllablesList::makeAlphabetical()
     }
 }
 
-bool masterSyllablesList::hasNoValues()
+bool masterSyllablesListTree::hasNoValues()
 {
     cout << "masterSyllablesList::hasNoValues" << endl;
     return root->hasNoValues();
 }
 
-void masterSyllablesList::print()
+void masterSyllablesListTree::print()
 {
     cout << "masterSyllablesList::print" << endl;
     root->printInOrder();
 }
 
-int masterSyllablesList::getSyllableWCount(int syllableToGet)
+int masterSyllablesListTree::getSyllableWCount(int syllableToGet)
 {
     cout << "masterSyllablesList::getSyllableWCount" << endl;
     return allNodes[syllableToGet]->getSyllableWCount();
 }
 
-int masterSyllablesList::getSyllableWCount(const std::string syllableToFind)
+int masterSyllablesListTree::getSyllableWCount(const std::string syllableToFind)
 {
     if (isSortedOnWrongCount)
         makeAlphabetical();
@@ -128,7 +128,7 @@ int masterSyllablesList::getSyllableWCount(const std::string syllableToFind)
     return root->findNode(syllableToFind)->getSyllableWCount();
 }
 
-masterSyllablesList::~masterSyllablesList()
+masterSyllablesListTree::~masterSyllablesListTree()
 {
     cout << "Destroying MSL" << endl;
     delete root;

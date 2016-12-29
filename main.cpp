@@ -16,6 +16,8 @@
 
 #include "randng.h" //My random number generator header
 #include "masterSyllableList.h" //MSL declaration
+#include "masterSyllableListTree.h"
+#include "masterSyllableListMap.h"
 #include "word.h"
 #include "badWord.h"
 #include "SSG.h"
@@ -30,7 +32,8 @@ using namespace std;
 
 namespace SSG {
 	//SSG SpellingSuiteGlobalVariables
-	masterSyllablesList physicalMSL;
+	masterSyllablesListTree physicalMSL;
+	//masterSyllablesListMap physicalMSL;
 	masterSyllablesList* MSL = &physicalMSL; //MasterSyllablesList
 	wordContainer* goodWordList = NULL; //Allows the currently worked on wordList to be updated and interchanged
 	wordContainer* badWordList = NULL; //Defaulting to null prevents manipulating objects that don't exist.
@@ -42,6 +45,7 @@ namespace SSG {
 	time_t sessionStartTime = time(0);
 }
 
+masterSyllablesList::~masterSyllablesList() {std::cout<<"ClosingMSL"<<std::endl;}
 
 
 void say(const string& sentence)

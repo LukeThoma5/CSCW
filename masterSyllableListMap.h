@@ -1,12 +1,14 @@
-#ifndef masterSyllableList_h
-#define masterSyllableList_h
+#ifndef masterSyllableListMap_h
+#define masterSyllableListMap_h
 
 #include <vector>
 #include <string>
 #include <iostream>
 #include <unordered_map>
 
-class masterSyllablesList
+#include "masterSyllableList.h"
+
+class masterSyllablesListMap : public masterSyllablesList
 {
 private:
 	std::vector<int> syllablePos; //For mergesort
@@ -26,7 +28,6 @@ private:
 	std::vector<std::string> findUniqueSyllables(const std::vector<std::string>& inSyllables);
 
 public:
-
 
 	void addSyllables(const std::vector<std::string>& inSyllables);
 
@@ -48,6 +49,8 @@ public:
 	int getSyllableWCount(int syllableToGet);
 
 	int getSyllableWCount(const std::string syllable); //Overload to use map
+
+	~masterSyllablesListMap();
 
 };
 

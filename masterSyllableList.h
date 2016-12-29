@@ -1,63 +1,32 @@
-#ifndef masterSyllableListTree_h
-#define masterSyllableListTree_h
+#ifndef masterSyllableList_h
+#define masterSyllableList_h
 
 #include <vector>
 #include <string>
 #include <iostream>
 
-#include "syllableNode.h"
-
 class masterSyllablesList
 {
-private:
-	// std::vector<int> syllablePos; //For mergesort
-
-	// std::vector<int> splitVector(const std::vector<int> inVector, int mode);
-
-	// std::vector<int> syllableMergeSort(const std::vector<int>& inVector);
-
-	// void enactMergeSort(const std::vector<int>& inVector);
-
-	// std::unordered_map<std::string,int> syllableMap;
-
-	// std::vector<std::string> syllables;
-	// std::vector<int> wrongCount;
-	// std::vector<float> weight;
-
-	bool isSortedOnWrongCount = false;
-	syllableNode* root = nullptr;
-
-	std::vector<syllableNode*> allNodes;
-
-	std::vector<std::string> findUniqueSyllables(const std::vector<std::string>& inSyllables);
-
-
 public:
-	void makeAlphabetical();
+	virtual void addSyllables(const std::vector<std::string>& inSyllables) = 0;
 
-	void addSyllables(const std::vector<std::string>& inSyllables);
+	virtual void addToTotal(const std::string& syllableToFind, const int& amountToInc) = 0;
 
-	void addToTotal(const std::string& syllableToFind, const int& amountToInc);
+	virtual void sortList() = 0;
 
-	void sortList();
+	virtual int size() = 0;
 
-	int size();
+	virtual bool hasNoValues() = 0;
 
-	bool hasNoValues();
+	virtual std::string operator[](int syllableToGet) = 0;
 
-	std::string operator[](int syllableToGet)
-	{
-		return allNodes[syllableToGet]->getSyllableValue();
-	}
+	virtual void print() = 0;
 
-	void print();
+	virtual int getSyllableWCount(int syllableToGet) = 0;
 
-	int getSyllableWCount(int syllableToGet);
+	virtual int getSyllableWCount(const std::string syllableToFind) = 0; //Overload to use map
 
-	int getSyllableWCount(const std::string syllableToFind); //Overload to use map
-
-	~masterSyllablesList();
-
+	virtual ~masterSyllablesList() = 0;
 };
 
 #endif

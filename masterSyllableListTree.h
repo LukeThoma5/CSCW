@@ -6,23 +6,11 @@
 #include <iostream>
 
 #include "syllableNode.h"
+#include "masterSyllableList.h"
 
-class masterSyllablesList
+class masterSyllablesListTree : public masterSyllablesList
 {
 private:
-	// std::vector<int> syllablePos; //For mergesort
-
-	// std::vector<int> splitVector(const std::vector<int> inVector, int mode);
-
-	// std::vector<int> syllableMergeSort(const std::vector<int>& inVector);
-
-	// void enactMergeSort(const std::vector<int>& inVector);
-
-	// std::unordered_map<std::string,int> syllableMap;
-
-	// std::vector<std::string> syllables;
-	// std::vector<int> wrongCount;
-	// std::vector<float> weight;
 
 	bool isSortedOnWrongCount = false;
 	syllableNode* root = nullptr;
@@ -56,7 +44,7 @@ public:
 
 	int getSyllableWCount(const std::string syllableToFind); //Overload to use map
 
-	~masterSyllablesList();
+	~masterSyllablesListTree();
 
 };
 
