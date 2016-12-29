@@ -4,26 +4,22 @@
 #include <string>
 #include <vector>
 
+void split(const std::string &s,const char delim, std::vector<std::string>& elems);
+std::vector<std::string> split(const std::string &s, const char delim='+');
+
 class word
 {
 private:
 	std::string generateBadWordLine(std::vector<int>& syllableWrongCount);
 
 protected:
-	//modified from here http://stackoverflow.com/questions/236129/split-a-string-in-c
-	void split(const std::string &s,const char delim, std::vector<std::string>& elems);
-
-
-	std::vector<std::string> split(const std::string &s, const char delim='+');
-
 	int determineSyllables();
 
 	std::vector<int> determineWrongSyllables(const std::string& attempt);
 
 	void wScoreHelper();
 
-	void addToMSLTotal(const std::vector<int>& syllableWrongCount);
-
+	void addToMSLTotal(const std::vector<int>& syllableWrongCount) const;
 
 	std::string wordC;//wordCapitalised
 	std::vector<std::string> syllables;
@@ -53,7 +49,7 @@ public:
 
 	float getwScore() const;
 
-	float getWeight() const; 
+	float getWeight() const;
 
 	virtual void determineScore();
 

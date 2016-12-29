@@ -14,6 +14,7 @@ g++ ./src/main.cpp\
  ./objects/hLog.cpp\
  ./objects/logEvent.cpp\
  ./src/externalCode.cpp\
+ ./src/SHA256.cpp\
  -o a.out\
  `pkg-config gtkmm-3.0 --cflags --libs`
 #g++ -W GUI.cpp -o backlessGUI `pkg-config gtkmm-3.0 --cflags --libs`

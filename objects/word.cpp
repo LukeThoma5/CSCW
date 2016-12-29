@@ -35,22 +35,6 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 	}
 
 //protected
-	//modified from here http://stackoverflow.com/questions/236129/split-a-string-in-c
-	void word::split(const string &s,const char delim, vector<string>& elems) {
-	    stringstream ss(s); //create a stringstream object from the string parameter as getline requires istream object
-	    string item; //string to hold the newly found item
-	    while (getline(ss, item, delim)) { //while still data left in the stringstream read until you encounter the delimiter, store the stream in the item string, execute loop, repeat
-	    	if (!item.empty())
-	        	elems.push_back(item);
-	    }
-	}
-
-
-	vector<string> word::split(const string &s, const char delim) {
-	    vector<string> elems;
-	    split(s, delim, elems);
-	    return elems;
-	}
 
 	void word::wScoreHelper()
 	{
@@ -219,16 +203,14 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 		return syllableWrongCount;
 	}
 
-	void word::addToMSLTotal(const vector<int>& syllableWrongCount)
+	void word::addToMSLTotal(const vector<int>& syllableWrongCount) const
 	{
-		for (int i=0; i<syllableWrongCount.size(); i++)
-		{
-			//cout << syllables[i] << "wrong " << syllableWrongCount[i] << endl;
-			SSG::MSL->addToTotal(syllables[i],syllableWrongCount[i]);
-		}
+	    for (int i=0; i<syllableWrongCount.size(); i++)
+	    {
+	        //cout << syllables[i] << "wrong " << syllableWrongCount[i] << endl;
+	        SSG::MSL->addToTotal(syllables[i],syllableWrongCount[i]);
+	    }
 	}
-
-
 //public
 
 	//int size = 0;

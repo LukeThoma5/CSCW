@@ -16,7 +16,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 	void badWord::constructorHelper(const string& badwordline)
 	{
 		//Assumes the word constructor has already been called
-		vector<string> wordVector = word::split(badwordline);
+		vector<string> wordVector = split(badwordline);
 		printVector(wordVector);
 
 		if (wordVector[0] != wordC) //If trying to construct a badWord from the wrong word throw an error.
