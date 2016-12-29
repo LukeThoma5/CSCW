@@ -50,13 +50,6 @@ masterSyllablesList::~masterSyllablesList() {std::cout<<"ClosingMSL"<<std::endl;
 
 void say(const string& sentence)
 {
-	/* //Old say function
-	//string Command = "flite -voice slt -t \"" + sentence + "\"";
-	string Command = "flite -t \"" + sentence + "\"";
-
-    system(Command.c_str());
-	*/
-
 	int fd;
     std::string myfifo = "/tmp/myfifo";
     //char * myfifo = "/tmp/myfifo";
