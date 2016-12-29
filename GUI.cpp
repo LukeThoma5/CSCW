@@ -408,17 +408,18 @@ void SSG_ASGK_MovingAvg_Toggled()
 
 void SSG_ASG_MSL_Clicked()
 {
-	//MSL assumed sorted due to AS opening
+	//MSL assumed sorted due to AS opening [now removed]
+	SSG::MSL->sortList();
 	vector<string> syllables;
     vector<int> syllableWCount;
 
-	syllables.reserve(SSG::MSL.size()); //Reduce mem allocs
-	syllableWCount.reserve(SSG::MSL.size());
+	syllables.reserve(SSG::MSL->size()); //Reduce mem allocs
+	syllableWCount.reserve(SSG::MSL->size());
 
-    for (int i=0; i<SSG::MSL.size(); i++)
+    for (int i=0; i<SSG::MSL->size(); i++)
     {
-        syllables.push_back(SSG::MSL[i]);
-        syllableWCount.push_back(SSG::MSL.getSyllableWCount(syllables.back()));
+        syllables.push_back((*SSG::MSL)[i]);
+        syllableWCount.push_back(SSG::MSL->getSyllableWCount(syllables.back()));
     }
 
     SSG::histLog.createBarGraph("SyllableData.txt","Syllable Wrong Counts", syllables, syllableWCount);

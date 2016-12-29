@@ -14,7 +14,7 @@ class wordContainer; //Early decleration
 
 namespace SSG {
 	//SSG SpellingSuiteGlobalVariables
-	extern masterSyllablesList MSL; //MasterSyllablesList
+	extern masterSyllablesList* MSL; //MasterSyllablesList
 	extern wordContainer* goodWordList; //Allows the currently worked on wordList to be updated and interchanged
 	extern wordContainer* badWordList; //Defaulting to null prevents manipulating objects that don't exist.
 	extern Glib::RefPtr<Gtk::Builder> refBuilder;

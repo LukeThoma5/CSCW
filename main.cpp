@@ -30,7 +30,8 @@ using namespace std;
 
 namespace SSG {
 	//SSG SpellingSuiteGlobalVariables
-	masterSyllablesList MSL; //MasterSyllablesList
+	masterSyllablesList physicalMSL;
+	masterSyllablesList* MSL = &physicalMSL; //MasterSyllablesList
 	wordContainer* goodWordList = NULL; //Allows the currently worked on wordList to be updated and interchanged
 	wordContainer* badWordList = NULL; //Defaulting to null prevents manipulating objects that don't exist.
 	Glib::RefPtr<Gtk::Builder> refBuilder;
@@ -137,10 +138,10 @@ void createRandomWordWrongCounts() //Fill the MSL with random wrongCounts to tes
 	const int HIGH = 12; //Was 450
 	const int LOW = 0;
 
-	for (unsigned int i=0; i<SSG::MSL.size(); i++)
+	for (unsigned int i=0; i<SSG::MSL->size(); i++)
 	{
 		//SSG::MSL.wrongCount[i] = randNG(LOW,HIGH); //Valgrind does not like this call
-		SSG::MSL.addToTotal(SSG::MSL[i],randNG(LOW,HIGH)); //Use just the interface
+		SSG::MSL->addToTotal((*SSG::MSL)[i],randNG(LOW,HIGH)); //Use just the interface
 		//SSG::MSL.wrongCount[i] = 0; //This can be used to memory leak testing
 	}
 }
@@ -279,14 +280,14 @@ int main (int argc, char **argv)
 
 	// printVector(SSG::MSL.wrongCount);
 
-	if (SSG::MSL.hasNoValues())
+	if (SSG::MSL->hasNoValues())
 		createRandomWordWrongCounts();
 
 	//printVector(SSG::MSL.syllables);
 	//printVector(SSG::MSL.wrongCount);
-	SSG::MSL.print();
+	SSG::MSL->print();
 
-	SSG::MSL.sortList();
+	SSG::MSL->sortList();
 
 	cout << "List sorted ---------------------------------------------" << endl;
 

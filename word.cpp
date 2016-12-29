@@ -63,7 +63,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 				}
 			}
 			*/
-			wScore += SSG::MSL.getSyllableWCount(syllables[i]); //Gets the wrongCount for the string passed, using an unordered_map
+			wScore += SSG::MSL->getSyllableWCount(syllables[i]); //Gets the wrongCount for the string passed, using an unordered_map
 		}
 
 		const int offset = 15; //Use this to alter the affect that wordSize has on end wScore, a higher value makes word length matter less
@@ -217,7 +217,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 		for (int i=0; i<syllableWrongCount.size(); i++)
 		{
 			//cout << syllables[i] << "wrong " << syllableWrongCount[i] << endl;
-			SSG::MSL.addToTotal(syllables[i],syllableWrongCount[i]);
+			SSG::MSL->addToTotal(syllables[i],syllableWrongCount[i]);
 		}
 	}
 
@@ -290,7 +290,7 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 
 		//printVector(syllables);
 
-		SSG::MSL.addSyllables(syllables); //Add the syllables to the MSL, they will only be added if not added before.
+		SSG::MSL->addSyllables(syllables); //Add the syllables to the MSL, they will only be added if not added before.
 		determineSyllables();
 
 		for (unsigned int i=0; i<8; i++) //Set all flags to 0

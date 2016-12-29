@@ -1,4 +1,5 @@
-#include "masterSyllableListTree.h"
+//#include "masterSyllableListTree.h"
+#include "masterSyllableList.h"
 
 using namespace std;
 
@@ -133,19 +134,19 @@ masterSyllablesList::~masterSyllablesList()
     delete root;
 }
 
-int main(int argc, char const *argv[]) {
-    masterSyllablesList MSL;
-    MSL.addSyllables({"AH0","B","D"});
-    cout << MSL.getSyllableWCount("AH0") << endl;
-    MSL.addToTotal("AH0",5);
-    cout << MSL.getSyllableWCount("AH0") << endl;
-    MSL.addToTotal("D",3);
-    MSL.print();
-    MSL.sortList();
-    MSL.print();
-    MSL.addToTotal("B",15);
-    MSL.print();
-    MSL.sortList();
-    MSL.print();
-    return 0;
-}
+// int main(int argc, char const *argv[]) {
+//     masterSyllablesList MSL;
+//     MSL.addSyllables({"AH0","B","D"});
+//     cout << MSL.getSyllableWCount("AH0") << endl;
+//     MSL.addToTotal("AH0",5);
+//     cout << MSL.getSyllableWCount("AH0") << endl;
+//     MSL.addToTotal("D",3);
+//     MSL.print();
+//     MSL.sortList();
+//     MSL.print();
+//     MSL.addToTotal("B",15);
+//     MSL.print();
+//     MSL.sortList();
+//     MSL.print();
+//     return 0;
+// }
