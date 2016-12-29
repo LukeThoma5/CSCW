@@ -3,12 +3,12 @@
 
 class wordContainer; //Early decleration
 
-#include "masterSyllableList.h"
-#include "wordContainer.h"
-#include <gtkmm.h>
-#include "windowContainer.cpp"
-#include "wordCC.h"
-#include "hLog.h"
+// #include "masterSyllableList.h"
+// #include "../objects/wordContainer.h"
+// #include <gtkmm.h>
+// #include "windowContainer.cpp"
+// #include "wordCC.h"
+// #include "hLog.h"
 
 #include <ctime>
 
