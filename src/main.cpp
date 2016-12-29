@@ -50,18 +50,15 @@ masterSyllablesList::~masterSyllablesList() {std::cout<<"ClosingMSL"<<std::endl;
 
 void say(const string& sentence)
 {
-	int fd;
     std::string myfifo = "/tmp/myfifo";
-    //char * myfifo = "/tmp/myfifo";
-
     /* create the FIFO (named pipe) */
     mkfifo(myfifo.c_str(), 0666);
 
-    /* write "Hi" to the FIFO */
-    fd = open(myfifo.c_str(), O_WRONLY);
-    //write(fd, argv[1], sizeof(argv[1]));
-    write(fd,sentence.c_str(),100);
-    close(fd);
+	/* write my message to the Pipe (FIFO) */
+    int fileDescriptor = open(myfifo.c_str(), O_WRONLY);
+    //write to the fileDescriptor opened above the array of char in sentence with a max size of 100
+    write(fileDescriptor,sentence.c_str(),100);
+    close(fileDescriptor);
 
     /* remove the FIFO */
     unlink(myfifo.c_str());
