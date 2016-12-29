@@ -14,19 +14,19 @@
 
 #include <gtkmm.h>
 
-#include "randng.h" //My random number generator header
-#include "masterSyllableList.h" //MSL declaration
-#include "masterSyllableListTree.h"
-#include "masterSyllableListMap.h"
-#include "word.h"
-#include "badWord.h"
-#include "SSG.h"
-#include "wordContainer.h"
-#include "badwordContainer.h"
-#include "wordCC.h"
-#include "hLog.h"
+#include "../headers/randng.h" //My random number generator header
+#include "../headers/masterSyllableList.h" //MSL declaration
+#include "../headers/masterSyllableListTree.h"
+#include "../headers/masterSyllableListMap.h"
+#include "../headers/word.h"
+#include "../headers/badWord.h"
+//#include "../headers/SSG.h"
+#include "../headers/wordContainer.h"
+#include "../headers/badwordContainer.h"
+#include "../headers/wordCC.h"
+#include "../headers/hLog.h"
 
-#include "windowContainer.cpp"
+#include "../objects/windowContainer.cpp"
 
 using namespace std;
 
@@ -40,8 +40,8 @@ namespace SSG {
 	Glib::RefPtr<Gtk::Builder> refBuilder;
 	windowContainer winContainer;
 	// wordCC SpellingWords("finalDictwithDef.txt", "wrongWords.txt");
-	wordCC SpellingWords("shortDict.txt", "shortwrongWords.txt");
-	hLog histLog("SSGHistFile.txt");
+	wordCC SpellingWords("./Data/shortDict.txt", "./Data/shortwrongWords.txt");
+	hLog histLog("./Data/SSGHistFile.txt");
 	time_t sessionStartTime = time(0);
 }
 
@@ -201,7 +201,7 @@ string saltPassword(const string& password, const string& salt)
 
 vector<string> readPasswordFile()
 {
-	ifstream passFile("userPassword.hash");
+	ifstream passFile("./Data/userPassword.hash");
 	vector<string> retVec;
 	string line;
 	while (getline(passFile, line))

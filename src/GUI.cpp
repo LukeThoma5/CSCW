@@ -6,19 +6,20 @@
 
 #include <cstdlib> //Declare system() which comes from a c library
 
-#include "sha256.h" //External code, not mine
+#include "../headers/sha256.h" //External code, not mine
 
 #include <gtkmm.h>
 
-#include "masterSyllableList.h" //MSL declaration
-#include "word.h"
-#include "badWord.h"
-#include "SSG.h"
-#include "wordContainer.h"
-#include "badwordContainer.h"
-#include "wordCC.h"
+#include "../headers/masterSyllableList.h" //MSL declaration
+#include "../headers/word.h"
+#include "../headers/badWord.h"
+//#include "../headers/SSG.h"
+#include "../headers/wordContainer.h"
+#include "../headers/badwordContainer.h"
+#include "../headers/wordCC.h"
+#include "../headers/hLog.h"
 
-#include "windowContainer.cpp"
+#include "../objects/windowContainer.cpp"
 
 using namespace std;
 
@@ -35,6 +36,12 @@ namespace SSG {
 	string HMwordToGuess;
 	string HMhiddenLine;
 	std::time_t hangmanStartTime;
+	extern windowContainer winContainer;
+	extern wordCC SpellingWords;
+	extern Glib::RefPtr<Gtk::Builder> refBuilder;
+	extern std::time_t sessionStartTime;
+	extern hLog histLog;
+	extern masterSyllablesList* MSL; //MasterSyllablesList
 }
 
 static void SSG_SC_Button_Return_Clicked()
@@ -422,7 +429,7 @@ void SSG_ASG_MSL_Clicked()
         syllableWCount.push_back(SSG::MSL->getSyllableWCount(syllables.back()));
     }
 
-    SSG::histLog.createBarGraph("SyllableData.txt","Syllable Wrong Counts", syllables, syllableWCount);
+    SSG::histLog.createBarGraph("./Data/graphData/SyllableData.csv","Syllable Wrong Counts", syllables, syllableWCount);
 }
 
 void SSG_ASG_IncorrectWords_Clicked()
@@ -433,25 +440,25 @@ void SSG_ASG_IncorrectWords_Clicked()
 void SSG_ASGK_Mistakes_Clicked()
 {
 	if (SSG::AnalysisMovAvg)
-		SSG::histLog.graphKeyboardMovingAvg(SSG::currentASComboTime,2,"Mistakes per test (1 Week Moving Average)", "keyboardMistakesAVG.csv");
+		SSG::histLog.graphKeyboardMovingAvg(SSG::currentASComboTime,2,"Mistakes per test (1 Week Moving Average)", "./Data/graphData/keyboardMistakesAVG.csv");
 	else
-		SSG::histLog.graphKeyboard(SSG::currentASComboTime,2,"Mistakes per test", "keyboardMistakes.csv");
+		SSG::histLog.graphKeyboard(SSG::currentASComboTime,2,"Mistakes per test", "./Data/graphData/keyboardMistakes.csv");
 }
 
 void SSG_ASGK_Mistakes100_Clicked()
 {
 	if (SSG::AnalysisMovAvg)
-		SSG::histLog.graphKeyboardMovingAvg(SSG::currentASComboTime,3,"Mistakes per 100 characters (1 Week Moving Average)","keyboard100MistakesAVG.csv");
+		SSG::histLog.graphKeyboardMovingAvg(SSG::currentASComboTime,3,"Mistakes per 100 characters (1 Week Moving Average)","./Data/graphData/keyboard100MistakesAVG.csv");
 	else
-		SSG::histLog.graphKeyboard(SSG::currentASComboTime,3,"Mistakes per 100 characters","keyboard100Mistakes.csv");
+		SSG::histLog.graphKeyboard(SSG::currentASComboTime,3,"Mistakes per 100 characters","./Data/graphData/keyboard100Mistakes.csv");
 }
 
 void SSG_ASGK_WPM_Clicked()
 {
 	if (SSG::AnalysisMovAvg)
-		SSG::histLog.graphKeyboardMovingAvg(SSG::currentASComboTime,5,"WPM (1 Week Moving Average)", "wordsPerMinuteAVG.csv");
+		SSG::histLog.graphKeyboardMovingAvg(SSG::currentASComboTime,5,"WPM (1 Week Moving Average)", "./Data/graphData/wordsPerMinuteAVG.csv");
 	else
-		SSG::histLog.graphKeyboard(SSG::currentASComboTime,5,"WPM", "wordsPerMinute.csv");
+		SSG::histLog.graphKeyboard(SSG::currentASComboTime,5,"WPM", "./Data/graphData/wordsPerMinute.csv");
 }
 
 void SSG_OP_Button_Password_Clicked()
@@ -499,7 +506,7 @@ void SSG_PWR_Button_Accept_Clicked()
 			string salt = makeSalt();
 			string password = saltPassword(attempt1, salt);
 			cout << password << endl;
-			ofstream passFile("userPassword.hash", std::ofstream::out);
+			ofstream passFile("./Data/userPassword.hash", std::ofstream::out);
 			passFile << salt << endl;
 			passFile << password << endl;
 			SSG::winContainer.PasswordReset->hide();
