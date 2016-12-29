@@ -41,6 +41,8 @@
 #include <cstring>
 #include <fstream>
 #include "../headers/sha256.h"
+#include "../headers/randng.h" //random number generator header
+
 
 const unsigned int SHA256::sha256_k[64] = //UL = uint32
             {0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5,
@@ -172,3 +174,12 @@ std::string sha256(std::string input)
 }
 
 //End SHA256
+
+//http://stackoverflow.com/posts/13445752/revisions
+int randNG(int low, int high)
+{
+	std::mt19937 rng;
+	rng.seed(std::random_device()());
+	std::uniform_int_distribution<std::mt19937::result_type> dist6(low,high);
+	return dist6(rng);
+}

@@ -14,7 +14,7 @@
 
 #include <gtkmm.h>
 
-#include "../headers/randng.h" //My random number generator header
+#include "../headers/randng.h" //random number generator header
 #include "../headers/masterSyllableList.h" //MSL declaration
 #include "../headers/masterSyllableListTree.h"
 #include "../headers/masterSyllableListMap.h"
@@ -137,14 +137,6 @@ void createRandomWordWrongCounts() //Fill the MSL with random wrongCounts to tes
 		SSG::MSL->addToTotal((*SSG::MSL)[i],randNG(LOW,HIGH)); //Use just the interface
 		//SSG::MSL.wrongCount[i] = 0; //This can be used to memory leak testing
 	}
-}
-
-int randNG(int low, int high)
-{
-	std::mt19937 rng;
-	rng.seed(std::random_device()());
-	std::uniform_int_distribution<std::mt19937::result_type> dist6(low,high);
-	return dist6(rng);
 }
 
 string makeSalt()
