@@ -11,8 +11,6 @@ class masterSyllablesList
 private:
 	std::vector<int> syllablePos; //For mergesort
 
-	//void printVector(const std::vector<int>& sV);
-
 	std::vector<int> splitVector(const std::vector<int> inVector, int mode);
 
 	std::vector<int> syllableMergeSort(const std::vector<int>& inVector);
@@ -24,9 +22,11 @@ private:
 	std::vector<std::string> syllables;
 	std::vector<int> wrongCount;
 	std::vector<float> weight;
+	
+	std::vector<std::string> findUniqueSyllables(const std::vector<std::string>& inSyllables);
+
 public:
 
-	std::vector<std::string> findUniqueSyllables(const std::vector<std::string>& inSyllables);
 
 	void addSyllables(const std::vector<std::string>& inSyllables);
 
