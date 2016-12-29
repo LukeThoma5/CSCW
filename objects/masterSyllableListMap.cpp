@@ -2,7 +2,7 @@
 #include <string>
 #include <iostream>
 
-#include "masterSyllableListMap.h"
+#include "../headers/masterSyllableListMap.h"
 
 using namespace std;
 

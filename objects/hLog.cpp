@@ -1,9 +1,14 @@
-#include "hLog.h"
-#include "logEvent.h"
-#include "SSG.h"
+#include "../headers/hLog.h"
+#include "../headers/logEvent.h"
+//#include "../headers/SSG.h"
 #include <cstdlib> //For system call
+#include <sstream>
 
 using namespace std;
+
+namespace SSG {
+	extern std::time_t sessionStartTime;
+}
 
 //private
 std::string hLog::coordToString(const std::vector<float>& coords)
@@ -190,7 +195,7 @@ void hLog::graphIncorrectWords(std::time_t startPoint)
             xcoords.push_back(x);
             ycoords.push_back(y);
         }
-        createScatterGraph("Percentage of words wrong against time",xcoords,ycoords);
+        createScatterGraph("Percentage of words wrong against time",xcoords,ycoords,"./Data/graphData/wordsWrongAgainstTime.csv");
     }
 }
 

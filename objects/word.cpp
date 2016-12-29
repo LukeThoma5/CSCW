@@ -4,11 +4,18 @@
 #include <fstream>
 #include <vector>
 
-#include "SSG.h"
-#include "word.h"
+//#include "../headers/SSG.h"
+#include "../headers/word.h"
+#include "../headers/hLog.h"
+#include "../headers/masterSyllableList.h"
 
 #include "math.h"
 #include <complex>
+
+namespace SSG {
+	extern masterSyllablesList* MSL; //MasterSyllablesList
+	extern hLog histLog;
+}
 
 using namespace std;
 

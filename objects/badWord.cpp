@@ -4,8 +4,8 @@
 #include <fstream>
 #include <vector>
 
-#include "word.h"
-#include "badWord.h"
+#include "../headers/word.h"
+#include "../headers/badWord.h"
 
 using namespace std;
 

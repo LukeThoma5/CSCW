@@ -4,10 +4,10 @@
 #include <fstream>
 #include <vector>
 
-#include "word.h"
-#include "badWord.h"
-#include "wordContainer.h"
-#include "badwordContainer.h"
+#include "../headers/word.h"
+#include "../headers/badWord.h"
+#include "../headers/wordContainer.h"
+#include "../headers/badwordContainer.h"
 
 using namespace std;
 

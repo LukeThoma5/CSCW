@@ -1,4 +1,4 @@
-#include "syllableNode.h"
+#include "../headers/syllableNode.h"
 
 using namespace std;
 

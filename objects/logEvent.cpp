@@ -1,4 +1,4 @@
-#include "logEvent.h"
+#include "../headers/logEvent.h"
 #include <sstream>
 
 using namespace std;

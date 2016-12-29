@@ -1,4 +1,4 @@
-#include "masterSyllableListTree.h"
+#include "../headers/masterSyllableListTree.h"
 //#include "masterSyllableList.h"
 
 using namespace std;

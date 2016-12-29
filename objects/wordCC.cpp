@@ -6,12 +6,16 @@
 
 #include <ctime>
 
-#include "wordContainer.h"
-#include "badwordContainer.h"
-#include "wordCC.h"
-#include "hLog.h"
-#include "SSG.h"
-#include "randng.h"
+#include "../headers/wordContainer.h"
+#include "../headers/badwordContainer.h"
+#include "../headers/wordCC.h"
+#include "../headers/hLog.h"
+//#include "../headers/SSG.h"
+#include "../headers/randng.h"
+
+namespace SSG {
+	extern hLog histLog;
+}
 
 using namespace std;
 

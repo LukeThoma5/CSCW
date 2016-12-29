@@ -6,9 +6,9 @@
 
 #include <math.h>
 
-#include "word.h"
-#include "badWord.h"
-#include "wordContainer.h"
+#include "../headers/word.h"
+#include "../headers/badWord.h"
+#include "../headers/wordContainer.h"
 
 using namespace std;
 
