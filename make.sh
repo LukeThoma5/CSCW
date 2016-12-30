@@ -12,6 +12,7 @@ g++ ./src/main.cpp\
  ./objects/wordCC.cpp\
  ./src/GUI.cpp\
  ./src/GUI/GUI_SpellingScreen.cpp\
+ ./src/GUI/GUI_KeyboardScreen.cpp\
  ./objects/hLog.cpp\
  ./objects/logEvent.cpp\
  ./src/externalCode.cpp\

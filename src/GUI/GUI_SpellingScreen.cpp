@@ -13,7 +13,6 @@
 #include "../../headers/masterSyllableList.h" //MSL declaration
 #include "../../headers/word.h"
 #include "../../headers/badWord.h"
-//#include "../headers/SSG.h"
 #include "../../headers/wordContainer.h"
 #include "../../headers/badwordContainer.h"
 #include "../../headers/wordCC.h"
@@ -30,17 +29,9 @@ void definitionHelper(const string& widgetName);
 void keyboard_update_last_word(const string& attemptUpper, const string& wordString, const string& tViewName="SSG_KS_Text_LastWord");
 
 namespace SSG {
-	extern std::time_t currentASComboTime;
-	extern bool AnalysisMovAvg;
-	extern string HMwordToGuess;
-	extern string HMhiddenLine;
-	extern std::time_t hangmanStartTime;
 	extern windowContainer winContainer;
 	extern wordCC SpellingWords;
 	extern Glib::RefPtr<Gtk::Builder> refBuilder;
-	extern std::time_t sessionStartTime;
-	extern hLog histLog;
-	extern masterSyllablesList* MSL; //MasterSyllablesList
 }
 
 void SSG_MS_Button_Spelling_Clicked()
