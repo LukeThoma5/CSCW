@@ -23,9 +23,12 @@ vector<string> readPasswordFile();
 void connectBasicSignalHandersButton(const std::vector<std::string>& widgetNames,const std::vector<sigc::slot<void>>& funcPointers);
 
 namespace SSG {
-	extern string HMwordToGuess;
-	extern string HMhiddenLine;
-    extern std::time_t hangmanStartTime;
+	//Static variables have internal linkage, only accessible in this translation unit (.cpp file)
+	static string HMwordToGuess;
+	static string HMhiddenLine;
+    static std::time_t hangmanStartTime;
+
+	//Objects stored in main.cpp
 	extern windowContainer winContainer;
 	extern wordCC SpellingWords;
 	extern Glib::RefPtr<Gtk::Builder> refBuilder;

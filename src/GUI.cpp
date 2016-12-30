@@ -29,9 +29,6 @@ using namespace std;
 namespace SSG {
 	std::time_t currentASComboTime = 0;
 	bool AnalysisMovAvg = false;
-	string HMwordToGuess;
-	string HMhiddenLine;
-	std::time_t hangmanStartTime;
 	extern windowContainer winContainer;
 	extern wordCC SpellingWords;
 	extern Glib::RefPtr<Gtk::Builder> refBuilder;
