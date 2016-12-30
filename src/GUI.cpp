@@ -25,6 +25,7 @@
 #include "./GUI/headers/HangmanScreen.h"
 #include "./GUI/headers/AnalysisScreen.h"
 #include "./GUI/headers/OptionsScreen.h"
+#include "./GUI/headers/PasswordScreen.h"
 
 using namespace std;
 
@@ -95,42 +96,7 @@ void addTags(string textName)
 	myTag->property_background() = "green";
 }
 
-void SSG_PWR_Button_Accept_Clicked()
-{
-	Gtk::Entry* pEntry = nullptr;
-    SSG::refBuilder->get_widget("SSG_PWR_TextEntry_Attempt1",pEntry);
-    string attempt1 = pEntry->get_text();
-	SSG::refBuilder->get_widget("SSG_PWR_TextEntry_Attempt2",pEntry);
-    string attempt2 = pEntry->get_text();
 
-	if (attempt1 != attempt2)
-	{
-		Gtk::MessageDialog dialog(*SSG::winContainer.PasswordReset, "Text fields do not match"); //Create a dialog with PasswordReset as the parent
-		dialog.set_secondary_text("To set a password the fields must match!");
-		dialog.run(); //Run the dialog, when ok'ed continue execution
-	}
-	else
-	{
-
-		if (attempt1.size() < 6)
-		{
-			Gtk::MessageDialog dialog(*SSG::winContainer.PasswordReset, "Password must be at least 6 characters long!"); //Create a dialog with PasswordReset as the parent
-			dialog.run(); //Run the dialog, when ok'ed continue execution
-		}
-
-		else
-		{
-			//cout << "Password: " << attempt1 << " hash: " << sha256(attempt1) << endl;
-			string salt = makeSalt();
-			string password = saltPassword(attempt1, salt);
-			cout << password << endl;
-			ofstream passFile("./Data/userPassword.hash", std::ofstream::out);
-			passFile << salt << endl;
-			passFile << password << endl;
-			SSG::winContainer.PasswordReset->hide();
-		}
-	}
-}
 
 void SSG_RD_Button_Clear_Data_Confirm_Clicked()
 {
@@ -153,11 +119,6 @@ void SSG_RD_Button_Close_Clicked()
 	SSG::winContainer.ResetData->close();
 }
 
-void SSG_OP_Button_Password_Clicked()
-{
-	cout << "Showing" << endl;
-	SSG::winContainer.PasswordReset->show();
-}
 void SSG_OP_Button_Clear_Data_Clicked()
 {
 	cout << "Showing" << endl;
@@ -198,6 +159,7 @@ if(SSG::winContainer.SpellingScreen)
 	connectSignalsHangmanScreen();
 	connectSignalsAnalysisScreen();
 	connectSignalsOptionsScreen();
+	connectSignalsPasswordScreen();
 
 	pButton = nullptr;
 	SSG::refBuilder->get_widget("SSG_MS_Button_Quit", pButton);
@@ -205,19 +167,9 @@ if(SSG::winContainer.SpellingScreen)
 		{cout << "MainScreen made!" << endl; pButton->signal_clicked().connect( sigc::ptr_fun(SSG_MS_Button_Quit_Clicked) );}
 
 	pButton = nullptr;
-	SSG::refBuilder->get_widget("SSG_OP_Button_Password", pButton);
-	if(pButton)
-		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_OP_Button_Password_Clicked) );}
-
-	pButton = nullptr;
 	SSG::refBuilder->get_widget("SSG_OP_Button_Clear_Data", pButton);
 	if(pButton)
 		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_OP_Button_Clear_Data_Clicked) );}
-
-	pButton = nullptr;
-	SSG::refBuilder->get_widget("SSG_PWR_Button_Accept", pButton);
-	if(pButton)
-		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_PWR_Button_Accept_Clicked) );}
 
 	pButton = nullptr;
 	SSG::refBuilder->get_widget("SSG_RD_Button_Clear_Data_Confirm", pButton);
