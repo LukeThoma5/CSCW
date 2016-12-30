@@ -4,10 +4,6 @@
 #include <fstream>
 #include <vector>
 
-#include <cstdlib> //Declare system() which comes from a c library
-
-#include "../headers/sha256.h" //External code, not mine
-
 #include <gtkmm.h>
 
 #include "../headers/masterSyllableList.h" //MSL declaration
@@ -26,15 +22,9 @@
 #include "./GUI/headers/AnalysisScreen.h"
 #include "./GUI/headers/OptionsScreen.h"
 #include "./GUI/headers/PasswordScreen.h"
+#include "./GUI/headers/ResetDataScreen.h"
 
 using namespace std;
-
-void speak(const string& wordToSay, const bool isCorrect);
-void say(const string& sentence);
-string makeUpperCase(const string& attempt);
-string saltPassword(const string& password, const string& salt);
-string makeSalt();
-vector<string> readPasswordFile();
 
 namespace SSG {
 	std::time_t currentASComboTime = 0;
@@ -96,35 +86,6 @@ void addTags(string textName)
 	myTag->property_background() = "green";
 }
 
-
-
-void SSG_RD_Button_Clear_Data_Confirm_Clicked()
-{
-	Gtk::Entry* pEntry = nullptr;
-    SSG::refBuilder->get_widget("SSG_RD_TextEntry_Password_Attempt",pEntry);
-    string attempt = pEntry->get_text();
-
-	vector<string> passVector = readPasswordFile();
-	if (passVector.size() > 1)
-	{
-		string passwordAttempt = saltPassword(attempt,passVector[0]);
-		if (passwordAttempt != passVector[1])
-			cout << "PASSWORDS DO NOT MATCH" << endl;
-		else
-			SSG::histLog.clearLog();
-	}
-}
-void SSG_RD_Button_Close_Clicked()
-{
-	SSG::winContainer.ResetData->close();
-}
-
-void SSG_OP_Button_Clear_Data_Clicked()
-{
-	cout << "Showing" << endl;
-	SSG::winContainer.ResetData->show();
-}
-
 void connectBasicSignalHandersButton(const std::vector<std::string>& widgetNames,const std::vector<sigc::slot<void>>& funcPointers)
 {
     if (widgetNames.size() == funcPointers.size())
@@ -149,40 +110,24 @@ void connectBasicSignalHandersButton(const std::vector<std::string>& widgetNames
 
 void connectSignals()
 {
-if(SSG::winContainer.SpellingScreen)
-{
+	if(SSG::winContainer.MainScreen)
+	{
+		Gtk::Button* pButton = nullptr;
+		SSG::refBuilder->get_widget("SSG_MS_Button_Quit", pButton);
+		if(pButton)
+			{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_MS_Button_Quit_Clicked) );}
+	}
+
 	//Get the GtkBuilder-instantiated Button, and connect a signal handler:
-	Gtk::Button* pButton = nullptr;
-	Gtk::Entry* pEntry = nullptr;
 	connectSignalsSpellingScreen();
 	connectSignalsKeyboardScreen();	
 	connectSignalsHangmanScreen();
 	connectSignalsAnalysisScreen();
 	connectSignalsOptionsScreen();
 	connectSignalsPasswordScreen();
+	connectSignalsResetDataScreen();
 
-	pButton = nullptr;
-	SSG::refBuilder->get_widget("SSG_MS_Button_Quit", pButton);
-	if(pButton)
-		{cout << "MainScreen made!" << endl; pButton->signal_clicked().connect( sigc::ptr_fun(SSG_MS_Button_Quit_Clicked) );}
-
-	pButton = nullptr;
-	SSG::refBuilder->get_widget("SSG_OP_Button_Clear_Data", pButton);
-	if(pButton)
-		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_OP_Button_Clear_Data_Clicked) );}
-
-	pButton = nullptr;
-	SSG::refBuilder->get_widget("SSG_RD_Button_Clear_Data_Confirm", pButton);
-	if(pButton)
-		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_RD_Button_Clear_Data_Confirm_Clicked) );}
-
-	pButton = nullptr;
-	SSG::refBuilder->get_widget("SSG_RD_Button_Close", pButton);
-	if(pButton)
-		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_RD_Button_Close_Clicked) );}
-}
-
-addTags("SSG_KS_Text_LastWord");
-addTags("SSG_SC_Text_AttemptedSpelling");
+	addTags("SSG_KS_Text_LastWord");
+	addTags("SSG_SC_Text_AttemptedSpelling");
 
 }

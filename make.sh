@@ -17,6 +17,7 @@ g++ ./src/main.cpp\
  ./src/GUI/GUI_AnalysisScreen.cpp\
  ./src/GUI/GUI_OptionsScreen.cpp\
  ./src/GUI/GUI_PasswordScreen.cpp\
+ ./src/GUI/GUI_ResetDataScreen.cpp\
  ./objects/hLog.cpp\
  ./objects/logEvent.cpp\
  ./src/externalCode.cpp\
