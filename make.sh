@@ -24,6 +24,10 @@ g++ ./src/main.cpp\
  ./src/SHA256.cpp\
  ./src/speech.cpp\
  ./src/crypto.cpp\
+ ./src/Misc/printVector.cpp\
+ ./src/Misc/mergeSortHelpers.cpp\
+ ./src/Misc/MSLHelpers.cpp\
+ ./src/Misc/Utils.cpp\
  -o a.out\
  `pkg-config gtkmm-3.0 --cflags --libs`
 #g++ -W GUI.cpp -o backlessGUI `pkg-config gtkmm-3.0 --cflags --libs`
