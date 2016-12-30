@@ -20,6 +20,7 @@ string makeUpperCase(const string& attempt);
 string saltPassword(const string& password, const string& salt);
 string makeSalt();
 vector<string> readPasswordFile();
+void connectBasicSignalHandersButton(const std::vector<std::string>& widgetNames,const std::vector<sigc::slot<void>>& funcPointers);
 
 namespace SSG {
 	extern string HMwordToGuess;
@@ -143,19 +144,16 @@ void connectSignalsHangmanScreen()
         Gtk::Button* pButton = nullptr;
         Gtk::Entry* pEntry = nullptr;
 
-        pButton = nullptr;
-        SSG::refBuilder->get_widget("SSG_HM_Return", pButton);
-        if(pButton)
-            {pButton->signal_clicked().connect( sigc::ptr_fun(SSG_HM_Return_Clicked) );}
+        sigc::slot<void> sl = sigc::ptr_fun(SSG_HM_Return_Clicked);
+
+        std::vector<std::string> widgetNames = {"SSG_HM_Return","SSG_MS_Button_Games"};
+        std::vector<sigc::slot<void>> funcPointers = {sigc::ptr_fun(SSG_HM_Return_Clicked),sigc::ptr_fun(SSG_MS_Button_Games_Clicked)};
+
+        connectBasicSignalHandersButton(widgetNames,funcPointers);
 
         pEntry = nullptr;
         SSG::refBuilder->get_widget("SSG_HM_TextEntry",pEntry);
         if (pEntry)
             {pEntry->signal_activate().connect( sigc::ptr_fun(SSG_HM_TextEntry_activate) );}
-
-        pButton = nullptr;
-        SSG::refBuilder->get_widget("SSG_MS_Button_Games", pButton);
-        if(pButton)
-            {pButton->signal_clicked().connect( sigc::ptr_fun(SSG_MS_Button_Games_Clicked) );}
     }
 }

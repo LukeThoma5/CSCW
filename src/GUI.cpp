@@ -260,6 +260,23 @@ void SSG_RD_Button_Close_Clicked()
 	SSG::winContainer.ResetData->close();
 }
 
+void connectBasicSignalHandersButton(const std::vector<std::string>& widgetNames,const std::vector<sigc::slot<void>>& funcPointers)
+{
+    if (widgetNames.size() == funcPointers.size())
+    {
+        Gtk::Button* pButton;
+        for (int iter=0, end=widgetNames.size(); iter<end; iter++)
+        {
+            pButton = nullptr;
+            SSG::refBuilder->get_widget(widgetNames[iter], pButton);
+            if(pButton)
+                {
+                    pButton->signal_clicked().connect( funcPointers[iter] );
+                }
+        }
+    }
+}
+
 void connectSignals()
 {
 if(SSG::winContainer.SpellingScreen)
