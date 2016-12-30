@@ -13,6 +13,7 @@ g++ ./src/main.cpp\
  ./src/GUI.cpp\
  ./src/GUI/GUI_SpellingScreen.cpp\
  ./src/GUI/GUI_KeyboardScreen.cpp\
+ ./src/GUI/GUI_HangmanScreen.cpp\
  ./objects/hLog.cpp\
  ./objects/logEvent.cpp\
  ./src/externalCode.cpp\
