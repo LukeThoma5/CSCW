@@ -29,57 +29,59 @@ namespace SSG {
 	extern hLog histLog;
 	extern masterSyllablesList* MSL; //MasterSyllablesList
 }
-
-static void SSG_AS_Button_Return_Clicked()
+static void SSG_AS_Combo_changed();
+static void SSG_MS_Button_Analysis_Clicked()
 {
-	if(SSG::winContainer.AnalysisScreen)
-		SSG::winContainer.AnalysisScreen->hide(); //hide() will close the window but keep the program running
+	SSG::winContainer.AnalysisScreen->show();
+	SSG_AS_Combo_changed(); //Update AS text
 }
 
 static void SSG_AS_Combo_changed()
 {
+	//Get the output buffer
 	Gtk::TextView* pSSG_AS_Text_Status = nullptr;
 	SSG::refBuilder->get_widget("SSG_AS_Text_Status",pSSG_AS_Text_Status);
 	Glib::RefPtr<Gtk::TextBuffer> StatusBuffer =  pSSG_AS_Text_Status->get_buffer();
+	//Get the combo box to extract the wanted time
 	Gtk::ComboBoxText* pSSG_AS_Combo_Timeframe = nullptr;
 	SSG::refBuilder->get_widget("SSG_AS_Combo_Timeframe", pSSG_AS_Combo_Timeframe);
 	string timeFrame = pSSG_AS_Combo_Timeframe->get_active_text();
+	//Determine time based off string value
 	time_t startTime;
 	if (timeFrame == "This session")
 		startTime=SSG::sessionStartTime;
 	else
 		if (timeFrame == "Last week")
-			startTime=(time(0)-604800);
+			startTime=(time(0)-604800); //604800 is 1 week in seconds
 		else
 			startTime=0;
-	SSG::currentASComboTime = startTime;
-	StatusBuffer->set_text(SSG::histLog.getEventString(startTime));
-	//SSG::histLog.graphIncorrectWords(startTime);
-}
 
-static void SSG_ASGK_MovingAvg_Toggled()
-{
-	SSG::AnalysisMovAvg = !SSG::AnalysisMovAvg;
-	cout << "State Toggled!" << SSG::AnalysisMovAvg << endl;
+	SSG::currentASComboTime = startTime; //Update the wanted time for other functions to use
+	StatusBuffer->set_text(SSG::histLog.getEventString(startTime)); //Calculate text output and place in buffer
 }
 
 static void SSG_ASG_MSL_Clicked()
 {
 	//MSL assumed sorted due to AS opening [now removed]
 	SSG::MSL->sortList();
-	vector<string> syllables;
-    vector<int> syllableWCount;
+	vector<string> syllables; //X values
+    vector<int> syllableWCount; //Y values
 
 	syllables.reserve(SSG::MSL->size()); //Reduce mem allocs
 	syllableWCount.reserve(SSG::MSL->size());
 
-    for (int i=0; i<SSG::MSL->size(); i++)
+    for (int i=0; i<SSG::MSL->size(); i++) //Add every syllable and wrong count
     {
         syllables.push_back((*SSG::MSL)[i]);
         syllableWCount.push_back(SSG::MSL->getSyllableWCount(syllables.back()));
     }
-
+	//createBarGraph output file, title, x values, y values
     SSG::histLog.createBarGraph("./Data/graphData/SyllableData.csv","Syllable Wrong Counts", syllables, syllableWCount);
+}
+
+static void SSG_ASGK_MovingAvg_Toggled()
+{
+	SSG::AnalysisMovAvg = !SSG::AnalysisMovAvg; //Toggle the value, set it equal to itself not'ed
 }
 
 static void SSG_ASG_IncorrectWords_Clicked()
@@ -89,7 +91,7 @@ static void SSG_ASG_IncorrectWords_Clicked()
 
 static void SSG_ASGK_Mistakes_Clicked()
 {
-	if (SSG::AnalysisMovAvg)
+	if (SSG::AnalysisMovAvg) //If Moving Average has been toggled on, generate moving average, else don't
 		SSG::histLog.graphKeyboardMovingAvg(SSG::currentASComboTime,2,"Mistakes per test (1 Week Moving Average)", "./Data/graphData/keyboardMistakesAVG.csv");
 	else
 		SSG::histLog.graphKeyboard(SSG::currentASComboTime,2,"Mistakes per test", "./Data/graphData/keyboardMistakes.csv");
@@ -111,35 +113,31 @@ static void SSG_ASGK_WPM_Clicked()
 		SSG::histLog.graphKeyboard(SSG::currentASComboTime,5,"WPM", "./Data/graphData/wordsPerMinute.csv");
 }
 
-static void SSG_MS_Button_Analysis_Clicked()
+static void SSG_AS_Button_Return_Clicked()
 {
-	SSG::winContainer.AnalysisScreen->show();
-	SSG_AS_Combo_changed();
-
+	if(SSG::winContainer.AnalysisScreen)
+		SSG::winContainer.AnalysisScreen->hide(); //hide() will close the window but keep the program running
 }
 
 void connectSignalsAnalysisScreen()
 {
     if (SSG::winContainer.AnalysisScreen) //Only connect signals if window initialised
     {
-        std::vector<std::string> widgetNames = {
-            "SSG_AS_Button_Return",
+        connectBasicSignalHandersButton(
+			{"SSG_AS_Button_Return",
             "SSG_ASG_MSL",
             "SSG_ASG_IncorrectWords",
             "SSG_MS_Button_Analysis",
             "SSG_ASGK_Mistakes",
              "SSG_ASGK_Mistakes100",
-             "SSG_ASGK_WPM"};
-        std::vector<sigc::slot<void>> funcPointers = {
-            sigc::ptr_fun(SSG_AS_Button_Return_Clicked),
-            sigc::ptr_fun(SSG_ASG_MSL_Clicked),
-            sigc::ptr_fun(SSG_ASG_IncorrectWords_Clicked),
-            sigc::ptr_fun(SSG_MS_Button_Analysis_Clicked),
-            sigc::ptr_fun(SSG_ASGK_Mistakes_Clicked),
-            sigc::ptr_fun(SSG_ASGK_Mistakes100_Clicked),
-            sigc::ptr_fun(SSG_ASGK_WPM_Clicked)};
-
-        connectBasicSignalHandersButton(widgetNames,funcPointers);
+             "SSG_ASGK_WPM"},
+			 {sigc::ptr_fun(SSG_AS_Button_Return_Clicked),
+             sigc::ptr_fun(SSG_ASG_MSL_Clicked),
+             sigc::ptr_fun(SSG_ASG_IncorrectWords_Clicked),
+             sigc::ptr_fun(SSG_MS_Button_Analysis_Clicked),
+             sigc::ptr_fun(SSG_ASGK_Mistakes_Clicked),
+             sigc::ptr_fun(SSG_ASGK_Mistakes100_Clicked),
+             sigc::ptr_fun(SSG_ASGK_WPM_Clicked)});
 
 		Gtk::ToggleButton* pToggle = nullptr;
 		SSG::refBuilder->get_widget("SSG_ASGK_MovingAvg_Toggle", pToggle);
