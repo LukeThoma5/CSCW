@@ -1,18 +1,12 @@
 #include <iostream>
 #include <string>
-#include <sstream>
-#include <fstream>
 #include <vector>
 
 #include <gtkmm.h>
 
-#include "../headers/masterSyllableList.h" //MSL declaration
 #include "../headers/word.h"
 #include "../headers/badWord.h"
-#include "../headers/wordContainer.h"
-#include "../headers/badwordContainer.h"
 #include "../headers/wordCC.h"
-#include "../headers/hLog.h"
 
 #include "../objects/windowContainer.cpp"
 
@@ -27,14 +21,9 @@
 using namespace std;
 
 namespace SSG {
-	std::time_t currentASComboTime = 0;
-	bool AnalysisMovAvg = false;
 	extern windowContainer winContainer;
 	extern wordCC SpellingWords;
 	extern Glib::RefPtr<Gtk::Builder> refBuilder;
-	extern std::time_t sessionStartTime;
-	extern hLog histLog;
-	extern masterSyllablesList* MSL; //MasterSyllablesList
 }
 
 void SSG_MS_Button_Quit_Clicked()

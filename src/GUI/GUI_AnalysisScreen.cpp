@@ -17,8 +17,11 @@ using namespace std;
 void connectBasicSignalHandersButton(const std::vector<std::string>& widgetNames,const std::vector<sigc::slot<void>>& funcPointers);
 
 namespace SSG {
-	extern std::time_t currentASComboTime;
-	extern bool AnalysisMovAvg;
+	//Static variables have internal linkage, only accessible in this translation unit (.cpp file)
+	static std::time_t currentASComboTime = 0;
+	static bool AnalysisMovAvg = false;
+
+	//Objects stored in main.cpp
 	extern windowContainer winContainer;
 	extern wordCC SpellingWords;
 	extern Glib::RefPtr<Gtk::Builder> refBuilder;
