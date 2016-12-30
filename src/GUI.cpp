@@ -24,6 +24,7 @@
 #include "./GUI/headers/KeyboardScreen.h"
 #include "./GUI/headers/HangmanScreen.h"
 #include "./GUI/headers/AnalysisScreen.h"
+#include "./GUI/headers/OptionsScreen.h"
 
 using namespace std;
 
@@ -48,8 +49,6 @@ namespace SSG {
 	extern masterSyllablesList* MSL; //MasterSyllablesList
 }
 
-
-
 void SSG_MS_Button_Quit_Clicked()
 {
 	if (SSG::winContainer.MainScreen)
@@ -62,11 +61,6 @@ void definitionHelper(const string& widgetName)
     SSG::refBuilder->get_widget(widgetName,pText_DefintionBox);
     Glib::RefPtr<Gtk::TextBuffer> DefinitionBuffer =  pText_DefintionBox->get_buffer();
     DefinitionBuffer->set_text(SSG::SpellingWords.getCurrentWord()->getDefinition());
-}
-
-void SSG_AS_Button_Options_Clicked()
-{
-	SSG::winContainer.OptionsScreen->show();
 }
 
 string seperateWord(const string& wordToSep)
@@ -99,24 +93,6 @@ void addTags(string textName)
 	myTag->property_background() = "orange";
 	myTag = mytagtable->lookup("greentag");
 	myTag->property_background() = "green";
-}
-
-
-
-void SSG_OP_Button_Password_Clicked()
-{
-	cout << "Showing" << endl;
-	SSG::winContainer.PasswordReset->show();
-}
-void SSG_OP_Button_Clear_Data_Clicked()
-{
-	cout << "Showing" << endl;
-	SSG::winContainer.ResetData->show();
-}
-void SSG_OP_Button_Close_Clicked()
-{
-	cout << "closing" << endl;
-	SSG::winContainer.OptionsScreen->hide();
 }
 
 void SSG_PWR_Button_Accept_Clicked()
@@ -177,6 +153,17 @@ void SSG_RD_Button_Close_Clicked()
 	SSG::winContainer.ResetData->close();
 }
 
+void SSG_OP_Button_Password_Clicked()
+{
+	cout << "Showing" << endl;
+	SSG::winContainer.PasswordReset->show();
+}
+void SSG_OP_Button_Clear_Data_Clicked()
+{
+	cout << "Showing" << endl;
+	SSG::winContainer.ResetData->show();
+}
+
 void connectBasicSignalHandersButton(const std::vector<std::string>& widgetNames,const std::vector<sigc::slot<void>>& funcPointers)
 {
     if (widgetNames.size() == funcPointers.size())
@@ -210,10 +197,7 @@ if(SSG::winContainer.SpellingScreen)
 	connectSignalsKeyboardScreen();	
 	connectSignalsHangmanScreen();
 	connectSignalsAnalysisScreen();
-
-	SSG::refBuilder->get_widget("SSG_AS_Button_Options", pButton);
-	if(pButton)
-		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_AS_Button_Options_Clicked) );}
+	connectSignalsOptionsScreen();
 
 	pButton = nullptr;
 	SSG::refBuilder->get_widget("SSG_MS_Button_Quit", pButton);
@@ -229,11 +213,6 @@ if(SSG::winContainer.SpellingScreen)
 	SSG::refBuilder->get_widget("SSG_OP_Button_Clear_Data", pButton);
 	if(pButton)
 		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_OP_Button_Clear_Data_Clicked) );}
-
-	pButton = nullptr;
-	SSG::refBuilder->get_widget("SSG_OP_Button_Close", pButton);
-	if(pButton)
-		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_OP_Button_Close_Clicked) );}
 
 	pButton = nullptr;
 	SSG::refBuilder->get_widget("SSG_PWR_Button_Accept", pButton);
