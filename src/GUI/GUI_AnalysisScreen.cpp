@@ -1,20 +1,12 @@
 #include <iostream>
 #include <string>
-#include <sstream>
-#include <fstream>
 #include <vector>
-
-#include <cstdlib> //Declare system() which comes from a c library
-
-#include "../../headers/sha256.h" //External code, not mine
 
 #include <gtkmm.h>
 
 #include "../../headers/masterSyllableList.h" //MSL declaration
 #include "../../headers/word.h"
 #include "../../headers/badWord.h"
-#include "../../headers/wordContainer.h"
-#include "../../headers/badwordContainer.h"
 #include "../../headers/wordCC.h"
 #include "../../headers/hLog.h"
 
@@ -22,20 +14,11 @@
 
 using namespace std;
 
-void speak(const string& wordToSay, const bool isCorrect);
-void say(const string& sentence);
-string makeUpperCase(const string& attempt);
-string saltPassword(const string& password, const string& salt);
-string makeSalt();
-vector<string> readPasswordFile();
 void connectBasicSignalHandersButton(const std::vector<std::string>& widgetNames,const std::vector<sigc::slot<void>>& funcPointers);
 
 namespace SSG {
 	extern std::time_t currentASComboTime;
 	extern bool AnalysisMovAvg;
-	extern string HMwordToGuess;
-	extern string HMhiddenLine;
-	extern std::time_t hangmanStartTime;
 	extern windowContainer winContainer;
 	extern wordCC SpellingWords;
 	extern Glib::RefPtr<Gtk::Builder> refBuilder;
