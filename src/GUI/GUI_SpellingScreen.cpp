@@ -17,6 +17,7 @@ void say(const string& sentence);
 string makeUpperCase(const string& attempt);
 void definitionHelper(const string& widgetName);
 void keyboard_update_last_word(const string& attemptUpper, const string& wordString, const string& tViewName="SSG_KS_Text_LastWord");
+void connectBasicSignalHandersButton(const std::vector<std::string>& widgetNames,const std::vector<sigc::slot<void>>& funcPointers);
 
 namespace SSG {
 	extern windowContainer winContainer;
@@ -73,25 +74,18 @@ void connectSignalsSpellingScreen()
 {
     if (SSG::winContainer.SpellingScreen) //Only connect signals if window initialised
     {
-        Gtk::Button* pButton = nullptr;
-    	SSG::refBuilder->get_widget("SSG_SC_Button_Return", pButton);
-    	if(pButton)
-    		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_SC_Button_Return_Clicked) );}
+        std::vector<std::string> widgetNames = {
+            "SSG_SC_Button_Return",
+            "SSG_MS_Button_Spelling",
+            "SSG_SC_Button_Definition",
+            "SSG_SC_Button_Play"};
+        std::vector<sigc::slot<void>> funcPointers = {
+            sigc::ptr_fun(SSG_SC_Button_Return_Clicked),
+            sigc::ptr_fun(SSG_MS_Button_Spelling_Clicked),
+            sigc::ptr_fun(SSG_SC_Button_Definition_Clicked),
+            sigc::ptr_fun(SSG_SC_Button_Play_Clicked)};
 
-        pButton = nullptr;
-        SSG::refBuilder->get_widget("SSG_MS_Button_Spelling", pButton);
-        if(pButton)
-            {pButton->signal_clicked().connect( sigc::ptr_fun(SSG_MS_Button_Spelling_Clicked) );}
-
-        pButton = nullptr;
-        SSG::refBuilder->get_widget("SSG_SC_Button_Definition", pButton);
-        if(pButton)
-            {pButton->signal_clicked().connect( sigc::ptr_fun(SSG_SC_Button_Definition_Clicked) );}
-
-        pButton = nullptr;
-        SSG::refBuilder->get_widget("SSG_SC_Button_Play", pButton);
-        if(pButton)
-            {pButton->signal_clicked().connect( sigc::ptr_fun(SSG_SC_Button_Play_Clicked) );}
+        connectBasicSignalHandersButton(widgetNames,funcPointers);
 
         Gtk::Entry* pEntry = nullptr;
         SSG::refBuilder->get_widget("SSG_SC_TextEntry",pEntry);

@@ -39,7 +39,7 @@ namespace SSG {
 	wordContainer* badWordList = NULL; //Defaulting to null prevents manipulating objects that don't exist.
 	Glib::RefPtr<Gtk::Builder> refBuilder;
 	windowContainer winContainer;
-	// wordCC SpellingWords("finalDictwithDef.txt", "wrongWords.txt");
+	//wordCC SpellingWords("./Data/finalDictwithDef.txt", "./Data/wrongWords.txt");
 	wordCC SpellingWords("./Data/shortDict.txt", "./Data/shortwrongWords.txt");
 	hLog histLog("./Data/SSGHistFile.txt");
 	time_t sessionStartTime = time(0);

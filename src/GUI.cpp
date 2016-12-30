@@ -272,8 +272,13 @@ void connectBasicSignalHandersButton(const std::vector<std::string>& widgetNames
             if(pButton)
                 {
                     pButton->signal_clicked().connect( funcPointers[iter] );
+                    cout << "Connecting " << widgetNames[iter] << endl;
                 }
         }
+    }
+    else
+    {
+    	cout << "Warning unable to connect signals, function mismatch" << endl;
     }
 }
 

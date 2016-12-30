@@ -19,6 +19,7 @@ string saltPassword(const string& password, const string& salt);
 string makeSalt();
 vector<string> readPasswordFile();
 void definitionHelper(const string& widgetName);
+void connectBasicSignalHandersButton(const std::vector<std::string>& widgetNames,const std::vector<sigc::slot<void>>& funcPointers);
 
 namespace SSG {
 	extern windowContainer winContainer;
@@ -157,24 +158,18 @@ void connectSignalsKeyboardScreen()
 {
     if (SSG::winContainer.KeyboardScreen)
     {
-        Gtk::Button* pButton = nullptr;
+        std::vector<std::string> widgetNames = {
+            "SSG_KS_Button_Return",
+            "SSG_MS_Button_Keyboard",
+            "SSG_KS_Button_Definition"};
+        std::vector<sigc::slot<void>> funcPointers = {
+            sigc::ptr_fun(SSG_KS_Button_Return_Clicked),
+            sigc::ptr_fun(SSG_MS_Button_Keyboard_Clicked),
+            sigc::ptr_fun(SSG_KS_Button_Definition_Clicked)};
+
+        connectBasicSignalHandersButton(widgetNames,funcPointers);
+
     	Gtk::Entry* pEntry = nullptr;
-
-        SSG::refBuilder->get_widget("SSG_KS_Button_Return", pButton);
-        if(pButton)
-            {pButton->signal_clicked().connect( sigc::ptr_fun(SSG_KS_Button_Return_Clicked) );}
-
-        pButton = nullptr;
-        SSG::refBuilder->get_widget("SSG_MS_Button_Keyboard", pButton);
-        if(pButton)
-            {pButton->signal_clicked().connect( sigc::ptr_fun(SSG_MS_Button_Keyboard_Clicked) );}
-
-        pButton = nullptr;
-        SSG::refBuilder->get_widget("SSG_KS_Button_Definition", pButton);
-        if(pButton)
-            {pButton->signal_clicked().connect( sigc::ptr_fun(SSG_KS_Button_Definition_Clicked) );}
-
-        pEntry = nullptr;
         SSG::refBuilder->get_widget("SSG_KS_TextEntry",pEntry);
         if (pEntry)
             {pEntry->signal_changed().connect( sigc::ptr_fun(SSG_KS_TextEntry_insert) );}
