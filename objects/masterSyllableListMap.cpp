@@ -10,7 +10,7 @@ using namespace std;
 
 void printVector(const vector<string>& sV, int start=0, int stop=-1);
 void printVector(const vector<int>& sV, int start=0, int stop=-1);
-
+vector<int> splitVector(const vector<int>& inVector, int mode); //Now in main.cpp
 
 	void masterSyllablesListMap::addToTotal(const std::string& syllable, const int& amountToInc)
 	{
@@ -22,27 +22,6 @@ void printVector(const vector<int>& sV, int start=0, int stop=-1);
 				break;
 			}
 		}
-	}
-
-	vector<int> masterSyllablesListMap::splitVector(const vector<int> inVector, int mode)
-	{
-		int start;
-		int end;
-		if (!mode) //if 0
-		{
-			start = 0;
-			end = inVector.size()/2;
-		}
-		else
-		{
-			//if not 0
-			start = inVector.size()/2;
-			end = inVector.size();
-		}
-		vector<int> returnVector;
-		for (int i=start; i<end; i++)
-			returnVector.push_back(inVector[i]); //fill the vector with the values from original
-		return returnVector;
 	}
 
 	vector<int> masterSyllablesListMap::syllableMergeSort(const vector<int>& inVector)

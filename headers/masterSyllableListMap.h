@@ -13,8 +13,6 @@ class masterSyllablesListMap : public masterSyllablesList
 private:
 	std::vector<int> syllablePos; //For mergesort
 
-	std::vector<int> splitVector(const std::vector<int> inVector, int mode);
-
 	std::vector<int> syllableMergeSort(const std::vector<int>& inVector);
 
 	void enactMergeSort(const std::vector<int>& inVector);
@@ -24,7 +22,7 @@ private:
 	std::vector<std::string> syllables;
 	std::vector<int> wrongCount;
 	std::vector<float> weight;
-	
+
 	std::vector<std::string> findUniqueSyllables(const std::vector<std::string>& inSyllables);
 
 public:

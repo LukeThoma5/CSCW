@@ -21,8 +21,6 @@ protected:
 
 	std::vector<int> wordPos;
 
-	std::vector<int> splitVector(const std::vector<int>& inVector, int mode);
-
 	std::vector<int> containerMergeSort(const std::vector<int>& inVector);
 
 	int findWordInsertionPoint(const std::string& searchWord);
