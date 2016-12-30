@@ -23,6 +23,7 @@
 #include "./GUI/headers/SpellingScreen.h"
 #include "./GUI/headers/KeyboardScreen.h"
 #include "./GUI/headers/HangmanScreen.h"
+#include "./GUI/headers/AnalysisScreen.h"
 
 using namespace std;
 
@@ -47,11 +48,7 @@ namespace SSG {
 	extern masterSyllablesList* MSL; //MasterSyllablesList
 }
 
-static void SSG_AS_Button_Return_Clicked()
-{
-	if(SSG::winContainer.AnalysisScreen)
-		SSG::winContainer.AnalysisScreen->hide(); //hide() will close the window but keep the program running
-}
+
 
 void SSG_MS_Button_Quit_Clicked()
 {
@@ -70,34 +67,6 @@ void definitionHelper(const string& widgetName)
 void SSG_AS_Button_Options_Clicked()
 {
 	SSG::winContainer.OptionsScreen->show();
-}
-
-void SSG_AS_Combo_changed()
-{
-	Gtk::TextView* pSSG_AS_Text_Status = nullptr;
-	SSG::refBuilder->get_widget("SSG_AS_Text_Status",pSSG_AS_Text_Status);
-	Glib::RefPtr<Gtk::TextBuffer> StatusBuffer =  pSSG_AS_Text_Status->get_buffer();
-	Gtk::ComboBoxText* pSSG_AS_Combo_Timeframe = nullptr;
-	SSG::refBuilder->get_widget("SSG_AS_Combo_Timeframe", pSSG_AS_Combo_Timeframe);
-	string timeFrame = pSSG_AS_Combo_Timeframe->get_active_text();
-	time_t startTime;
-	if (timeFrame == "This session")
-		startTime=SSG::sessionStartTime;
-	else
-		if (timeFrame == "Last week")
-			startTime=(time(0)-604800);
-		else
-			startTime=0;
-	SSG::currentASComboTime = startTime;
-	StatusBuffer->set_text(SSG::histLog.getEventString(startTime));
-	//SSG::histLog.graphIncorrectWords(startTime);
-}
-
-void SSG_MS_Button_Analysis_Clicked()
-{
-	SSG::winContainer.AnalysisScreen->show();
-	SSG_AS_Combo_changed();
-
 }
 
 string seperateWord(const string& wordToSep)
@@ -132,59 +101,7 @@ void addTags(string textName)
 	myTag->property_background() = "green";
 }
 
-void SSG_ASGK_MovingAvg_Toggled()
-{
-	SSG::AnalysisMovAvg = !SSG::AnalysisMovAvg;
-	cout << "State Toggled!" << SSG::AnalysisMovAvg << endl;
-}
 
-void SSG_ASG_MSL_Clicked()
-{
-	//MSL assumed sorted due to AS opening [now removed]
-	SSG::MSL->sortList();
-	vector<string> syllables;
-    vector<int> syllableWCount;
-
-	syllables.reserve(SSG::MSL->size()); //Reduce mem allocs
-	syllableWCount.reserve(SSG::MSL->size());
-
-    for (int i=0; i<SSG::MSL->size(); i++)
-    {
-        syllables.push_back((*SSG::MSL)[i]);
-        syllableWCount.push_back(SSG::MSL->getSyllableWCount(syllables.back()));
-    }
-
-    SSG::histLog.createBarGraph("./Data/graphData/SyllableData.csv","Syllable Wrong Counts", syllables, syllableWCount);
-}
-
-void SSG_ASG_IncorrectWords_Clicked()
-{
-	SSG::histLog.graphIncorrectWords(SSG::currentASComboTime);
-}
-
-void SSG_ASGK_Mistakes_Clicked()
-{
-	if (SSG::AnalysisMovAvg)
-		SSG::histLog.graphKeyboardMovingAvg(SSG::currentASComboTime,2,"Mistakes per test (1 Week Moving Average)", "./Data/graphData/keyboardMistakesAVG.csv");
-	else
-		SSG::histLog.graphKeyboard(SSG::currentASComboTime,2,"Mistakes per test", "./Data/graphData/keyboardMistakes.csv");
-}
-
-void SSG_ASGK_Mistakes100_Clicked()
-{
-	if (SSG::AnalysisMovAvg)
-		SSG::histLog.graphKeyboardMovingAvg(SSG::currentASComboTime,3,"Mistakes per 100 characters (1 Week Moving Average)","./Data/graphData/keyboard100MistakesAVG.csv");
-	else
-		SSG::histLog.graphKeyboard(SSG::currentASComboTime,3,"Mistakes per 100 characters","./Data/graphData/keyboard100Mistakes.csv");
-}
-
-void SSG_ASGK_WPM_Clicked()
-{
-	if (SSG::AnalysisMovAvg)
-		SSG::histLog.graphKeyboardMovingAvg(SSG::currentASComboTime,5,"WPM (1 Week Moving Average)", "./Data/graphData/wordsPerMinuteAVG.csv");
-	else
-		SSG::histLog.graphKeyboard(SSG::currentASComboTime,5,"WPM", "./Data/graphData/wordsPerMinute.csv");
-}
 
 void SSG_OP_Button_Password_Clicked()
 {
@@ -292,14 +209,8 @@ if(SSG::winContainer.SpellingScreen)
 	connectSignalsSpellingScreen();
 	connectSignalsKeyboardScreen();	
 	connectSignalsHangmanScreen();
+	connectSignalsAnalysisScreen();
 
-	
-	pButton = nullptr;
-	SSG::refBuilder->get_widget("SSG_AS_Button_Return", pButton);
-	if(pButton)
-		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_AS_Button_Return_Clicked) );}
-
-	pButton = nullptr;
 	SSG::refBuilder->get_widget("SSG_AS_Button_Options", pButton);
 	if(pButton)
 		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_AS_Button_Options_Clicked) );}
@@ -308,11 +219,6 @@ if(SSG::winContainer.SpellingScreen)
 	SSG::refBuilder->get_widget("SSG_MS_Button_Quit", pButton);
 	if(pButton)
 		{cout << "MainScreen made!" << endl; pButton->signal_clicked().connect( sigc::ptr_fun(SSG_MS_Button_Quit_Clicked) );}
-
-	pButton = nullptr;
-	SSG::refBuilder->get_widget("SSG_MS_Button_Analysis", pButton);
-	if(pButton)
-		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_MS_Button_Analysis_Clicked) );}
 
 	pButton = nullptr;
 	SSG::refBuilder->get_widget("SSG_OP_Button_Password", pButton);
@@ -343,43 +249,6 @@ if(SSG::winContainer.SpellingScreen)
 	SSG::refBuilder->get_widget("SSG_RD_Button_Close", pButton);
 	if(pButton)
 		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_RD_Button_Close_Clicked) );}
-
-	pButton = nullptr;
-	SSG::refBuilder->get_widget("SSG_ASG_MSL", pButton);
-	if(pButton)
-		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_ASG_MSL_Clicked) );}
-
-	pButton = nullptr;
-	SSG::refBuilder->get_widget("SSG_ASG_IncorrectWords", pButton);
-	if(pButton)
-		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_ASG_IncorrectWords_Clicked) );}
-
-	Gtk::ToggleButton* pToggle = nullptr;
-	SSG::refBuilder->get_widget("SSG_ASGK_MovingAvg_Toggle", pToggle);
-	if (pToggle)
-		{pToggle->signal_toggled().connect( sigc::ptr_fun(SSG_ASGK_MovingAvg_Toggled) );}
-
-	pButton = nullptr;
-	SSG::refBuilder->get_widget("SSG_ASGK_Mistakes", pButton);
-	if(pButton)
-		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_ASGK_Mistakes_Clicked) );}
-
-	pButton = nullptr;
-	SSG::refBuilder->get_widget("SSG_ASGK_Mistakes100", pButton);
-	if(pButton)
-		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_ASGK_Mistakes100_Clicked) );}
-
-	pButton = nullptr;
-	SSG::refBuilder->get_widget("SSG_ASGK_WPM", pButton);
-	if(pButton)
-		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_ASGK_WPM_Clicked) );}
-
-	
-
-	Gtk::ComboBoxText* pCombo = nullptr;
-	SSG::refBuilder->get_widget("SSG_AS_Combo_Timeframe",pCombo);
-	if (pCombo)
-		{pCombo->signal_changed().connect( sigc::ptr_fun(SSG_AS_Combo_changed) );}
 }
 
 addTags("SSG_KS_Text_LastWord");
