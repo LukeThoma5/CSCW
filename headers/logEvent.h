@@ -9,10 +9,8 @@
 class logEvent
 {
 	std::vector<std::string> dataItems;
-	std::time_t eTime; 
+	std::time_t eTime;
 	std::string eType;
-
-	void delimItems(std::vector<std::string>& elems, const std::string& eventLine);
 public:
 	logEvent(const std::string& eventLine);
 
@@ -25,7 +23,7 @@ public:
 	std::vector<std::string> getDataItems() const;
 
 	std::string generateEventLine();
-	
+
 };
 
 #endif

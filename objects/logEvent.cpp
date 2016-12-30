@@ -3,20 +3,13 @@
 
 using namespace std;
 
-void logEvent::delimItems(std::vector<std::string>& elems, const std::string& eventLine)
-{
-    stringstream ss(eventLine); //create a stringstream object from the string parameter as getline requires istream object
-    string item; //string to hold the newly found item
-    while (getline(ss, item, '+')) { //while still data left in the stringstream read until you encounter the delimiter, store the stream in the item string, execute loop, repeat
-        if (!item.empty())
-            elems.push_back(item);
-    }
-}
+void split(const std::string &s,const char delim, std::vector<std::string>& elems);
+std::vector<std::string> split(const std::string &s, const char delim='+');
 
 logEvent::logEvent(const std::string& eventLine)
 {
     vector<string> elems; //vector to store the event elements
-    delimItems(elems,eventLine); //Split string into individual items
+    split(eventLine,'+',elems); //Split string into individual items
     eTime=stoul(elems[0],nullptr,16); //Set the time of the event equal to the int value after converting from hex
     eType=elems[1]; //Element 1 is the event type
     for (unsigned int i=2; i<elems.size(); i++) //Remaining items are data, add them to the dataItems vector
