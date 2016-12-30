@@ -36,7 +36,7 @@ static void SSG_AS_Button_Return_Clicked()
 		SSG::winContainer.AnalysisScreen->hide(); //hide() will close the window but keep the program running
 }
 
-void SSG_AS_Combo_changed()
+static void SSG_AS_Combo_changed()
 {
 	Gtk::TextView* pSSG_AS_Text_Status = nullptr;
 	SSG::refBuilder->get_widget("SSG_AS_Text_Status",pSSG_AS_Text_Status);
@@ -57,13 +57,13 @@ void SSG_AS_Combo_changed()
 	//SSG::histLog.graphIncorrectWords(startTime);
 }
 
-void SSG_ASGK_MovingAvg_Toggled()
+static void SSG_ASGK_MovingAvg_Toggled()
 {
 	SSG::AnalysisMovAvg = !SSG::AnalysisMovAvg;
 	cout << "State Toggled!" << SSG::AnalysisMovAvg << endl;
 }
 
-void SSG_ASG_MSL_Clicked()
+static void SSG_ASG_MSL_Clicked()
 {
 	//MSL assumed sorted due to AS opening [now removed]
 	SSG::MSL->sortList();
@@ -82,12 +82,12 @@ void SSG_ASG_MSL_Clicked()
     SSG::histLog.createBarGraph("./Data/graphData/SyllableData.csv","Syllable Wrong Counts", syllables, syllableWCount);
 }
 
-void SSG_ASG_IncorrectWords_Clicked()
+static void SSG_ASG_IncorrectWords_Clicked()
 {
 	SSG::histLog.graphIncorrectWords(SSG::currentASComboTime);
 }
 
-void SSG_ASGK_Mistakes_Clicked()
+static void SSG_ASGK_Mistakes_Clicked()
 {
 	if (SSG::AnalysisMovAvg)
 		SSG::histLog.graphKeyboardMovingAvg(SSG::currentASComboTime,2,"Mistakes per test (1 Week Moving Average)", "./Data/graphData/keyboardMistakesAVG.csv");
@@ -95,7 +95,7 @@ void SSG_ASGK_Mistakes_Clicked()
 		SSG::histLog.graphKeyboard(SSG::currentASComboTime,2,"Mistakes per test", "./Data/graphData/keyboardMistakes.csv");
 }
 
-void SSG_ASGK_Mistakes100_Clicked()
+static void SSG_ASGK_Mistakes100_Clicked()
 {
 	if (SSG::AnalysisMovAvg)
 		SSG::histLog.graphKeyboardMovingAvg(SSG::currentASComboTime,3,"Mistakes per 100 characters (1 Week Moving Average)","./Data/graphData/keyboard100MistakesAVG.csv");
@@ -103,7 +103,7 @@ void SSG_ASGK_Mistakes100_Clicked()
 		SSG::histLog.graphKeyboard(SSG::currentASComboTime,3,"Mistakes per 100 characters","./Data/graphData/keyboard100Mistakes.csv");
 }
 
-void SSG_ASGK_WPM_Clicked()
+static void SSG_ASGK_WPM_Clicked()
 {
 	if (SSG::AnalysisMovAvg)
 		SSG::histLog.graphKeyboardMovingAvg(SSG::currentASComboTime,5,"WPM (1 Week Moving Average)", "./Data/graphData/wordsPerMinuteAVG.csv");
@@ -111,7 +111,7 @@ void SSG_ASGK_WPM_Clicked()
 		SSG::histLog.graphKeyboard(SSG::currentASComboTime,5,"WPM", "./Data/graphData/wordsPerMinute.csv");
 }
 
-void SSG_MS_Button_Analysis_Clicked()
+static void SSG_MS_Button_Analysis_Clicked()
 {
 	SSG::winContainer.AnalysisScreen->show();
 	SSG_AS_Combo_changed();

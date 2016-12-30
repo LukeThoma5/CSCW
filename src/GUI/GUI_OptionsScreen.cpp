@@ -12,12 +12,12 @@ namespace SSG {
 	extern windowContainer winContainer;
 }
 
-void SSG_AS_Button_Options_Clicked()
+static void SSG_AS_Button_Options_Clicked()
 {
 	SSG::winContainer.OptionsScreen->show();
 }
 
-void SSG_OP_Button_Close_Clicked()
+static void SSG_OP_Button_Close_Clicked()
 {
 	cout << "closing" << endl;
 	SSG::winContainer.OptionsScreen->hide();

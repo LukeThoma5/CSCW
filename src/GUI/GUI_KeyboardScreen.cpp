@@ -33,7 +33,7 @@ static void SSG_KS_Button_Return_Clicked()
 		SSG::winContainer.KeyboardScreen->hide(); //hide() will close the window but keep the program running
 }
 
-void SSG_KS_Button_Definition_Clicked()
+static void SSG_KS_Button_Definition_Clicked()
 {
 	definitionHelper("SSG_KS_Text_DefinitionBox");
 }
@@ -59,7 +59,7 @@ void GUI_keyboard_Handler()
 	}
 }
 
-void SSG_MS_Button_Keyboard_Clicked()
+static void SSG_MS_Button_Keyboard_Clicked()
 {
 	SSG::winContainer.KeyboardScreen->show();
 	GUI_keyboard_Handler();
@@ -130,7 +130,7 @@ void keyboard_update_last_word(const string& attemptUpper, const string& wordStr
 	}
 }
 
-void SSG_KS_TextEntry_insert()
+static void SSG_KS_TextEntry_insert()
 {
 	string currentWordString = SSG::SpellingWords.getCurrentWord()->getWord();
 	Gtk::Entry* pEntry = nullptr;

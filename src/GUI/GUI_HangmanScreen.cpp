@@ -47,7 +47,7 @@ static void SSG_HM_Return_Clicked()
 	}
 }
 
-string createDash(const int& length)
+static string createDash(const int& length)
 {
 	string retString;
 	for (int i=0; i<length; i++)
@@ -55,7 +55,7 @@ string createDash(const int& length)
 	return retString;
 }
 
-void SSG_MS_Button_Games_Clicked()
+static void SSG_MS_Button_Games_Clicked()
 {
 	SSG::winContainer.HangmanScreen->show();
 	SSG::SpellingWords.findSpellingWords();
@@ -68,7 +68,7 @@ void SSG_MS_Button_Games_Clicked()
 	SSG::hangmanStartTime = time(0);
 }
 
-bool revealHangmanWord(const string& wordToGuess, string& hiddenLine, const char attempt)
+static bool revealHangmanWord(const string& wordToGuess, string& hiddenLine, const char attempt)
 {
 	bool wasMistake = true;
 
@@ -91,7 +91,7 @@ void ensureCharUpperCase(char& toUpper)
 		toUpper -= 32;
 }
 
-void SSG_HM_TextEntry_activate()
+static void SSG_HM_TextEntry_activate()
 {
 	static int leftOverAttempts = 8; //Persistant value between function calls, initialised once.
 

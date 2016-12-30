@@ -25,7 +25,7 @@ namespace SSG {
 	extern Glib::RefPtr<Gtk::Builder> refBuilder;
 }
 
-void SSG_MS_Button_Spelling_Clicked()
+static void SSG_MS_Button_Spelling_Clicked()
 {
 	SSG::winContainer.SpellingScreen->show();
 	SSG::SpellingWords.findSpellingWords();
@@ -38,18 +38,18 @@ static void SSG_SC_Button_Return_Clicked()
 	SSG::SpellingWords.userEndSpellingTest(); //Create log event if appropriate
 }
 
-void SSG_SC_Button_Definition_Clicked()
+static void SSG_SC_Button_Definition_Clicked()
 {
   definitionHelper("SSG_SC_Text_DefinitionBox");
 }
 
-void SSG_SC_Button_Play_Clicked()
+static void SSG_SC_Button_Play_Clicked()
 {
 	string wordToSpell = SSG::SpellingWords.getCurrentWord()->getWord();
 	speak(wordToSpell,false);
 }
 
-void SSG_SC_TextEntry_activate()
+static void SSG_SC_TextEntry_activate()
 {
 	//Get attempt from TextEntry
     Gtk::Entry* pEntry = nullptr;

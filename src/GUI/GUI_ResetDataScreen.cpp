@@ -22,7 +22,7 @@ namespace SSG {
 	extern hLog histLog;
 }
 
-void SSG_RD_Button_Clear_Data_Confirm_Clicked()
+static void SSG_RD_Button_Clear_Data_Confirm_Clicked()
 {
 	Gtk::Entry* pEntry = nullptr;
     SSG::refBuilder->get_widget("SSG_RD_TextEntry_Password_Attempt",pEntry);
@@ -38,12 +38,12 @@ void SSG_RD_Button_Clear_Data_Confirm_Clicked()
 			SSG::histLog.clearLog();
 	}
 }
-void SSG_RD_Button_Close_Clicked()
+static void SSG_RD_Button_Close_Clicked()
 {
 	SSG::winContainer.ResetData->close();
 }
 
-void SSG_OP_Button_Clear_Data_Clicked()
+static void SSG_OP_Button_Clear_Data_Clicked()
 {
 	cout << "Showing" << endl;
 	SSG::winContainer.ResetData->show();

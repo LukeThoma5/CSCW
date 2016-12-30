@@ -20,7 +20,7 @@ string saltPassword(const string& password, const string& salt);
 string makeSalt();
 void connectBasicSignalHandersButton(const std::vector<std::string>& widgetNames,const std::vector<sigc::slot<void>>& funcPointers);
 
-void SSG_PWR_Button_Accept_Clicked()
+static void SSG_PWR_Button_Accept_Clicked()
 {
 	Gtk::Entry* pEntry = nullptr;
     SSG::refBuilder->get_widget("SSG_PWR_TextEntry_Attempt1",pEntry);
@@ -57,7 +57,7 @@ void SSG_PWR_Button_Accept_Clicked()
 	}
 }
 
-void SSG_OP_Button_Password_Clicked()
+static void SSG_OP_Button_Password_Clicked()
 {
 	cout << "Showing" << endl;
 	SSG::winContainer.PasswordReset->show();
