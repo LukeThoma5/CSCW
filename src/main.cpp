@@ -6,12 +6,6 @@
 
 #include <cstdlib> //Declare system() which comes from a c library
 
-//Needed for say functin and pipe functionality
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <unistd.h>
-
 #include <gtkmm.h>
 
 #include "../headers/randng.h" //random number generator header
@@ -20,7 +14,6 @@
 #include "../headers/masterSyllableListMap.h"
 #include "../headers/word.h"
 #include "../headers/badWord.h"
-//#include "../headers/SSG.h"
 #include "../headers/wordContainer.h"
 #include "../headers/badwordContainer.h"
 #include "../headers/wordCC.h"
@@ -47,21 +40,8 @@ namespace SSG {
 
 masterSyllablesList::~masterSyllablesList() {std::cout<<"ClosingMSL"<<std::endl;}
 
-void say(const string& sentence)
-{
-    std::string myfifo = "/tmp/myfifo";
-    /* create the FIFO (named pipe) */
-    mkfifo(myfifo.c_str(), 0666);
-
-	/* write my message to the Pipe (FIFO) */
-    int fileDescriptor = open(myfifo.c_str(), O_WRONLY);
-    //write to the fileDescriptor opened above the array of char in sentence with a max size of 100
-    write(fileDescriptor,sentence.c_str(),100);
-    close(fileDescriptor);
-
-    /* unlick the FIFO */
-    unlink(myfifo.c_str());
-}
+void say(const string& sentence);
+void speak(const string& wordToSay, const bool isCorrect);
 
 string makeUpperCase(const string& attempt)
 {
@@ -99,19 +79,6 @@ vector<int> splitVector(const vector<int>& inVector, int mode)
 	for (int i=start; i<end; i++)
 		returnVector.push_back(inVector[i]); //fill the vector with the values from original
 	return returnVector;
-}
-
-void speak(const string& wordToSay, const bool isCorrect)
-{
-	/*
-	//string Command = "flite -voice slt -t \"Please spell the word " + wordToSay + "\"";
-	string Command = "flite -t \"Please spell the word " + wordToSay + "\"";
-    system(Command.c_str());
-	*/
-	if (isCorrect)
-		say("That is correct, please spell the word " + wordToSay);
-	else
-		say("Please spell the word " + wordToSay);
 }
 
 void printVector(const vector<string>& sV, int start=0, int stop=-1)
@@ -216,11 +183,6 @@ vector<string> readPasswordFile()
 int letterToInt(char c)
 {
 	return static_cast<int>(c)-65;
-}
-
-word& returnRef(word* myWord)
-{
-	return *myWord;
 }
 
 void SpellingTest(wordCC& SpellingWords)

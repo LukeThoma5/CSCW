@@ -26,7 +26,7 @@ namespace SSG {
 	extern Glib::RefPtr<Gtk::Builder> refBuilder;
 }
 
-void SSG_MS_Button_Quit_Clicked()
+static void SSG_MS_Button_Quit_Clicked()
 {
 	if (SSG::winContainer.MainScreen)
 		SSG::winContainer.MainScreen->hide();
@@ -38,20 +38,6 @@ void definitionHelper(const string& widgetName)
     SSG::refBuilder->get_widget(widgetName,pText_DefintionBox);
     Glib::RefPtr<Gtk::TextBuffer> DefinitionBuffer =  pText_DefintionBox->get_buffer();
     DefinitionBuffer->set_text(SSG::SpellingWords.getCurrentWord()->getDefinition());
-}
-
-string seperateWord(const string& wordToSep)
-{
-	cout << wordToSep << endl;
-	string retString;
-
-	for (int i=0; i<wordToSep.size(); i++)
-	{
-		retString = retString + wordToSep[i] + ' ';
-	}
-
-	cout << retString << endl;
-	return retString;
 }
 
 void addTags(string textName)
