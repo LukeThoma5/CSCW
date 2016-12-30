@@ -53,15 +53,12 @@ void connectSignalsResetDataScreen()
 {
     if (SSG::winContainer.ResetData)
     {
-        std::vector<std::string> widgetNames = {
-            "SSG_OP_Button_Clear_Data",
-            "SSG_RD_Button_Clear_Data_Confirm",
-            "SSG_RD_Button_Close"};
-        std::vector<sigc::slot<void>> funcPointers = {
-            sigc::ptr_fun(SSG_OP_Button_Clear_Data_Clicked),
-            sigc::ptr_fun(SSG_RD_Button_Clear_Data_Confirm_Clicked),
-            sigc::ptr_fun(SSG_RD_Button_Close_Clicked)};
-
-        connectBasicSignalHandersButton(widgetNames,funcPointers);
+        connectBasicSignalHandersButton(
+			{"SSG_OP_Button_Clear_Data",
+	        "SSG_RD_Button_Clear_Data_Confirm",
+	        "SSG_RD_Button_Close"},
+			{sigc::ptr_fun(SSG_OP_Button_Clear_Data_Clicked),
+		    sigc::ptr_fun(SSG_RD_Button_Clear_Data_Confirm_Clicked),
+		    sigc::ptr_fun(SSG_RD_Button_Close_Clicked)});
     }
 }

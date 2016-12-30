@@ -74,18 +74,15 @@ void connectSignalsSpellingScreen()
 {
     if (SSG::winContainer.SpellingScreen) //Only connect signals if window initialised
     {
-        std::vector<std::string> widgetNames = {
-            "SSG_SC_Button_Return",
+        connectBasicSignalHandersButton(
+			{"SSG_SC_Button_Return",
             "SSG_MS_Button_Spelling",
             "SSG_SC_Button_Definition",
-            "SSG_SC_Button_Play"};
-        std::vector<sigc::slot<void>> funcPointers = {
-            sigc::ptr_fun(SSG_SC_Button_Return_Clicked),
+            "SSG_SC_Button_Play"},
+			{sigc::ptr_fun(SSG_SC_Button_Return_Clicked),
             sigc::ptr_fun(SSG_MS_Button_Spelling_Clicked),
             sigc::ptr_fun(SSG_SC_Button_Definition_Clicked),
-            sigc::ptr_fun(SSG_SC_Button_Play_Clicked)};
-
-        connectBasicSignalHandersButton(widgetNames,funcPointers);
+            sigc::ptr_fun(SSG_SC_Button_Play_Clicked)});
 
         Gtk::Entry* pEntry = nullptr;
         SSG::refBuilder->get_widget("SSG_SC_TextEntry",pEntry);

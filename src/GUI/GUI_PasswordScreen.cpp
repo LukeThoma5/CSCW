@@ -67,13 +67,10 @@ void connectSignalsPasswordScreen()
 {
     if (SSG::winContainer.AnalysisScreen) //Only connect signals if window initialised
     {
-        std::vector<std::string> widgetNames = {
-            "SSG_OP_Button_Password",
-            "SSG_PWR_Button_Accept"};
-        std::vector<sigc::slot<void>> funcPointers = {
-            sigc::ptr_fun(SSG_OP_Button_Password_Clicked),
-            sigc::ptr_fun(SSG_PWR_Button_Accept_Clicked)};
-
-        connectBasicSignalHandersButton(widgetNames,funcPointers);
+        connectBasicSignalHandersButton(
+			{"SSG_OP_Button_Password",
+	        "SSG_PWR_Button_Accept"},
+			{sigc::ptr_fun(SSG_OP_Button_Password_Clicked),
+	        sigc::ptr_fun(SSG_PWR_Button_Accept_Clicked)});
     }
 }

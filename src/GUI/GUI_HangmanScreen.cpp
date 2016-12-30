@@ -144,14 +144,11 @@ void connectSignalsHangmanScreen()
 {
     if (SSG::winContainer.HangmanScreen)
     {
-        std::vector<std::string> widgetNames = {
-            "SSG_HM_Return",
-            "SSG_MS_Button_Games"};
-        std::vector<sigc::slot<void>> funcPointers = {
-            sigc::ptr_fun(SSG_HM_Return_Clicked),
-            sigc::ptr_fun(SSG_MS_Button_Games_Clicked)};
-
-        connectBasicSignalHandersButton(widgetNames,funcPointers);
+        connectBasicSignalHandersButton(
+			{"SSG_HM_Return",
+            "SSG_MS_Button_Games"},
+			{sigc::ptr_fun(SSG_HM_Return_Clicked),
+	        sigc::ptr_fun(SSG_MS_Button_Games_Clicked)});
 
         Gtk::Entry* pEntry = nullptr;
         SSG::refBuilder->get_widget("SSG_HM_TextEntry",pEntry);

@@ -27,13 +27,10 @@ void connectSignalsOptionsScreen()
 {
     if (SSG::winContainer.OptionsScreen) //Only connect signals if window initialised
     {
-        std::vector<std::string> widgetNames = {
-            "SSG_AS_Button_Options",
-            "SSG_OP_Button_Close"};
-        std::vector<sigc::slot<void>> funcPointers = {
-            sigc::ptr_fun(SSG_AS_Button_Options_Clicked),
-            sigc::ptr_fun(SSG_OP_Button_Close_Clicked)};
-
-        connectBasicSignalHandersButton(widgetNames,funcPointers);
+        connectBasicSignalHandersButton(
+			{"SSG_AS_Button_Options",
+            "SSG_OP_Button_Close"},
+			{sigc::ptr_fun(SSG_AS_Button_Options_Clicked),
+            sigc::ptr_fun(SSG_OP_Button_Close_Clicked)});
     }
 }

@@ -158,16 +158,13 @@ void connectSignalsKeyboardScreen()
 {
     if (SSG::winContainer.KeyboardScreen)
     {
-        std::vector<std::string> widgetNames = {
-            "SSG_KS_Button_Return",
+        connectBasicSignalHandersButton(
+			{"SSG_KS_Button_Return",
             "SSG_MS_Button_Keyboard",
-            "SSG_KS_Button_Definition"};
-        std::vector<sigc::slot<void>> funcPointers = {
-            sigc::ptr_fun(SSG_KS_Button_Return_Clicked),
+            "SSG_KS_Button_Definition"},
+			{sigc::ptr_fun(SSG_KS_Button_Return_Clicked),
             sigc::ptr_fun(SSG_MS_Button_Keyboard_Clicked),
-            sigc::ptr_fun(SSG_KS_Button_Definition_Clicked)};
-
-        connectBasicSignalHandersButton(widgetNames,funcPointers);
+            sigc::ptr_fun(SSG_KS_Button_Definition_Clicked)});
 
     	Gtk::Entry* pEntry = nullptr;
         SSG::refBuilder->get_widget("SSG_KS_TextEntry",pEntry);
