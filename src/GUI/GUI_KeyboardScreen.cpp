@@ -1,22 +1,12 @@
 #include <iostream>
 #include <string>
-#include <sstream>
-#include <fstream>
 #include <vector>
-
-#include <cstdlib> //Declare system() which comes from a c library
-
-#include "../../headers/sha256.h" //External code, not mine
 
 #include <gtkmm.h>
 
-#include "../../headers/masterSyllableList.h" //MSL declaration
 #include "../../headers/word.h"
 #include "../../headers/badWord.h"
-#include "../../headers/wordContainer.h"
-#include "../../headers/badwordContainer.h"
 #include "../../headers/wordCC.h"
-#include "../../headers/hLog.h"
 
 #include "../../objects/windowContainer.cpp"
 
@@ -31,17 +21,9 @@ vector<string> readPasswordFile();
 void definitionHelper(const string& widgetName);
 
 namespace SSG {
-	extern std::time_t currentASComboTime;
-	extern bool AnalysisMovAvg;
-	extern string HMwordToGuess;
-	extern string HMhiddenLine;
-	extern std::time_t hangmanStartTime;
 	extern windowContainer winContainer;
 	extern wordCC SpellingWords;
 	extern Glib::RefPtr<Gtk::Builder> refBuilder;
-	extern std::time_t sessionStartTime;
-	extern hLog histLog;
-	extern masterSyllablesList* MSL; //MasterSyllablesList
 }
 
 static void SSG_KS_Button_Return_Clicked()
@@ -173,25 +155,28 @@ void SSG_KS_TextEntry_insert()
 
 void connectSignalsKeyboardScreen()
 {
-    Gtk::Button* pButton = nullptr;
-	Gtk::Entry* pEntry = nullptr;
+    if (SSG::winContainer.KeyboardScreen)
+    {
+        Gtk::Button* pButton = nullptr;
+    	Gtk::Entry* pEntry = nullptr;
 
-    SSG::refBuilder->get_widget("SSG_KS_Button_Return", pButton);
-    if(pButton)
-        {pButton->signal_clicked().connect( sigc::ptr_fun(SSG_KS_Button_Return_Clicked) );}
+        SSG::refBuilder->get_widget("SSG_KS_Button_Return", pButton);
+        if(pButton)
+            {pButton->signal_clicked().connect( sigc::ptr_fun(SSG_KS_Button_Return_Clicked) );}
 
-    pButton = nullptr;
-    SSG::refBuilder->get_widget("SSG_MS_Button_Keyboard", pButton);
-    if(pButton)
-        {pButton->signal_clicked().connect( sigc::ptr_fun(SSG_MS_Button_Keyboard_Clicked) );}
+        pButton = nullptr;
+        SSG::refBuilder->get_widget("SSG_MS_Button_Keyboard", pButton);
+        if(pButton)
+            {pButton->signal_clicked().connect( sigc::ptr_fun(SSG_MS_Button_Keyboard_Clicked) );}
 
-    pButton = nullptr;
-    SSG::refBuilder->get_widget("SSG_KS_Button_Definition", pButton);
-    if(pButton)
-        {pButton->signal_clicked().connect( sigc::ptr_fun(SSG_KS_Button_Definition_Clicked) );}
+        pButton = nullptr;
+        SSG::refBuilder->get_widget("SSG_KS_Button_Definition", pButton);
+        if(pButton)
+            {pButton->signal_clicked().connect( sigc::ptr_fun(SSG_KS_Button_Definition_Clicked) );}
 
-    pEntry = nullptr;
-    SSG::refBuilder->get_widget("SSG_KS_TextEntry",pEntry);
-    if (pEntry)
-        {pEntry->signal_changed().connect( sigc::ptr_fun(SSG_KS_TextEntry_insert) );}
+        pEntry = nullptr;
+        SSG::refBuilder->get_widget("SSG_KS_TextEntry",pEntry);
+        if (pEntry)
+            {pEntry->signal_changed().connect( sigc::ptr_fun(SSG_KS_TextEntry_insert) );}
+    }
 }
