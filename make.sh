@@ -11,6 +11,7 @@ g++ ./src/main.cpp\
  ./objects/badwordContainer.cpp\
  ./objects/wordCC.cpp\
  ./src/GUI.cpp\
+ ./src/GUI/GUI_SpellingScreen.cpp\
  ./objects/hLog.cpp\
  ./objects/logEvent.cpp\
  ./src/externalCode.cpp\

@@ -21,6 +21,8 @@
 
 #include "../objects/windowContainer.cpp"
 
+#include "./GUI/headers/SpellingScreen.h"
+
 using namespace std;
 
 void speak(const string& wordToSay, const bool isCorrect);
@@ -42,13 +44,6 @@ namespace SSG {
 	extern std::time_t sessionStartTime;
 	extern hLog histLog;
 	extern masterSyllablesList* MSL; //MasterSyllablesList
-}
-
-static void SSG_SC_Button_Return_Clicked()
-{
-	if(SSG::winContainer.SpellingScreen)
-		SSG::winContainer.SpellingScreen->hide(); //hide() will close the window but keep the program running
-	SSG::SpellingWords.userEndSpellingTest(); //Create log event if appropriate
 }
 
 static void SSG_KS_Button_Return_Clicked()
@@ -110,31 +105,14 @@ void definitionHelper(const string& widgetName)
     DefinitionBuffer->set_text(SSG::SpellingWords.getCurrentWord()->getDefinition());
 }
 
-void SSG_SC_Button_Definition_Clicked()
-{
-  definitionHelper("SSG_SC_Text_DefinitionBox");
-}
-
 void SSG_KS_Button_Definition_Clicked()
 {
 	definitionHelper("SSG_KS_Text_DefinitionBox");
 }
 
-void SSG_SC_Button_Play_Clicked()
-{
-	string wordToSpell = SSG::SpellingWords.getCurrentWord()->getWord();
-	speak(wordToSpell,false);
-}
-
 void SSG_AS_Button_Options_Clicked()
 {
 	SSG::winContainer.OptionsScreen->show();
-}
-
-void SSG_MS_Button_Spelling_Clicked()
-{
-	SSG::winContainer.SpellingScreen->show();
-	SSG::SpellingWords.findSpellingWords();
 }
 
 void GUI_keyboard_Handler()
@@ -269,27 +247,6 @@ void keyboard_update_last_word(const string& attemptUpper, const string& wordStr
 				TBuffer->insert_with_tag(TBuffer->get_iter_at_offset(bufferStart),buffer,"redtag");
 		}
 	}
-}
-
-void SSG_SC_TextEntry_activate()
-{
-	//Get attempt from TextEntry
-    Gtk::Entry* pEntry = nullptr;
-    SSG::refBuilder->get_widget("SSG_SC_TextEntry",pEntry);
-    Glib::RefPtr<Gtk::EntryBuffer> EntryBuffer =  pEntry->get_buffer();
-    string attempt = pEntry->get_text();
-
-	//Update textview to indicate success
-	string correctSpelling = SSG::SpellingWords.getCurrentWord()->getWord();
-	EntryBuffer->set_text("");
-	Gtk::TextView* pText = nullptr;
-	SSG::refBuilder->get_widget("SSG_SC_Text_CorrectSpelling", pText);
-	Glib::RefPtr<Gtk::TextBuffer> TextBuffer = pText->get_buffer();
-	TextBuffer->set_text(correctSpelling);
-	keyboard_update_last_word(makeUpperCase(attempt), correctSpelling, "SSG_SC_Text_AttemptedSpelling");
-
-	//Update word Logic
-	SSG::SpellingWords.spellingAttempt(attempt);
 }
 
 void SSG_KS_TextEntry_insert()
@@ -541,9 +498,8 @@ if(SSG::winContainer.SpellingScreen)
 {
 	//Get the GtkBuilder-instantiated Button, and connect a signal handler:
 	Gtk::Button* pButton = nullptr;
-	SSG::refBuilder->get_widget("SSG_SC_Button_Return", pButton);
-	if(pButton)
-		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_SC_Button_Return_Clicked) );}
+	Gtk::Entry* pEntry = nullptr;
+	connectSignalsSpellingScreen();
 
 	pButton = nullptr;
 	SSG::refBuilder->get_widget("SSG_KS_Button_Return", pButton);
@@ -569,11 +525,6 @@ if(SSG::winContainer.SpellingScreen)
 	SSG::refBuilder->get_widget("SSG_MS_Button_Quit", pButton);
 	if(pButton)
 		{cout << "MainScreen made!" << endl; pButton->signal_clicked().connect( sigc::ptr_fun(SSG_MS_Button_Quit_Clicked) );}
-
-	pButton = nullptr;
-	SSG::refBuilder->get_widget("SSG_MS_Button_Spelling", pButton);
-	if(pButton)
-		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_MS_Button_Spelling_Clicked) );}
 
 	pButton = nullptr;
 	SSG::refBuilder->get_widget("SSG_MS_Button_Keyboard", pButton);
@@ -620,21 +571,10 @@ if(SSG::winContainer.SpellingScreen)
 	if(pButton)
 		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_RD_Button_Close_Clicked) );}
 
-
-	pButton = nullptr;
-	SSG::refBuilder->get_widget("SSG_SC_Button_Definition", pButton);
-	if(pButton)
-		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_SC_Button_Definition_Clicked) );}
-
 	pButton = nullptr;
 	SSG::refBuilder->get_widget("SSG_KS_Button_Definition", pButton);
 	if(pButton)
 		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_KS_Button_Definition_Clicked) );}
-
-	pButton = nullptr;
-	SSG::refBuilder->get_widget("SSG_SC_Button_Play", pButton);
-	if(pButton)
-		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_SC_Button_Play_Clicked) );}
 
 	pButton = nullptr;
 	SSG::refBuilder->get_widget("SSG_ASG_MSL", pButton);
@@ -665,11 +605,6 @@ if(SSG::winContainer.SpellingScreen)
 	SSG::refBuilder->get_widget("SSG_ASGK_WPM", pButton);
 	if(pButton)
 		{pButton->signal_clicked().connect( sigc::ptr_fun(SSG_ASGK_WPM_Clicked) );}
-
-	Gtk::Entry* pEntry = nullptr;
-	SSG::refBuilder->get_widget("SSG_SC_TextEntry",pEntry);
-	if (pEntry)
-		{pEntry->signal_activate().connect( sigc::ptr_fun(SSG_SC_TextEntry_activate) );}
 
 	pEntry = nullptr;
 	SSG::refBuilder->get_widget("SSG_KS_TextEntry",pEntry);
