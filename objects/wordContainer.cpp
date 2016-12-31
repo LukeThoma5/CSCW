@@ -287,19 +287,21 @@ vector<int> splitVector(const vector<int>& inVector, int mode); //Now in main.cp
 		if (str1 == str2)
 			return 0;
 
+		//Strings must now be different
 		int str1size = str1.size(); //Force the string size to a signed int
 		int str2size = str2.size();
-		int stop = str1size;
+		int stop = str1size; //Initialise to first string end
 
-		int retInt = -1;
+		int retInt = -1; //Initialise to first string
 
-		if (str1size != str2size)
+		if (str1size != str2size) //If sizes don't match
 		{
-			if (str1size > str2size)
+			if (str1size > str2size) //If the second string is smaller, set the end to the smallest string
 			{
 				stop = str2size;
-				retInt = 1;
+				retInt = 1; //Set the return value to the second string
 			}
+			//If 2size > 1size not nessissary as values initialised in that form
 		}
 
 		int s1pos = 0;
