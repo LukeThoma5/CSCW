@@ -119,6 +119,50 @@ static void SSG_AS_Button_Return_Clicked()
 		SSG::winContainer.AnalysisScreen->hide(); //hide() will close the window but keep the program running
 }
 
+static void SSG_ASGK_BasicGraphHandler(const int keyboardValue,const string& title, const string& saveLocation)
+{
+	if (SSG::AnalysisMovAvg)
+		SSG::histLog.graphKeyboardMovingAvg(SSG::currentASComboTime,keyboardValue,title + "(1 Week Moving Average)", saveLocation + "AVG.csv");
+	else
+		SSG::histLog.graphKeyboard(SSG::currentASComboTime,keyboardValue,title, saveLocation + ".csv");
+}
+
+// static void connectGraphSignalHanders(const std::vector<std::string>& widgetNames,const std::vector<sigc::bind<const int,const std::string&, const std::string&>>& funcPointers)
+static void connectGraphSignalHanders(const std::vector<std::string>& widgetNames, const vector<sigc::slot<void,const int,const string&,const string&>>& funcPointers, const std::vector<int>& keyboardValues, const std::vector<std::string*>& titles, const std::vector<std::string*>& saveLocations)
+{
+	cout << "Made into function" << endl;
+    if (widgetNames.size() == funcPointers.size())
+    {
+		Gtk::Button* pButton;
+        for (int iter=0, end=widgetNames.size(); iter<end; iter++)
+        {
+            pButton = nullptr;
+            SSG::refBuilder->get_widget(widgetNames[iter], pButton);
+            if(pButton)
+                {
+                    //pButton->signal_clicked().connect( funcPointers[iter] );
+					pButton->signal_clicked().connect( sigc::bind<const int,const std::string&,const std::string&>( funcPointers[iter], keyboardValues[iter], *titles[iter], *saveLocations[iter]));
+                    cout << "Connecting " << widgetNames[iter] << endl;
+                }
+        }
+    }
+    else
+    {
+    	cout << "Warning unable to connect signals, function mismatch" << endl;
+    }
+}
+
+void createCompileError(string i)
+{
+	cout << i << endl;
+}
+
+struct graphKeepers
+{
+	string testTitle = "WPM";
+	string testSaveLocations = "./Data/graphData/wordsPerMinute";
+} graphAlias;
+
 void connectSignalsAnalysisScreen()
 {
     if (SSG::winContainer.AnalysisScreen) //Only connect signals if window initialised
@@ -129,15 +173,53 @@ void connectSignalsAnalysisScreen()
             "SSG_ASG_IncorrectWords",
             "SSG_MS_Button_Analysis",
             "SSG_ASGK_Mistakes",
-             "SSG_ASGK_Mistakes100",
+             //"SSG_ASGK_Mistakes100",
              "SSG_ASGK_WPM"},
 			 {sigc::ptr_fun(SSG_AS_Button_Return_Clicked),
              sigc::ptr_fun(SSG_ASG_MSL_Clicked),
              sigc::ptr_fun(SSG_ASG_IncorrectWords_Clicked),
              sigc::ptr_fun(SSG_MS_Button_Analysis_Clicked),
              sigc::ptr_fun(SSG_ASGK_Mistakes_Clicked),
-             sigc::ptr_fun(SSG_ASGK_Mistakes100_Clicked),
+             //sigc::ptr_fun(SSG_ASGK_Mistakes100_Clicked),
              sigc::ptr_fun(SSG_ASGK_WPM_Clicked)});
+
+		// Gtk::Button* pButton = nullptr;
+ 	// 	SSG::refBuilder->get_widget("SSG_ASGK_Mistakes100", pButton);
+ 	// 	if(pButton)
+ 	// 		{
+		// 		pButton->signal_clicked().connect( sigc::bind<int, std::string>( sigc::ptr_fun(singalHanderWithValues), 5,"This has been passed in with value ") );
+		// 	}
+
+		//std::vector<sigc::bind<const int,const std::string&, const std::string&>> funcPointers = {sigc::bind<const int,const std::string&, const std::string&>(sigc::ptr_fun(SSG_ASGK_BasicGraphHandler), 5,"WPM", "./Data/graphData/wordsPerMinute")};
+		//sigc::bind_functor<-1, sigc::pointer_functor3<int, const std::__cxx11::basic_string<char>&, const std::__cxx11::basic_string<char>&, void>, const int, const std::__cxx11::basic_string<char>&, const std::__cxx11::basic_string<char>&, sigc::nil, sigc::nil, sigc::nil, sigc::nil>
+		// myBind = sigc::bind<const int,const std::string&, const std::string&>(sigc::ptr_fun(SSG_ASGK_BasicGraphHandler), 5,"WPM", "./Data/graphData/wordsPerMinute");
+		//connectGraphSignalHanders({"SSG_ASGK_Mistakes100"},{sigc::ptr_fun(SSG_ASGK_BasicGraphHandler)}, {5},{"WPM"}, {"./Data/graphData/wordsPerMinute"});
+
+		//createCompileError(myBind);
+
+		//Try putting the loop in here
+
+		vector<string> widgetNames = {"SSG_ASGK_Mistakes100"};
+		vector<sigc::slot<void,const int,const string&,const string&>> funcPointers = {sigc::ptr_fun(SSG_ASGK_BasicGraphHandler)};
+		//vector<sigc::slot<void>> funcPointers = {sigc::ptr_fun(SSG_ASGK_BasicGraphHandler)};
+		vector<int> keyboardValues = {5};
+		vector<string*> titles = {&(graphAlias.testTitle)};
+		vector<string*> saveLocations = {&graphAlias.testSaveLocations};
+
+		connectGraphSignalHanders(widgetNames,funcPointers,keyboardValues,titles,saveLocations);
+
+		// Gtk::Button* pButton;
+        // for (int iter=0, end=widgetNames.size(); iter<end; iter++)
+        // {
+        //     pButton = nullptr;
+        //     SSG::refBuilder->get_widget(widgetNames[iter], pButton);
+        //     if(pButton)
+        //         {
+        //             //pButton->signal_clicked().connect( funcPointers[iter] );
+		// 			pButton->signal_clicked().connect( sigc::bind<const int,const std::string&,const std::string&>( funcPointers[iter], keyboardValues[iter], *titles[iter], *saveLocations[iter]));
+        //             cout << "Connecting " << widgetNames[iter] << endl;
+        //         }
+        // }
 
 		Gtk::ToggleButton* pToggle = nullptr;
 		SSG::refBuilder->get_widget("SSG_ASGK_MovingAvg_Toggle", pToggle);
