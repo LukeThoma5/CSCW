@@ -304,44 +304,39 @@ vector<int> splitVector(const vector<int>& inVector, int mode); //Now in main.cp
 			//If 2size > 1size not nessissary as values initialised in that form
 		}
 
-		int s1pos = 0;
-		int s2pos = 0;
-		while (s1pos <  str1.size() && s2pos < str2.size())
+		auto s1pos = str1.begin();
+		auto s2pos = str2.begin();
+
+		auto s1end = str1.end(); //Cache iterator end
+		auto s2end = str2.end();
+		while (s1pos <  s1end && s2pos < s2end)
 		{
-			char chr1 = str1.at(s1pos);
-			char chr2 = str2.at(s2pos);
-			//cout << "Checking char " << chr1 << " " << chr2 << endl;
-			if (chr1 == chr2)
+
+			if (*s1pos == *s2pos)
 			{
-				s1pos++;
-				s2pos++;
+				++s1pos;
+				++s2pos;
 				continue;
 			}
 
-			int chr1i = static_cast<int>(chr1);
-
-			if (chr1i < 65)
+			if (static_cast<int>(*s1pos) < 65)
 			{
-				s1pos++;
+				++s1pos;
 				continue;
 			}
 
-			int chr2i = static_cast<int>(chr2);
-
-			if (chr2i < 65)
+			if (static_cast<int>(*s2pos) < 65)
 			{
-				s2pos++;
+				++s2pos;
 				continue;
 			}
 
-			if (chr1 > chr2)
+			if (*s1pos > *s2pos)
 				return 1;
 			return -1;
 		}
 
-		//cout << "COULD NOT DECIDE" << s1pos << " " << s2pos << endl;
 		return retInt;
-
 	}
 
 	int wordContainer::binSearch(const std::string& comp, int start, int stop)
