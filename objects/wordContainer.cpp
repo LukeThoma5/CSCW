@@ -304,22 +304,23 @@ vector<int> splitVector(const vector<int>& inVector, int mode); //Now in main.cp
 			//If 2size > 1size not nessissary as values initialised in that form
 		}
 
-		auto s1pos = str1.begin();
+		auto s1pos = str1.begin(); //Create an iterator at the start of each string
 		auto s2pos = str2.begin();
 
 		auto s1end = str1.end(); //Cache iterator end
 		auto s2end = str2.end();
-		while (s1pos <  s1end && s2pos < s2end)
+
+		while (s1pos <  s1end && s2pos < s2end) //While still got letters to compare
 		{
 
-			if (*s1pos == *s2pos)
+			if (*s1pos == *s2pos) //Dereference the iterators, if they are the same increment both
 			{
-				++s1pos;
+				++s1pos; //Pre increment to reduce compiler temporaries
 				++s2pos;
 				continue;
 			}
 
-			if (static_cast<int>(*s1pos) < 65)
+			if (static_cast<int>(*s1pos) < 65) //If the char value is less than the ASCII letter 'A' eg not A-Z
 			{
 				++s1pos;
 				continue;
@@ -331,11 +332,10 @@ vector<int> splitVector(const vector<int>& inVector, int mode); //Now in main.cp
 				continue;
 			}
 
-			if (*s1pos > *s2pos)
+			if (*s1pos > *s2pos) //If they are not the same or an invalid character, return based on the smaller char
 				return 1;
 			return -1;
 		}
-
 		return retInt;
 	}
 
