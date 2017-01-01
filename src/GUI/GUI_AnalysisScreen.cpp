@@ -134,8 +134,8 @@ static void SSG_ASGK_BasicGraphHandler(const int keyboardValue,const string& tit
 
 static void connectGraphSignalHandlers(const std::vector<std::string>& widgetNames,
 		const vector<sigc::slot<void,const int,const string&,const string&>>& funcPointers,
-		const std::vector<int>& keyboardValues, const std::vector<std::string*>& titles,
-		const std::vector<std::string*>& saveLocations)
+		const std::vector<int>& keyboardValues, const std::vector<const std::string*>& titles,
+		const std::vector<const std::string*>& saveLocations)
 {
     if (widgetNames.size() == funcPointers.size())
     {
@@ -159,12 +159,12 @@ static void connectGraphSignalHandlers(const std::vector<std::string>& widgetNam
 
 struct graphKeepers
 {
-	string WPMTitle = "WPM";
-	string WPMSL = "./Data/graphData/wordsPerMinute";
-	string MistakesTitle = "Mistakes per test";
-	string MistakesSL = "./Data/graphData/keyboardMistakes";
-	string Mistakes100Title = "Mistakes per 100 characters";
-	string Mistakes100SL = "./Data/graphData/keyboard100Mistakes";
+	const string WPMTitle = "WPM";
+	const string WPMSL = "./Data/graphData/wordsPerMinute";
+	const string MistakesTitle = "Mistakes per test";
+	const string MistakesSL = "./Data/graphData/keyboardMistakes";
+	const string Mistakes100Title = "Mistakes per 100 characters";
+	const string Mistakes100SL = "./Data/graphData/keyboard100Mistakes";
 } graphAlias;
 
 #endif
@@ -207,12 +207,12 @@ void connectSignalsAnalysisScreen()
 			sigc::ptr_fun(SSG_ASGK_BasicGraphHandler)};
 
 		vector<int> keyboardValues = {2,3,5};
-		vector<string*> titles = {
+		vector<const string*> titles = {
 			&graphAlias.MistakesTitle,
 			&graphAlias.Mistakes100Title,
 			&graphAlias.WPMTitle};
 
-		vector<string*> saveLocations = {
+		vector<const string*> saveLocations = {
 			&graphAlias.MistakesSL,
 			&graphAlias.Mistakes100SL,
 			&graphAlias.WPMSL};
