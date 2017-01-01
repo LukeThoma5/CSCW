@@ -14,6 +14,8 @@
 
 using namespace std;
 
+#define useConnectGraphFunc //Use connect function + 1 helper over 3 parameterless functions
+
 void connectBasicSignalHandersButton(const std::vector<std::string>& widgetNames,const std::vector<sigc::slot<void>>& funcPointers);
 
 namespace SSG {
@@ -89,6 +91,7 @@ static void SSG_ASG_IncorrectWords_Clicked()
 	SSG::histLog.graphIncorrectWords(SSG::currentASComboTime);
 }
 
+#ifndef useConnectGraphFunc
 static void SSG_ASGK_Mistakes_Clicked()
 {
 	if (SSG::AnalysisMovAvg) //If Moving Average has been toggled on, generate moving average, else don't
@@ -112,6 +115,7 @@ static void SSG_ASGK_WPM_Clicked()
 	else
 		SSG::histLog.graphKeyboard(SSG::currentASComboTime,5,"WPM", "./Data/graphData/wordsPerMinute.csv");
 }
+#endif
 
 static void SSG_AS_Button_Return_Clicked()
 {
@@ -119,18 +123,20 @@ static void SSG_AS_Button_Return_Clicked()
 		SSG::winContainer.AnalysisScreen->hide(); //hide() will close the window but keep the program running
 }
 
+#ifdef useConnectGraphFunc
 static void SSG_ASGK_BasicGraphHandler(const int keyboardValue,const string& title, const string& saveLocation)
 {
 	if (SSG::AnalysisMovAvg)
-		SSG::histLog.graphKeyboardMovingAvg(SSG::currentASComboTime,keyboardValue,title + "(1 Week Moving Average)", saveLocation + "AVG.csv");
+		SSG::histLog.graphKeyboardMovingAvg(SSG::currentASComboTime,keyboardValue,title + " (1 Week Moving Average)", saveLocation + "AVG.csv");
 	else
 		SSG::histLog.graphKeyboard(SSG::currentASComboTime,keyboardValue,title, saveLocation + ".csv");
 }
 
-// static void connectGraphSignalHanders(const std::vector<std::string>& widgetNames,const std::vector<sigc::bind<const int,const std::string&, const std::string&>>& funcPointers)
-static void connectGraphSignalHanders(const std::vector<std::string>& widgetNames, const vector<sigc::slot<void,const int,const string&,const string&>>& funcPointers, const std::vector<int>& keyboardValues, const std::vector<std::string*>& titles, const std::vector<std::string*>& saveLocations)
+static void connectGraphSignalHanders(const std::vector<std::string>& widgetNames,
+		const vector<sigc::slot<void,const int,const string&,const string&>>& funcPointers,
+		const std::vector<int>& keyboardValues, const std::vector<std::string*>& titles,
+		const std::vector<std::string*>& saveLocations)
 {
-	cout << "Made into function" << endl;
     if (widgetNames.size() == funcPointers.size())
     {
 		Gtk::Button* pButton;
@@ -140,7 +146,6 @@ static void connectGraphSignalHanders(const std::vector<std::string>& widgetName
             SSG::refBuilder->get_widget(widgetNames[iter], pButton);
             if(pButton)
                 {
-                    //pButton->signal_clicked().connect( funcPointers[iter] );
 					pButton->signal_clicked().connect( sigc::bind<const int,const std::string&,const std::string&>( funcPointers[iter], keyboardValues[iter], *titles[iter], *saveLocations[iter]));
                     cout << "Connecting " << widgetNames[iter] << endl;
                 }
@@ -152,16 +157,17 @@ static void connectGraphSignalHanders(const std::vector<std::string>& widgetName
     }
 }
 
-void createCompileError(string i)
-{
-	cout << i << endl;
-}
-
 struct graphKeepers
 {
-	string testTitle = "WPM";
-	string testSaveLocations = "./Data/graphData/wordsPerMinute";
+	string WPMTitle = "WPM";
+	string WPMSL = "./Data/graphData/wordsPerMinute";
+	string MistakesTitle = "Mistakes per test";
+	string MistakesSL = "./Data/graphData/keyboardMistakes";
+	string Mistakes100Title = "Mistakes per 100 characters";
+	string Mistakes100SL = "./Data/graphData/keyboard100Mistakes";
 } graphAlias;
+
+#endif
 
 void connectSignalsAnalysisScreen()
 {
@@ -170,56 +176,49 @@ void connectSignalsAnalysisScreen()
         connectBasicSignalHandersButton(
 			{"SSG_AS_Button_Return",
             "SSG_ASG_MSL",
-            "SSG_ASG_IncorrectWords",
-            "SSG_MS_Button_Analysis",
-            "SSG_ASGK_Mistakes",
-             //"SSG_ASGK_Mistakes100",
-             "SSG_ASGK_WPM"},
+			"SSG_MS_Button_Analysis",
+			"SSG_ASG_IncorrectWords"
+			#ifndef useConnectGraphFunc
+            ,"SSG_ASGK_Mistakes",
+             "SSG_ASGK_Mistakes100",
+             "SSG_ASGK_WPM"
+			 #endif
+		 	},
 			 {sigc::ptr_fun(SSG_AS_Button_Return_Clicked),
              sigc::ptr_fun(SSG_ASG_MSL_Clicked),
-             sigc::ptr_fun(SSG_ASG_IncorrectWords_Clicked),
-             sigc::ptr_fun(SSG_MS_Button_Analysis_Clicked),
-             sigc::ptr_fun(SSG_ASGK_Mistakes_Clicked),
-             //sigc::ptr_fun(SSG_ASGK_Mistakes100_Clicked),
-             sigc::ptr_fun(SSG_ASGK_WPM_Clicked)});
+			 sigc::ptr_fun(SSG_MS_Button_Analysis_Clicked),
+			 sigc::ptr_fun(SSG_ASG_IncorrectWords_Clicked)
+			 #ifndef useConnectGraphFunc
+            ,sigc::ptr_fun(SSG_ASGK_Mistakes_Clicked),
+             sigc::ptr_fun(SSG_ASGK_Mistakes100_Clicked),
+             sigc::ptr_fun(SSG_ASGK_WPM_Clicked)
+			 #endif
+		 	});
 
-		// Gtk::Button* pButton = nullptr;
- 	// 	SSG::refBuilder->get_widget("SSG_ASGK_Mistakes100", pButton);
- 	// 	if(pButton)
- 	// 		{
-		// 		pButton->signal_clicked().connect( sigc::bind<int, std::string>( sigc::ptr_fun(singalHanderWithValues), 5,"This has been passed in with value ") );
-		// 	}
+		#ifdef useConnectGraphFunc
+		vector<string> widgetNames = {
+			"SSG_ASGK_Mistakes",
+			"SSG_ASGK_Mistakes100",
+			"SSG_ASGK_WPM"};
 
-		//std::vector<sigc::bind<const int,const std::string&, const std::string&>> funcPointers = {sigc::bind<const int,const std::string&, const std::string&>(sigc::ptr_fun(SSG_ASGK_BasicGraphHandler), 5,"WPM", "./Data/graphData/wordsPerMinute")};
-		//sigc::bind_functor<-1, sigc::pointer_functor3<int, const std::__cxx11::basic_string<char>&, const std::__cxx11::basic_string<char>&, void>, const int, const std::__cxx11::basic_string<char>&, const std::__cxx11::basic_string<char>&, sigc::nil, sigc::nil, sigc::nil, sigc::nil>
-		// myBind = sigc::bind<const int,const std::string&, const std::string&>(sigc::ptr_fun(SSG_ASGK_BasicGraphHandler), 5,"WPM", "./Data/graphData/wordsPerMinute");
-		//connectGraphSignalHanders({"SSG_ASGK_Mistakes100"},{sigc::ptr_fun(SSG_ASGK_BasicGraphHandler)}, {5},{"WPM"}, {"./Data/graphData/wordsPerMinute"});
+		vector<sigc::slot<void,const int,const string&,const string&>> funcPointers = {
+			sigc::ptr_fun(SSG_ASGK_BasicGraphHandler),
+			sigc::ptr_fun(SSG_ASGK_BasicGraphHandler),
+			sigc::ptr_fun(SSG_ASGK_BasicGraphHandler)};
 
-		//createCompileError(myBind);
+		vector<int> keyboardValues = {2,3,5};
+		vector<string*> titles = {
+			&graphAlias.MistakesTitle,
+			&graphAlias.Mistakes100Title,
+			&graphAlias.WPMTitle};
 
-		//Try putting the loop in here
-
-		vector<string> widgetNames = {"SSG_ASGK_Mistakes100"};
-		vector<sigc::slot<void,const int,const string&,const string&>> funcPointers = {sigc::ptr_fun(SSG_ASGK_BasicGraphHandler)};
-		//vector<sigc::slot<void>> funcPointers = {sigc::ptr_fun(SSG_ASGK_BasicGraphHandler)};
-		vector<int> keyboardValues = {5};
-		vector<string*> titles = {&(graphAlias.testTitle)};
-		vector<string*> saveLocations = {&graphAlias.testSaveLocations};
+		vector<string*> saveLocations = {
+			&graphAlias.MistakesSL,
+			&graphAlias.Mistakes100SL,
+			&graphAlias.WPMSL};
 
 		connectGraphSignalHanders(widgetNames,funcPointers,keyboardValues,titles,saveLocations);
-
-		// Gtk::Button* pButton;
-        // for (int iter=0, end=widgetNames.size(); iter<end; iter++)
-        // {
-        //     pButton = nullptr;
-        //     SSG::refBuilder->get_widget(widgetNames[iter], pButton);
-        //     if(pButton)
-        //         {
-        //             //pButton->signal_clicked().connect( funcPointers[iter] );
-		// 			pButton->signal_clicked().connect( sigc::bind<const int,const std::string&,const std::string&>( funcPointers[iter], keyboardValues[iter], *titles[iter], *saveLocations[iter]));
-        //             cout << "Connecting " << widgetNames[iter] << endl;
-        //         }
-        // }
+		#endif
 
 		Gtk::ToggleButton* pToggle = nullptr;
 		SSG::refBuilder->get_widget("SSG_ASGK_MovingAvg_Toggle", pToggle);
