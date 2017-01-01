@@ -12,10 +12,6 @@
 #include "../headers/masterSyllableList.h" //MSL declaration
 #include "../headers/masterSyllableListTree.h"
 #include "../headers/masterSyllableListMap.h"
-#include "../headers/word.h"
-#include "../headers/badWord.h"
-#include "../headers/wordContainer.h"
-#include "../headers/badwordContainer.h"
 #include "../headers/wordCC.h"
 #include "../headers/hLog.h"
 
@@ -28,8 +24,6 @@ namespace SSG {
 	masterSyllablesListTree physicalMSL;
 	//masterSyllablesListMap physicalMSL;
 	masterSyllablesList* MSL = &physicalMSL; //MasterSyllablesList
-	wordContainer* goodWordList = NULL; //Allows the currently worked on wordList to be updated and interchanged
-	wordContainer* badWordList = NULL; //Defaulting to null prevents manipulating objects that don't exist.
 	Glib::RefPtr<Gtk::Builder> refBuilder;
 	windowContainer winContainer;
 	//wordCC SpellingWords("./Data/finalDictwithDef.txt", "./Data/wrongWords.txt");

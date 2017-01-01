@@ -28,8 +28,6 @@ namespace SSG {
 	//masterSyllablesListTree physicalMSL;
 	masterSyllablesListMap physicalMSL;
 	masterSyllablesList* MSL = &physicalMSL; //MasterSyllablesList
-	wordContainer* goodWordList = NULL; //Allows the currently worked on wordList to be updated and interchanged
-	wordContainer* badWordList = NULL; //Defaulting to null prevents manipulating objects that don't exist.
 	Glib::RefPtr<Gtk::Builder> refBuilder;
 	windowContainer winContainer;
 	//wordCC SpellingWords("./Data/finalDictwithDef.txt", "./Data/wrongWords.txt");
