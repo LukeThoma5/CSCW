@@ -3,9 +3,13 @@
 
 using namespace std;
 
+//#define MSLTREEDEBUG Uncomment to allow function Sequence printing
+
 std::vector<std::string> masterSyllablesListTree::findUniqueSyllables(const std::vector<std::string>& inSyllables)
 {
+    #ifdef MSLTREEDEBUG
     cout << "masterSyllablesList::findUniqueSyllables" << endl;
+    #endif
     vector<string> returnVector;
     for (int i=0; i<inSyllables.size(); i++)
     {
@@ -27,7 +31,9 @@ void masterSyllablesListTree::addSyllables(const std::vector<std::string>& inSyl
 {
     if (isSortedOnWrongCount)
         makeAlphabetical();
+    #ifdef MSLTREEDEBUG
     cout << "masterSyllablesList::addSyllables" << endl;
+    #endif
     if (root)
     {
         vector<string> unique = findUniqueSyllables(inSyllables);
@@ -55,7 +61,9 @@ void masterSyllablesListTree::addToTotal(const std::string& syllableToFind, cons
 {
     if (isSortedOnWrongCount)
         makeAlphabetical();
+    #ifdef MSLTREEDEBUG
     cout << "masterSyllablesList::addToTotal" << endl;
+    #endif
     try
     {
         root->findNode(syllableToFind)->addToTotal(amountToInc);
@@ -73,13 +81,17 @@ void masterSyllablesListTree::addToTotal(const std::string& syllableToFind, cons
 
 int masterSyllablesListTree::size()
 {
+    #ifdef MSLTREEDEBUG
     cout << "masterSyllablesList::size" << endl;
+    #endif
     return allNodes.size();
 }
 
 void masterSyllablesListTree::sortList()
 {
+    #ifdef MSLTREEDEBUG
     cout << "masterSyllablesList::sortList" << endl;
+    #endif
     root->clearPointers();
     isSortedOnWrongCount = true;
     for (int i=0; i<allNodes.size(); i++)
@@ -104,19 +116,25 @@ void masterSyllablesListTree::makeAlphabetical()
 
 bool masterSyllablesListTree::hasNoValues()
 {
+    #ifdef MSLTREEDEBUG
     cout << "masterSyllablesList::hasNoValues" << endl;
+    #endif
     return root->hasNoValues();
 }
 
 void masterSyllablesListTree::print()
 {
+    #ifdef MSLTREEDEBUG
     cout << "masterSyllablesList::print" << endl;
+    #endif
     root->printInOrder();
 }
 
 int masterSyllablesListTree::getSyllableWCount(int syllableToGet)
 {
+    #ifdef MSLTREEDEBUG
     cout << "masterSyllablesList::getSyllableWCount" << endl;
+    #endif
     return allNodes[syllableToGet]->getSyllableWCount();
 }
 
@@ -124,7 +142,9 @@ int masterSyllablesListTree::getSyllableWCount(const std::string syllableToFind)
 {
     if (isSortedOnWrongCount)
         makeAlphabetical();
+    #ifdef MSLTREEDEBUG
     cout << "masterSyllablesList::getSyllableWCount" << endl;
+    #endif
     return root->findNode(syllableToFind)->getSyllableWCount();
 }
 

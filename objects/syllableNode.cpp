@@ -2,15 +2,21 @@
 
 using namespace std;
 
+//#define syllableNodeDEBUG //Uncomment to enable debug messages
+
 void syllableNode::addToTotal(const int& amountToInc)
 {
+    #ifdef syllableNodeDEBUG
     cout << "syllableNode::addToTotal" << endl;
+    #endif
     wrongCount += amountToInc;
 }
 
 syllableNode::syllableNode(const std::string& Syllable, const int WrongCount, const float Weight)
 {
+    #ifdef syllableNodeDEBUG
     cout << "syllableNode::syllableNode" << endl;
+    #endif
     syllable=Syllable;
     wrongCount=WrongCount;
     weight=Weight;
@@ -18,7 +24,9 @@ syllableNode::syllableNode(const std::string& Syllable, const int WrongCount, co
 
 bool syllableNode::hasNoValues()
 {
+    #ifdef syllableNodeDEBUG
     cout << "syllableNode::hasNoValues" << endl;
+    #endif
     if (wrongCount == 0)
         return true;
     return false;
@@ -26,19 +34,25 @@ bool syllableNode::hasNoValues()
 
 int syllableNode::getSyllableWCount() const
 {
+    #ifdef syllableNodeDEBUG
     cout << "syllableNode::getSyllableWCount" << endl;
+    #endif
     return wrongCount;
 }
 
 std::string syllableNode::getSyllableValue() const
 {
+    #ifdef syllableNodeDEBUG
     cout << "syllableNode::getSyllableValue" << endl;
+    #endif
     return syllable;
 }
 
 void syllableNode::addValueOnSyllable(syllableNode* toAdd)
 {
+    #ifdef syllableNodeDEBUG
     cout << "syllableNode::addValueOnSyllable" << endl;
+    #endif
     string comp = toAdd->getSyllableValue();
     if (comp<syllable)
         if (left==nullptr)
@@ -54,7 +68,9 @@ void syllableNode::addValueOnSyllable(syllableNode* toAdd)
 
 void syllableNode::addValueOnWrongCount(syllableNode* toAdd)
 {
+    #ifdef syllableNodeDEBUG
     cout << "syllableNode::addValueOnWrongCount" << endl;
+    #endif
     int comp = toAdd->getSyllableWCount();
     if (comp>=wrongCount)
         if (left==nullptr)
@@ -70,7 +86,9 @@ void syllableNode::addValueOnWrongCount(syllableNode* toAdd)
 
 void syllableNode::addInOrder(std::vector<syllableNode*>& nodes)
 {
+    #ifdef syllableNodeDEBUG
     cout << "syllableNode::addInOrder" << endl;
+    #endif
     if (left)
         left->addInOrder(nodes);
     nodes.push_back(this);
@@ -80,7 +98,9 @@ void syllableNode::addInOrder(std::vector<syllableNode*>& nodes)
 
 syllableNode* syllableNode::findNode(const string& toFind)
 {
+    #ifdef syllableNodeDEBUG
     cout << "syllableNode::findNode" << endl;
+    #endif
     if (toFind == syllable)
         return this;
     if (toFind < syllable)
@@ -111,7 +131,9 @@ void syllableNode::clearPointers()
 
 syllableNode::~syllableNode()
 {
+    #ifdef syllableNodeDEBUG
     cout << "syllableNode::~syllableNode" << endl;
+    #endif
     if (left)
         delete left;
     if (right)
@@ -120,7 +142,9 @@ syllableNode::~syllableNode()
 
 void syllableNode::printInOrder()
 {
+    #ifdef syllableNodeDEBUG
     cout << "syllableNode::printInOrder" << endl;
+    #endif
     if (left)
         left->printInOrder();
     cout << syllable << " with wrongCount " << wrongCount << endl;
