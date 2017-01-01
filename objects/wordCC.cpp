@@ -128,7 +128,13 @@ void wordCC::removeDuplicates(const vector<string>& dupWords)
     for (unsigned int i=0; i<dupWords.size(); i++)
     {
         //Search goodWords for this iterations badWord, this is important as the badWord is constructed from the goodword which must then be removed.
-        int dupLocation = goodWords.binSearch(dupWords[i],0,goodWords.size());
+		int dupLocation;
+		try {dupLocation = goodWords.binSearch(dupWords[i],0,goodWords.size());}
+		catch (int errorNum)
+		{
+			dupLocation = -1;
+			cout << "Failed to find word to delete, binSearch returned with code " << errorNum << endl;
+		}
         cout << "Duplicate word " << dupWords[i] << " found in word container at location " << dupLocation << endl;
         //Delete the located word
         if (dupLocation != -1)
