@@ -132,7 +132,7 @@ static void SSG_ASGK_BasicGraphHandler(const int keyboardValue,const string& tit
 		SSG::histLog.graphKeyboard(SSG::currentASComboTime,keyboardValue,title, saveLocation + ".csv");
 }
 
-static void connectGraphSignalHanders(const std::vector<std::string>& widgetNames,
+static void connectGraphSignalHandlers(const std::vector<std::string>& widgetNames,
 		const vector<sigc::slot<void,const int,const string&,const string&>>& funcPointers,
 		const std::vector<int>& keyboardValues, const std::vector<std::string*>& titles,
 		const std::vector<std::string*>& saveLocations)
@@ -217,7 +217,7 @@ void connectSignalsAnalysisScreen()
 			&graphAlias.Mistakes100SL,
 			&graphAlias.WPMSL};
 
-		connectGraphSignalHanders(widgetNames,funcPointers,keyboardValues,titles,saveLocations);
+		connectGraphSignalHandlers(widgetNames,funcPointers,keyboardValues,titles,saveLocations);
 		#endif
 
 		Gtk::ToggleButton* pToggle = nullptr;
