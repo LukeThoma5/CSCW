@@ -56,7 +56,10 @@ static void SSG_AS_Combo_changed()
 		if (timeFrame == "Last week")
 			startTime=(time(0)-604800); //604800 is 1 week in seconds
 		else
-			startTime=0;
+			if (timeFrame == "Last month")
+				startTime=(time(0)-2419200); //4 Weeks (Month)
+			else
+				startTime=0; //Start of time (1 Jan 1970)
 
 	SSG::currentASComboTime = startTime; //Update the wanted time for other functions to use
 	StatusBuffer->set_text(SSG::histLog.getEventString(startTime)); //Calculate text output and place in buffer
