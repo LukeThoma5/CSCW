@@ -108,7 +108,7 @@ hLog::hLog(const std::string& saveLocation): logLocation(saveLocation)
     string line; //string to store the current line that has been read in
     while (getline(logFile, line,'\n')) //getline takes an istream object and reads until a /n then stores the result in line. If no more lines to read returns false
     {
-        cout << line << endl;
+        //cout << line << endl;
         log.push_back(logEvent(line));
     }
     logFile.close();
@@ -254,15 +254,6 @@ void hLog::graphKeyboardMovingAvg(std::time_t startPoint, int eventItem, const s
 
 int hLog::findTimeStart(std::time_t comparisonTime)
 {
-    // if (comparisonTime > log.back().getTime())
-    //     return log.size();
-    // for (int i=log.size(); i>=0; i--)
-    // {
-    //     if (log[i].getTime() < comparisonTime) //If current event was before the comp time, return the item past it
-    //         return i+1;
-    // }
-    // return 0;
-    //int lastValue=0;
     for (int i=0; i<log.size(); i++)
     {
         if (log[i].getTime() > comparisonTime)
@@ -303,23 +294,6 @@ string hLog::getEventString(std::time_t startTime)
         int daysSince = secondsSince / 86400;
         retString += to_string(daysSince) + " days ago " + log[i].getType() + '\n';
     }
-
-    // SSG::MSL.sortList();
-    // retString += "The complete syllable list and wrong count:\n";
-    // vector<string> syllables;
-    // vector<int> syllableWCount;
-    // for (int i=0; i<SSG::MSL.size(); i++)
-    // {
-    //     syllables.push_back(SSG::MSL[i]);
-    //     retString += to_string(i+1) + ": " + SSG::MSL[i] + " with a wrong count of " + to_string(SSG::MSL.getSyllableWCount(syllables.back())) + '\n';
-    //     syllableWCount.push_back(SSG::MSL.getSyllableWCount(syllables.back()));
-    // }
-
-    //createBarGraph("SyllableData.txt","Syllable Wrong Counts", syllables, syllableWCount);
-
-    // //graphKeyboard(startTime,2,"Mistakes per test", "keyboardMistakes.csv");
-    // graphKeyboard(startTime,3,"Mistakes per 100 characters","keyboard100Mistakes.csv");
-    // //graphKeyboard(startTime,5,"WPM", "wordsPerMinute.csv");
 
     return retString;
 }

@@ -16,7 +16,7 @@ logEvent::logEvent(const std::string& eventLine)
     {
         dataItems.push_back(elems[i]);
     }
-    cout << eTime << eType <<endl;
+    //cout << eTime << eType <<endl;
 }
 
 logEvent::logEvent(const std::vector<std::string>& dItems,const std::time_t& etime,const std::string& etype)

@@ -17,20 +17,19 @@ void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 	{
 		//Assumes the word constructor has already been called
 		vector<string> wordVector = split(badwordline);
-		printVector(wordVector);
+		//printVector(wordVector);
 
 		if (wordVector[0] != wordC) //If trying to construct a badWord from the wrong word throw an error.
 		{
 			throw "WordSyncError";
 		}
 
-		//finish the badWord constructor
-		cout << "Trying to convert " << wordVector[1] << " to float" << endl;
+		//cout << "Trying to convert " << wordVector[1] << " to float" << endl;
 		weight = stof(wordVector[1]);
 
 		for (unsigned int i=2; i<wordVector.size(); i++)
 		{
-			cout << "Trying to convert " << wordVector[i] << " to int" << endl;
+			//cout << "Trying to convert " << wordVector[i] << " to int" << endl;
 			syllableWrongCount.push_back(stoi(wordVector[i]));
 		}
 
