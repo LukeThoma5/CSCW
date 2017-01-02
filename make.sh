@@ -10,6 +10,7 @@ g++ ./src/main.cpp\
  ./objects/wordContainer.cpp\
  ./objects/badwordContainer.cpp\
  ./objects/wordCC.cpp\
+ ./objects/wordCC/wordCCSpelling.cpp\
  ./src/GUI.cpp\
  ./src/GUI/GUI_SpellingScreen.cpp\
  ./src/GUI/GUI_KeyboardScreen.cpp\
