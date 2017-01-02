@@ -12,6 +12,10 @@ g++ ./src/main.cpp\
  ./objects/wordCC.cpp\
  ./objects/wordCC/wordCCSpelling.cpp\
  ./objects/wordCC/wordCCKeyboard.cpp\
+ ./objects/wordCC/wordCCMaintenance.cpp\
+ ./objects/wordCC/wordCCCorrect.cpp\
+ ./objects/wordCC/wordCCWrong.cpp\
+ ./objects/wordCC/wordCCSort.cpp\
  ./src/GUI.cpp\
  ./src/GUI/GUI_SpellingScreen.cpp\
  ./src/GUI/GUI_KeyboardScreen.cpp\
