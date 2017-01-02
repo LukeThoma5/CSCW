@@ -11,6 +11,7 @@ g++ ./src/main.cpp\
  ./objects/badwordContainer.cpp\
  ./objects/wordCC.cpp\
  ./objects/wordCC/wordCCSpelling.cpp\
+ ./objects/wordCC/wordCCKeyboard.cpp\
  ./src/GUI.cpp\
  ./src/GUI/GUI_SpellingScreen.cpp\
  ./src/GUI/GUI_KeyboardScreen.cpp\

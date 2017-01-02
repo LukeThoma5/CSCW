@@ -10,7 +10,6 @@
 #include "../../headers/badwordContainer.h"
 #include "../../headers/wordCC.h"
 #include "../../headers/hLog.h"
-//#include "../headers/SSG.h"
 #include "../../headers/randng.h"
 
 namespace SSG {
