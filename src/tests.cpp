@@ -37,6 +37,69 @@ namespace SSG {
 }
 
 void createRandomWordWrongCounts();
+void printVector(const vector<string>& sV, int start=0, int stop=-1);
+
+vector<string> mergeAllDataToOneVector(const vector<string>& initialState, const vector<vector<string>>& testData)
+{
+	vector<string> dumpLocation = initialState;
+	int totalSize = initialState.size();
+	for (int i=0; i<testData.size(); i++)
+	{
+		totalSize += testData[i].size();
+	}
+	dumpLocation.reserve(totalSize); //Reduce Mem Allocs
+
+	for (int i=0; i<testData.size(); i++)
+	{
+		for (int j=0; j<testData[i].size(); j++)
+		{
+			dumpLocation.push_back(testData[i][j]);
+		}
+	}
+	return dumpLocation;
+}
+
+bool verifyMSLSingleInstance(const vector<string>& syllables, masterSyllablesList* MSL)
+{
+	for (int i=0; i<syllables.size(); i++)
+	{
+		int occurences = 0;
+		for (int j=0; j<MSL->size(); j++)
+		{
+			if ((*MSL)[j] == syllables[i])
+				++occurences;
+		}
+		if (occurences != 1)
+			return false;
+	}
+	return true;
+}
+
+bool testMSLAddSyllables(masterSyllablesList* MSL, const vector<string>& initialState, const vector<vector<string>>& testData)
+{
+	cout << "testingMSLAddSyllables" << endl;
+	if (!MSL->size())
+	{
+		MSL->addSyllables(initialState);
+		cout << "MSL initialed" << endl;
+		MSL->print();
+		for (int i=0; i<testData.size(); i++)
+		{
+			cout << "Adding vector with value";
+			printVector(testData[i]);
+			MSL->addSyllables(testData[i]);
+			MSL->print();
+		}
+		bool  success = verifyMSLSingleInstance(mergeAllDataToOneVector(initialState,testData),MSL);
+		cout << "testMSLAddSyllables complete with value " << success << endl;
+		return success;
+
+	}
+	else
+	{
+		cout << "Test failed, non empty MSL passed to testMSLAddSyllables" << endl;
+	}
+}
 
 bool testWordContainerSearch(wordContainer& goodWords)
 {
@@ -95,6 +158,21 @@ void printMSL()
 	}
 }
 
+void runCompleteMSLADDSyllables()
+{
+	masterSyllablesListTree* MSLTree = new masterSyllablesListTree();
+	testMSLAddSyllables(MSLTree,{"AH0","ZH"},{{"AH0","BA"}, {"zh","HE"}});
+	delete MSLTree; MSLTree = new masterSyllablesListTree();
+	testMSLAddSyllables(MSLTree,{},{ {"AH0"}, {} });
+	delete MSLTree;
+
+	masterSyllablesListMap* MSLMap = new masterSyllablesListMap();
+	testMSLAddSyllables(MSLMap,{"AH0","ZH"},{{"AH0","BA"}, {"zh","HE"}});
+	delete MSLMap; MSLMap = new masterSyllablesListMap();
+	testMSLAddSyllables(MSLMap,{},{ {"AH0"}, {} });
+	delete MSLMap;
+}
+
 int main(int argc, char const *argv[]) {
     wordContainer goodWords("finalDictwithDef.txt");
     //wordCC SpellingWords("finalDictwithDef.txt", "wrongWords.txt
@@ -105,6 +183,15 @@ int main(int argc, char const *argv[]) {
 	SSG::MSL->sortList();
 	testMSLMap("Merge sorted Map Test ");
 	printMSL();
+
+	masterSyllablesList* MSLTree = new masterSyllablesListTree();
+	testMSLAddSyllables(MSLTree,{"AH0","ZH"},{{"AH0","BA"}, {"zh","HE"}});
+	delete MSLTree;
+	MSLTree = new masterSyllablesListTree();
+	cout << "Running second test" << endl;
+	testMSLAddSyllables(MSLTree,{},{ {"AH0"}, {} });
+	delete MSLTree;
+
 	cout << "Tests complete" << endl;
     return 0;
 }
