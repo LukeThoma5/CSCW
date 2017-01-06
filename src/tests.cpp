@@ -184,13 +184,7 @@ int main(int argc, char const *argv[]) {
 	testMSLMap("Merge sorted Map Test ");
 	printMSL();
 
-	masterSyllablesList* MSLTree = new masterSyllablesListTree();
-	testMSLAddSyllables(MSLTree,{"AH0","ZH"},{{"AH0","BA"}, {"zh","HE"}});
-	delete MSLTree;
-	MSLTree = new masterSyllablesListTree();
-	cout << "Running second test" << endl;
-	testMSLAddSyllables(MSLTree,{},{ {"AH0"}, {} });
-	delete MSLTree;
+	runCompleteMSLADDSyllables();
 
 	cout << "Tests complete" << endl;
     return 0;
