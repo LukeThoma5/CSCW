@@ -99,25 +99,31 @@ void masterSyllablesListTree::sortList()
     #ifdef MSLTREEDEBUG
     cout << "masterSyllablesList::sortList" << endl;
     #endif
-    root->clearPointers();
-    isSortedOnWrongCount = true;
-    for (int i=0; i<allNodes.size(); i++)
+    if (root)
     {
-        if (allNodes[i] != root)
-            root->addValueOnWrongCount(allNodes[i]);
+        root->clearPointers();
+        isSortedOnWrongCount = true;
+        for (int i=0; i<allNodes.size(); i++)
+        {
+            if (allNodes[i] != root)
+                root->addValueOnWrongCount(allNodes[i]);
+        }
+        allNodes.clear();
+        root->addInOrder(allNodes);
     }
-    allNodes.clear();
-    root->addInOrder(allNodes);
 }
 
 void masterSyllablesListTree::makeAlphabetical()
 {
-    root->clearPointers();
-    isSortedOnWrongCount = false;
-    for (int i=0; i<allNodes.size(); i++)
+    if (root)
     {
-        if (allNodes[i] != root)
-            root->addValueOnSyllable(allNodes[i]);
+        root->clearPointers();
+        isSortedOnWrongCount = false;
+        for (int i=0; i<allNodes.size(); i++)
+        {
+            if (allNodes[i] != root)
+                root->addValueOnSyllable(allNodes[i]);
+        }
     }
 }
 
@@ -126,7 +132,9 @@ bool masterSyllablesListTree::hasNoValues()
     #ifdef MSLTREEDEBUG
     cout << "masterSyllablesList::hasNoValues" << endl;
     #endif
-    return root->hasNoValues();
+    if (root)
+        return root->hasNoValues();
+    return false;
 }
 
 void masterSyllablesListTree::print()
