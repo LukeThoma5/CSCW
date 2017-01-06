@@ -39,6 +39,7 @@ void masterSyllablesListTree::addSyllables(const std::vector<std::string>& inSyl
         vector<string> unique = findUniqueSyllables(inSyllables);
         for (int i=0; i<unique.size(); i++)
         {
+            cout << "Adding syllable with value " << unique[i] << endl;
             syllableNode* toAdd = new syllableNode(unique[i],0,1);
             allNodes.push_back(toAdd);
             root->addValueOnSyllable(toAdd);
@@ -46,14 +47,20 @@ void masterSyllablesListTree::addSyllables(const std::vector<std::string>& inSyl
     }
     else
     {
-        root = new syllableNode(inSyllables[0],0,1); //Initialise root
-        allNodes.push_back(root);
-        //Slice the old list
-        vector<string> nonRootToAdd;
-        for (int i=1; i<inSyllables.size(); i++)
-            nonRootToAdd.push_back(inSyllables[i]);
-        //Add the remaining syllables
-        addSyllables(nonRootToAdd);
+        if (inSyllables.size() > 0)
+        {
+            root = new syllableNode(inSyllables[0],0,1); //Initialise root
+            allNodes.push_back(root);
+            //Slice the old list
+            if (inSyllables.size() > 1)
+            {
+                vector<string> nonRootToAdd;
+                for (int i=1; i<inSyllables.size(); i++)
+                    nonRootToAdd.push_back(inSyllables[i]);
+                //Add the remaining syllables
+                addSyllables(nonRootToAdd);
+            }
+        }
     }
 }
 
@@ -127,7 +134,8 @@ void masterSyllablesListTree::print()
     #ifdef MSLTREEDEBUG
     cout << "masterSyllablesList::print" << endl;
     #endif
-    root->printInOrder();
+    if (root)
+        root->printInOrder();
 }
 
 int masterSyllablesListTree::getSyllableWCount(int syllableToGet)
