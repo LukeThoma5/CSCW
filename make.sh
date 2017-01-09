@@ -31,6 +31,10 @@ g++ ./src/main.cpp\
  ./src/GUI/GUI_PasswordScreen.cpp\
  ./src/GUI/GUI_ResetDataScreen.cpp\
  ./objects/hLog.cpp\
+ ./objects/hLog/hLogASText.cpp\
+ ./objects/hLog/hLogGraphHelpers.cpp\
+ ./objects/hLog/hLogGraphs.cpp\
+ ./objects/hLog/hLogKeyboardGraphs.cpp\
  ./objects/logEvent.cpp\
  ./src/externalCode.cpp\
  ./src/SHA256.cpp\
