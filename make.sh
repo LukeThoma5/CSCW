@@ -8,6 +8,10 @@ g++ ./src/main.cpp\
  ./objects/masterSyllableListMap.cpp\
  ./objects/syllableNode.cpp\
  ./objects/wordContainer.cpp\
+ ./objects/wordContainer/wordContainerBinSearch.cpp\
+ ./objects/wordContainer/wordContainerSort.cpp\
+ ./objects/wordContainer/wordContainerMaintenance.cpp\
+ ./objects/wordContainer/wordContainerExtract.cpp\
  ./objects/badwordContainer.cpp\
  ./objects/wordCC.cpp\
  ./objects/wordCC/wordCCSpelling.cpp\
