@@ -47,6 +47,22 @@ void runCompleteMSLADDSyllables();
 bool testWordContainerSearch(wordContainer& goodWords);
 void runTestWordContainerStringCompare(wordContainer& goodWords);
 
+void logEventGenEventLineTest()
+{
+	string EventLine = "585a9fe5+GoodWordWrong+ABACK+3.863636+abba";
+	logEvent lE(EventLine);
+	if (lE.generateEventLine() == EventLine)
+		cout << "logEvent eventLine from eventLine test [Passed]" << endl;
+	else
+		cout << "logEvent eventLine from eventLine test [Failed]" << endl;
+
+	logEvent lETwo({"ABACK","3.863636","abba"},0x585a9fe5,"GoodWordWrong");
+	if (lETwo.generateEventLine() == EventLine)
+		cout << "logEvent eventLine from dataItems test [Passed]" << endl;
+	else
+		cout << "logEvent eventLine from dataItems test [Failed]" << endl;
+}
+
 int main(int argc, char const *argv[]) {
     wordContainer goodWords("./Data/finalDictwithDef.txt");
     //wordCC SpellingWords("finalDictwithDef.txt", "wrongWords.txt
@@ -56,8 +72,8 @@ int main(int argc, char const *argv[]) {
 	runMSLSortingTests();
 	runMSLaddToTotalTest();
 	runtestMSLoverridedSWC();
-
 	runCompleteMSLADDSyllables();
+	logEventGenEventLineTest();
 
 	cout << "Tests complete" << endl;
     return 0;
