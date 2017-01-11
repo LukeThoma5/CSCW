@@ -3,11 +3,17 @@
 #g++ tests.cpp word.cpp badWord.cpp masterSyllableList.cpp wordContainer.cpp badwordContainer.cpp wordCC.cpp GUI.cpp hLog.cpp logEvent.cpp -o tests `pkg-config gtkmm-3.0 --cflags --libs`
 g++ ./src/tests.cpp\
  ./objects/word.cpp\
+ ./objects/word/wordWScore.cpp\
+ ./objects/word/wordWordWrong.cpp\
  ./objects/badWord.cpp\
  ./objects/masterSyllableListTree.cpp\
  ./objects/masterSyllableListMap.cpp\
  ./objects/syllableNode.cpp\
  ./objects/wordContainer.cpp\
+ ./objects/wordContainer/wordContainerBinSearch.cpp\
+ ./objects/wordContainer/wordContainerSort.cpp\
+ ./objects/wordContainer/wordContainerMaintenance.cpp\
+ ./objects/wordContainer/wordContainerExtract.cpp\
  ./objects/badwordContainer.cpp\
  ./objects/wordCC.cpp\
  ./objects/wordCC/wordCCSpelling.cpp\
@@ -25,6 +31,10 @@ g++ ./src/tests.cpp\
  ./src/GUI/GUI_PasswordScreen.cpp\
  ./src/GUI/GUI_ResetDataScreen.cpp\
  ./objects/hLog.cpp\
+ ./objects/hLog/hLogASText.cpp\
+ ./objects/hLog/hLogGraphHelpers.cpp\
+ ./objects/hLog/hLogGraphs.cpp\
+ ./objects/hLog/hLogKeyboardGraphs.cpp\
  ./objects/logEvent.cpp\
  ./src/externalCode.cpp\
  ./src/SHA256.cpp\

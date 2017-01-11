@@ -133,14 +133,14 @@ bool testWordContainerSearch(wordContainer& goodWords)
     return true;
 }
 
-bool testMSLMap(const string& testType)
+bool testMSLMap(const string& testType, masterSyllablesList* MSL)
 {
-	for (int i=0; i<SSG::MSL->size(); i++) //For every syllable in the masterSyllableList
+	for (int i=0; i<MSL->size(); i++) //For every syllable in the masterSyllableList
 	{
-		string testSyllable = (*SSG::MSL)[i];
+		string testSyllable = (*MSL)[i];
 		//cout << SSG::MSL.getSyllableWCount(i) << "  " << SSG::MSL.wrongCount[i] << '\n';
 		//cout << "Testing syllable " << testSyllable << " at position " << i << " does " << SSG::MSL.getSyllableWCount(i) << "==" << SSG::MSL.getSyllableWCount(testSyllable) << "?\n";
-		if (SSG::MSL->getSyllableWCount(i) != SSG::MSL->getSyllableWCount(testSyllable)) //If there is a mismatch in the returned wrongCount
+		if (MSL->getSyllableWCount(i) != MSL->getSyllableWCount(testSyllable)) //If there is a mismatch in the returned wrongCount
 		{
 			cout << "Error MSL position and value do mismatch!\nTest syllable " << testSyllable << " at position " << i << endl;
 			cout << testType << "[Failed]" << endl;
@@ -173,16 +173,59 @@ void runCompleteMSLADDSyllables()
 	delete MSLMap;
 }
 
+void initMSL(const vector<string>& initialState, const vector<int>& syllableWCount, masterSyllablesList* MSL)
+{
+	MSL->addSyllables(initialState);
+	for (int i=0; i<MSL->size(); ++i)
+		MSL->addToTotal(initialState[i], syllableWCount[i]);
+}
+
+bool MSLSortingTest(masterSyllablesList* MSL)
+{
+	MSL->sortList();
+	//MSL->print(); //For manual inspection
+	vector<string> syllablePos = {"HD","AH0","ZH","BN"};
+	vector<int> syllableValue = {5,3,1,0};
+	for (int i=0; i<MSL->size(); i++)
+	{
+		if ((*MSL)[i] != syllablePos[i] || MSL->getSyllableWCount(i) != syllableValue[i] || MSL->getSyllableWCount(syllablePos[i]) != syllableValue[i])
+			return false;
+	}
+	return true;
+}
+
+void runMSLSortingTests()
+{
+	vector<string> initialState = {"AH0", "ZH", "BN", "HD"};
+	vector<int> syllableWCount = {3,1,0,5};
+	masterSyllablesListTree* MSLTree = new masterSyllablesListTree();
+	initMSL(initialState, syllableWCount, MSLTree);
+	if (MSLSortingTest(MSLTree))
+		cout << "MSLTree sorting [passed]\n";
+	else
+		cout << "MSLTree sorting [failed]\n";
+	delete MSLTree;
+
+	masterSyllablesListMap* MSLMap = new masterSyllablesListMap();
+	initMSL(initialState, syllableWCount, MSLMap);
+	if (MSLSortingTest(MSLMap))
+		cout << "MSLMap sorting [passed]" << endl;
+	else
+		cout << "MSLMap sorting [failed]" << endl;
+		delete MSLMap;
+}
+
 int main(int argc, char const *argv[]) {
-    wordContainer goodWords("finalDictwithDef.txt");
+    wordContainer goodWords("./Data/finalDictwithDef.txt");
     //wordCC SpellingWords("finalDictwithDef.txt", "wrongWords.txt
 	testWordContainerSearch(goodWords);
 	createRandomWordWrongCounts();
-	printMSL();
-	testMSLMap("MSL Map Creation Test ");
-	SSG::MSL->sortList();
-	testMSLMap("Merge sorted Map Test ");
-	printMSL();
+	// printMSL();
+	// testMSLMap("MSL Map Creation Test ");
+	// SSG::MSL->sortList();
+	// testMSLMap("Merge sorted Map Test ");
+	// printMSL();
+	runMSLSortingTests();
 
 	runCompleteMSLADDSyllables();
 
