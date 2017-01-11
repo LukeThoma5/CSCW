@@ -14,36 +14,17 @@ vector<int> splitVector(const vector<int>& inVector, int mode); //Now in main.cp
 
 	void masterSyllablesListMap::addToTotal(const std::string& syllable, const int& amountToInc)
 	{
-		// bool needsToBeAdded = true;
-		// for (unsigned int i=0; i<syllables.size(); i++)
-		// {
-		// 	if (syllables[i] == syllable)
-		// 	{
-		// 		wrongCount[i] += amountToInc;
-		// 		needsToBeAdded = false;
-		// 		break;
-		// 	}
-		// }
-		//
-		// if (needsToBeAdded)
-		// {
-		// 	syllables.push_back(syllable);
-		// 	wrongCount.push_back(amountToInc);
-		// 	weight.push_back(1.0);
-		// 	syllableMap[syllable] = syllables.size()-1;
-		// }
-
-		std::unordered_map<std::string,int>::iterator iter = syllableMap.find(syllable);
-		if (iter == syllableMap.end())
+		std::unordered_map<std::string,int>::iterator iter = syllableMap.find(syllable); //Get a map iterator at the position of the syllable
+		if (iter == syllableMap.end()) //If the syllable not in map
 		{
-			syllables.push_back(syllable);
+			syllables.push_back(syllable); //Add the syllable with the wrongCount to increment
 			wrongCount.push_back(amountToInc);
 			weight.push_back(1.0);
-			syllableMap[syllable] = syllables.size()-1;
+			syllableMap[syllable] = syllables.size()-1; //Add the syllable to the map
 		}
 		else
 		{
-			wrongCount[iter->second] += amountToInc;
+			wrongCount[iter->second] += amountToInc; //Increase the wrong count of the index held in the map value field (->second)
 		}
 	}
 
