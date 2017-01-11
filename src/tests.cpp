@@ -180,18 +180,25 @@ void initMSL(const vector<string>& initialState, const vector<int>& syllableWCou
 		MSL->addToTotal(initialState[i], syllableWCount[i]);
 }
 
-bool MSLSortingTest(masterSyllablesList* MSL)
+bool validateMSLState(masterSyllablesList* MSL, const vector<string>& syllablePos, const vector<int>& syllableValue)
 {
-	MSL->sortList();
-	//MSL->print(); //For manual inspection
-	vector<string> syllablePos = {"HD","AH0","ZH","BN"};
-	vector<int> syllableValue = {5,3,1,0};
+	if (MSL->size() != syllablePos.size() || MSL->size() != syllableValue.size())
+		return false;
 	for (int i=0; i<MSL->size(); i++)
 	{
 		if ((*MSL)[i] != syllablePos[i] || MSL->getSyllableWCount(i) != syllableValue[i] || MSL->getSyllableWCount(syllablePos[i]) != syllableValue[i])
 			return false;
 	}
 	return true;
+}
+
+bool MSLSortingTest(masterSyllablesList* MSL)
+{
+	MSL->sortList();
+	//MSL->print(); //For manual inspection
+	vector<string> syllablePos = {"HD","AH0","ZH","BN"};
+	vector<int> syllableValue = {5,3,1,0};
+	return validateMSLState(MSL,syllablePos,syllableValue);
 }
 
 void runMSLSortingTests()
@@ -215,6 +222,58 @@ void runMSLSortingTests()
 		delete MSLMap;
 }
 
+void MSLaddToTotalTest(masterSyllablesList* MSL, const string& testString, bool isFirstTest)
+{
+	bool hasPassed;
+	if (isFirstTest)
+	{
+		initMSL({"AH0"},{5},MSL);
+		MSL->addToTotal("AH0",1);
+		hasPassed = validateMSLState(MSL,{"AH0"},{6});
+		if (hasPassed)
+		{
+			MSL->addToTotal("ZH",3);
+			hasPassed = validateMSLState(MSL,{"AH0","ZH"},{6,3});
+			if (hasPassed)
+			{
+				MSL->addToTotal("ZH",2);
+				hasPassed = validateMSLState(MSL,{"AH0","ZH"},{6,5});
+			}
+		}
+		MSL->print();
+	}
+	else
+	{
+		//MSL is empty
+		MSL->print();
+		MSL->addToTotal("ZH",3);
+		MSL->print();
+		hasPassed = validateMSLState(MSL,{"ZH"},{3});
+	}
+
+	if (hasPassed)
+		cout << testString << "Passed]" << endl;
+	else
+		cout << testString << "Failed]" << endl;
+
+	//Add to MSLMap so it adds an unknown syllable and doesn't crash. Check for root condition for MSL Map
+}
+
+void runMSLaddToTotalTest()
+{
+	masterSyllablesListTree* MSLTree = new masterSyllablesListTree();
+	MSLaddToTotalTest(MSLTree, "MSLTree addToTotalTest 1 [",true);
+	delete MSLTree; MSLTree = new masterSyllablesListTree();
+	MSLaddToTotalTest(MSLTree, "MSLTree addToTotalTest 2 [",false);
+	delete MSLTree;
+
+	masterSyllablesListMap* MSLMap = new masterSyllablesListMap();
+	MSLaddToTotalTest(MSLMap, "MSLMap addToTotalTest 1 [",true);
+	delete MSLMap; MSLMap = new masterSyllablesListMap();
+	MSLaddToTotalTest(MSLMap, "MSLMap addToTotalTest 2 [",false);
+	delete MSLMap;
+}
+
 int main(int argc, char const *argv[]) {
     wordContainer goodWords("./Data/finalDictwithDef.txt");
     //wordCC SpellingWords("finalDictwithDef.txt", "wrongWords.txt
@@ -226,6 +285,7 @@ int main(int argc, char const *argv[]) {
 	// testMSLMap("Merge sorted Map Test ");
 	// printMSL();
 	runMSLSortingTests();
+	runMSLaddToTotalTest();
 
 	runCompleteMSLADDSyllables();
 
