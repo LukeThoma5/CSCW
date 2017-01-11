@@ -14,13 +14,36 @@ vector<int> splitVector(const vector<int>& inVector, int mode); //Now in main.cp
 
 	void masterSyllablesListMap::addToTotal(const std::string& syllable, const int& amountToInc)
 	{
-		for (unsigned int i=0; i<syllables.size(); i++)
+		// bool needsToBeAdded = true;
+		// for (unsigned int i=0; i<syllables.size(); i++)
+		// {
+		// 	if (syllables[i] == syllable)
+		// 	{
+		// 		wrongCount[i] += amountToInc;
+		// 		needsToBeAdded = false;
+		// 		break;
+		// 	}
+		// }
+		//
+		// if (needsToBeAdded)
+		// {
+		// 	syllables.push_back(syllable);
+		// 	wrongCount.push_back(amountToInc);
+		// 	weight.push_back(1.0);
+		// 	syllableMap[syllable] = syllables.size()-1;
+		// }
+
+		std::unordered_map<std::string,int>::iterator iter = syllableMap.find(syllable);
+		if (iter == syllableMap.end())
 		{
-			if (syllables[i] == syllable)
-			{
-				wrongCount[i] += amountToInc;
-				break;
-			}
+			syllables.push_back(syllable);
+			wrongCount.push_back(amountToInc);
+			weight.push_back(1.0);
+			syllableMap[syllable] = syllables.size()-1;
+		}
+		else
+		{
+			wrongCount[iter->second] += amountToInc;
 		}
 	}
 
