@@ -72,6 +72,34 @@ bool testWordContainerSearch(wordContainer& goodWords)
     return true;
 }
 
+bool getConditionWCSC(int end, const int& direction, const int i)
+{
+	if (direction == -1)
+		return (i > end);
+	return (i<end);
+}
+
+bool testWordContainerStringCompare(wordContainer& goodWords, int start, int end,const int direction, const string& testString)
+{
+	for (int i=start; getConditionWCSC(end,direction,i); i+=direction)
+	{
+		if (goodWords.stringCompare(goodWords[i]->getWord(), goodWords[i+direction]->getWord()) == direction)
+		{
+			cout << "Test failing on item " << i << " comparing " << goodWords[i]->getWord() << " to " << goodWords[i+direction]->getWord() << endl;
+			cout << testString <<  "Failed]" << endl;
+			return false;
+		}
+	}
+	cout << testString << "Passed]" << endl;
+	return true;
+}
+
+void runTestWordContainerStringCompare(wordContainer& goodWords)
+{
+	testWordContainerStringCompare(goodWords,0,goodWords.size()-2, 1,"WordContainerStringCompare Test Forward [");
+	testWordContainerStringCompare(goodWords,goodWords.size()-1, 1, -1, "WordContainerStringCompare Test Backwards [");
+}
+
 void runMSLSortingTests();
 void runMSLaddToTotalTest();
 void runtestMSLoverridedSWC();
@@ -81,6 +109,7 @@ int main(int argc, char const *argv[]) {
     wordContainer goodWords("./Data/finalDictwithDef.txt");
     //wordCC SpellingWords("finalDictwithDef.txt", "wrongWords.txt
 	testWordContainerSearch(goodWords);
+	runTestWordContainerStringCompare(goodWords);
 	createRandomWordWrongCounts();
 	// printMSL();
 	// testMSLMap("MSL Map Creation Test ");

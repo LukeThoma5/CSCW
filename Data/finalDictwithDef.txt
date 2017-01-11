@@ -8827,7 +8827,6 @@ ICING+AY1+S+IH0+NG+#DEF+A coating or covering resembling ice, as of sugar and mi
 ICON+AY1+K+AA0+N+#DEF+An image or representation; a portrait or pretended portrait.Netherlands whose names and icons are published. Hakewill.
 ICONOCLASM+AY2+K+AA1+N+AH0+K+L+AE2+Z+AH0+M+#DEF+The doctrine or practice of the iconoclasts; image breaking.
 ICONOCLASTIC+AY2+K+AH0+N+AH0+K+L+AE1+S+T+IH0+K+#DEF+Of or pertaining to the iconoclasts, or to image breaking.Milman.
-I'D+AY1+D+#DEF+. A contraction from I would or I had.
 IDE+AY1+D+#DEF+Same as Id.
 IDEAL+AY0+D+IY1+L+#DEF+Imaginary.
 IDEALISM+AY0+D+IY1+L+IH0+Z+AH0+M+#DEF+The system or theory that denies the existence of materialbodies, and teaches that we have no rational grounds to believe inthe reality of anything but ideas and their relations.
