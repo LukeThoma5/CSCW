@@ -35,6 +35,7 @@ g++ ./src/tests.cpp\
  ./src/Tests/MSLSortingTest.cpp\
  ./src/Tests/MSLSWCOverTest.cpp\
  ./src/Tests/MSLTestUtils.cpp\
+ ./src/Tests/WordContainerSearchTest.cpp\
  ./objects/hLog.cpp\
  ./objects/hLog/hLogASText.cpp\
  ./objects/hLog/hLogGraphHelpers.cpp\
