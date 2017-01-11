@@ -30,6 +30,11 @@ g++ ./src/tests.cpp\
  ./src/GUI/GUI_OptionsScreen.cpp\
  ./src/GUI/GUI_PasswordScreen.cpp\
  ./src/GUI/GUI_ResetDataScreen.cpp\
+ ./src/Tests/MSLAddSyllablesTest.cpp\
+ ./src/Tests/MSLAddToTotalTest.cpp\
+ ./src/Tests/MSLSortingTest.cpp\
+ ./src/Tests/MSLSWCOverTest.cpp\
+ ./src/Tests/MSLTestUtils.cpp\
  ./objects/hLog.cpp\
  ./objects/hLog/hLogASText.cpp\
  ./objects/hLog/hLogGraphHelpers.cpp\
