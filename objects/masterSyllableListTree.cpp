@@ -73,7 +73,16 @@ void masterSyllablesListTree::addToTotal(const std::string& syllableToFind, cons
     #endif
     try
     {
-        root->findNode(syllableToFind)->addToTotal(amountToInc);
+        if (root)
+        {
+            root->findNode(syllableToFind)->addToTotal(amountToInc);
+        }
+        else
+        {
+            syllableNode* toAdd = new syllableNode(syllableToFind,amountToInc,1.0);
+            allNodes.push_back(toAdd);
+            root = toAdd;
+        }
     }
     catch (int i)
     {
