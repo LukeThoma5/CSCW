@@ -21,7 +21,7 @@ using namespace std;
 void printVector(const vector<string>& sV, int start=0, int stop=-1); //Early declaration
 void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 
-string word::generateBadWordLine(vector<int>& syllableWrongCount)
+string word::generateBadWordLine(const vector<int>& syllableWrongCount)
 {
     string badWordLine = wordC + "+1.0";
     for (int i =0; i<syllableWrongCount.size(); i++)

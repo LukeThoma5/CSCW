@@ -9,10 +9,9 @@ std::vector<std::string> split(const std::string &s, const char delim='+');
 
 class word
 {
-private:
-	std::string generateBadWordLine(std::vector<int>& syllableWrongCount);
-
 protected:
+	std::string generateBadWordLine(const std::vector<int>& syllableWrongCount);
+
 	int determineSyllables();
 
 	std::vector<int> determineWrongSyllables(const std::string& attempt);
