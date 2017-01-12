@@ -54,17 +54,32 @@ public:
 		return true;
 	}
 
-    bool generateBadWordLineTest(const vector<int> syllableWrongCount, const string& expectedResult)
+    bool generateBadWordLineTest(const vector<int>& syllableWrongCount, const string& expectedResult)
     {
         if (generateBadWordLine(syllableWrongCount) != expectedResult)
+        {
+            cout << generateBadWordLine(syllableWrongCount) << " vs " << expectedResult << endl;
             return false;
+        }
         return true;
     }
 };
 
 void runGenBadWordLineTest(wordTester& tester1, wordTester& tester2)
 {
-    ;
+    bool hasPassed = true;
+    if (!tester1.generateBadWordLineTest({1,2,3},"ABBE+1.0+1+2+3"))
+        hasPassed = false;
+    if (!tester1.generateBadWordLineTest({-3,-2,-1},"ABBE+1.0+-3+-2+-1"))
+        hasPassed = false;
+    if (!tester2.generateBadWordLineTest({0,0,0,0,0,0,0},"ABDICATE+1.0+0+0+0+0+0+0+0"))
+        hasPassed = false;
+    if (!tester2.generateBadWordLineTest({-7,-6,-5,-4,-3,-2,-1},"ABDICATE+1.0+-7+-6+-5+-4+-3+-2+-1"))
+        hasPassed = false;
+    if (hasPassed)
+        cout << "Word Generate Bad Word Line Test [Passed]" << endl;
+    else
+        cout << "Word Generate Bad Word Line Test [Failed]" << endl;
 }
 
 void runDetermineWrongSyllablesTest(wordTester& tester1, wordTester& tester2)
