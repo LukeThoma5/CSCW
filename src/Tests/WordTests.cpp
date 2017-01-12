@@ -63,6 +63,11 @@ public:
         }
         return true;
     }
+
+    void addToMSLTotalTest(const vector<int>& syllableWrongCount)
+    {
+        addToMSLTotal(syllableWrongCount);
+    }
 };
 
 void runGenBadWordLineTest(wordTester& tester1, wordTester& tester2)
@@ -98,10 +103,33 @@ void runDetermineWrongSyllablesTest(wordTester& tester1, wordTester& tester2)
 		cout << "Word Determine Wrong Syllables Test 2 [Failed]" << endl;
 }
 
+void runaddToMSLTotalTest(wordTester& tester)
+{
+    //Set SSG::MSL to a fresh one so that we can easily verify it worked
+    masterSyllablesListTree MSLTree;
+    masterSyllablesList* OLDSSGMSL = SSG::MSL;
+    SSG::MSL = &MSLTree;
+
+    //Initialise the MSL to the wanted state
+    initMSL({"AE1","B","D","AH0","K","EY2","T","OTHER"},
+            {1,2,3,4,5,6,7,8}, &MSLTree);
+    //Make tester run protected function
+    tester.addToMSLTotalTest({10,20,30,40,50,60,70});
+
+    //If the MSL has the expected values, print appropriately
+    if (validateMSLState(&MSLTree, {"AE1","B","D","AH0","K","EY2","T","OTHER"}, {11,22,33,44,55,66,77,8}))
+        cout << "Word Add To MSL Total Test [Passed]" << endl;
+    else
+        cout << "Word Add To MSL Total Test [Failed]" << endl;
+
+    SSG::MSL = OLDSSGMSL; //Reset the MSL to what it was before MSLTree goes out of scope.
+}
+
 void runAllWordTests()
 {
     wordTester tester1("ABBE+AE1+B+IY0+#DEF+Unimportant");
     wordTester tester2("ABDICATE+AE1+B+D+AH0+K+EY2+T+#DEF+Unimportant");
     runDetermineWrongSyllablesTest(tester1, tester2);
     runGenBadWordLineTest(tester1, tester2);
+    runaddToMSLTotalTest(tester2);
 }
