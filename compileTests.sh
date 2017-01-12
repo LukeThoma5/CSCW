@@ -37,6 +37,7 @@ g++ ./src/tests.cpp\
  ./src/Tests/MSLTestUtils.cpp\
  ./src/Tests/WordContainerSearchTest.cpp\
  ./src/Tests/hLogTests.cpp\
+ ./src/Tests/WordTests.cpp\
  ./objects/hLog.cpp\
  ./objects/hLog/hLogASText.cpp\
  ./objects/hLog/hLogGraphHelpers.cpp\

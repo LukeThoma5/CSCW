@@ -47,6 +47,7 @@ void runCompleteMSLADDSyllables();
 bool testWordContainerSearch(wordContainer& goodWords);
 void runTestWordContainerStringCompare(wordContainer& goodWords);
 void runAllhLogTests();
+void runAllWordTests();
 
 void logEventGenEventLineTest()
 {
@@ -76,6 +77,7 @@ int main(int argc, char const *argv[]) {
 	runCompleteMSLADDSyllables();
 	logEventGenEventLineTest();
 	runAllhLogTests();
+	runAllWordTests();
 
 	cout << "Tests complete" << endl;
     return 0;
