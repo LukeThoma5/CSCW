@@ -53,18 +53,28 @@ public:
 		}
 		return true;
 	}
+
+    bool generateBadWordLineTest(const vector<int> syllableWrongCount, const string& expectedResult)
+    {
+        if (generateBadWordLine(syllableWrongCount) != expectedResult)
+            return false;
+        return true;
+    }
 };
 
-void runDetermineWrongSyllablesTest()
+void runGenBadWordLineTest(wordTester& tester1, wordTester& tester2)
 {
-	wordTester tester1("ABBE+AE1+B+IY0+#DEF+Unimportant");
+    ;
+}
+
+void runDetermineWrongSyllablesTest(wordTester& tester1, wordTester& tester2)
+{
 	if (tester1.DetermineWrongSyllablesTest(
 		{"AWBE","wBBE","ABBW"},
 		{{0,1,0},{1,0,0},{0,0,1}}))
 		cout << "Word Determine Wrong Syllables Test 1 [Passed]" << endl;
 	else
 		cout << "Word Determine Wrong Syllables Test 1 [Failed]" << endl;
-	wordTester tester2("ABDICATE+AE1+B+D+AH0+K+EY2+T+#DEF+Unimportant");
 	if (tester2.DetermineWrongSyllablesTest(
 		{"ABDICATE","ABDIXATE","ABDICAT","ABDICATEX"},
 		{{0,0,0,0,0,0,0},{0,0,0,0,1,0,0},{0,0,0,0,0,0,1},{0,0,0,0,0,0,1}}))
@@ -75,5 +85,8 @@ void runDetermineWrongSyllablesTest()
 
 void runAllWordTests()
 {
-    runDetermineWrongSyllablesTest();
+    wordTester tester1("ABBE+AE1+B+IY0+#DEF+Unimportant");
+    wordTester tester2("ABDICATE+AE1+B+D+AH0+K+EY2+T+#DEF+Unimportant");
+    runDetermineWrongSyllablesTest(tester1, tester2);
+    runGenBadWordLineTest(tester1, tester2);
 }
