@@ -9,6 +9,7 @@
 
 class hLog
 {
+protected:
 	std::vector<logEvent> log;
 	const std::string logLocation;
 
@@ -34,7 +35,7 @@ public:
 	void addEvent(const std::string& eventLine);
 
 	void addEvent(const std::vector<std::string>& dItems,const std::time_t& etime,const std::string& etype);
-	
+
 	int findTimeStart(std::time_t comparisonTime);
 
 	void clearLog();
