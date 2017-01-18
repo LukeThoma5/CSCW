@@ -6,7 +6,7 @@
 using namespace std;
 
 namespace SSG {
-	extern std::time_t sessionStartTime;
+	extern const std::time_t sessionStartTime;
 }
 
 //public

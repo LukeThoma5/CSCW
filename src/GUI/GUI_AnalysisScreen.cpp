@@ -27,7 +27,7 @@ namespace SSG {
 	extern windowContainer winContainer;
 	extern wordCC SpellingWords;
 	extern Glib::RefPtr<Gtk::Builder> refBuilder;
-	extern std::time_t sessionStartTime;
+	extern const std::time_t sessionStartTime;
 	extern hLog histLog;
 	extern masterSyllablesList* MSL; //MasterSyllablesList
 }

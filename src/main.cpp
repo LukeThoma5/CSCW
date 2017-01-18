@@ -21,15 +21,15 @@ using namespace std;
 
 namespace SSG {
 	//SSG SpellingSuiteGlobalVariables
-	masterSyllablesListTree physicalMSL;
+	masterSyllablesListTree physicalMSL; //Define the MSLTree object that will fufill the MSL interface
 	//masterSyllablesListMap physicalMSL;
-	masterSyllablesList* MSL = &physicalMSL; //MasterSyllablesList
-	Glib::RefPtr<Gtk::Builder> refBuilder;
-	windowContainer winContainer;
+	masterSyllablesList* MSL = &physicalMSL; //MasterSyllablesList //Upcast either MSLTree or MSLMap to MSL so objects can interact with it.
+	Glib::RefPtr<Gtk::Builder> refBuilder; //Gtk object needed to retrieve widgets from the gtk builder (object that loads the xml file)
+	windowContainer winContainer; //Object to keep the Gtk::window pointers active
 	//wordCC SpellingWords("./Data/finalDictwithDef.txt", "./Data/wrongWords.txt");
-	wordCC SpellingWords("./Data/shortDict.txt", "./Data/shortwrongWords.txt");
-	hLog histLog("./Data/SSGHistFile.txt");
-	time_t sessionStartTime = time(0);
+	wordCC SpellingWords("./Data/shortDict.txt", "./Data/shortwrongWords.txt"); //Load the words into memory and store in a wordCC (wordContainerContainer)
+	hLog histLog("./Data/SSGHistFile.txt"); //Load the historyLog from a file
+	extern const time_t sessionStartTime = time(0); //Set a constant that has external linkage (can be seen by other translation units) to the time at startup of the program
 }
 
 void createRandomWordWrongCounts();
