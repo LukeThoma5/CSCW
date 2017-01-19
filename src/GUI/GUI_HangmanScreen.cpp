@@ -14,12 +14,6 @@
 
 using namespace std;
 
-void speak(const string& wordToSay, const bool isCorrect);
-void say(const string& sentence);
-string makeUpperCase(const string& attempt);
-string saltPassword(const string& password, const string& salt);
-string makeSalt();
-vector<string> readPasswordFile();
 void connectBasicSignalHandersButton(const std::vector<std::string>& widgetNames,const std::vector<sigc::slot<void>>& funcPointers);
 
 namespace SSG {
@@ -43,14 +37,14 @@ static void SSG_HM_Return_Clicked()
 		vector<string> eventData;
 		eventData.push_back(to_string(time(0)-SSG::hangmanStartTime));//The amount of time in WRE
 		eventData.push_back(to_string(SSG::SpellingWords.getCurrentPosition())); //The amount of words they played through
-		SSG::histLog.addEvent(eventData,time(0),"HangmanComplete");
+		SSG::histLog.addEvent(eventData,time(0),"HangmanComplete"); //Create the event
 	}
 }
 
 static string createDash(const int& length)
 {
 	string retString;
-	for (int i=0; i<length; i++)
+	for (int i=0; i<length; ++i) //Make a string of the same length as the word out of just _
 		retString += '_';
 	return retString;
 }
@@ -58,37 +52,37 @@ static string createDash(const int& length)
 static void SSG_MS_Button_Games_Clicked()
 {
 	SSG::winContainer.HangmanScreen->show();
-	SSG::SpellingWords.findSpellingWords();
-	SSG::HMwordToGuess = SSG::SpellingWords.getCurrentWord()->getWord();
+	//Initialse game
+	SSG::SpellingWords.findSpellingWords(); ///Needed to setup wordCC abstraction
+	SSG::HMwordToGuess = SSG::SpellingWords.getCurrentWord()->getWord();  //Get the word* of current word, get the string from that word*
 	SSG::HMhiddenLine = createDash(SSG::HMwordToGuess.size());
-
+	//Update the GUI to the current state of the game
 	Gtk::TextView* HiddenText = nullptr;
 	SSG::refBuilder->get_widget("SSG_HM_Text_Current_Guess", HiddenText);
-	HiddenText->get_buffer()->set_text(SSG::HMhiddenLine);
-	SSG::hangmanStartTime = time(0);
+	HiddenText->get_buffer()->set_text(SSG::HMhiddenLine); //Set the underscores
+	SSG::hangmanStartTime = time(0); //Used to calc WRE time spent, record time of startup
 }
 
 static bool revealHangmanWord(const string& wordToGuess, string& hiddenLine, const char attempt)
 {
-	bool wasMistake = true;
+	bool wasMistake = true; //If no letters revealed this will stay true
 
-	for (int i=0; i<wordToGuess.size(); i++)
+	for (int i=0; i<wordToGuess.size(); ++i)
 	{
-		//cout << attempt << "," << wordToGuess[i];
-		if (attempt == wordToGuess[i])
+		if (attempt == wordToGuess[i]) //If the current letters are the same
 		{
-			wasMistake = false;
-			hiddenLine[i] = attempt;
+			wasMistake = false; //Tell the program to not penalise
+			hiddenLine[i] = attempt; //Reveal the letter by replacing the _
+			//Loop not broken as may be more than one instance of the letter in the word
 		}
 	}
-	//cout << endl;
 	return wasMistake;
 }
 
 void ensureCharUpperCase(char& toUpper)
 {
-	if (toUpper > 96)
-		toUpper -= 32;
+	if (toUpper > 96) //If later than 'a'
+		toUpper -= 32; //Turn into >= to 'A'
 }
 
 static void SSG_HM_TextEntry_activate()
