@@ -14,27 +14,16 @@ using namespace std;
 
 void say(const string& sentence)
 {
-    std::string myfifo = "/tmp/SSGFIFO"; //The pipes location in the file structure
-    /* create the FIFO (named pipe) */
-    mkfifo(myfifo.c_str(), 0666);
-
-	/* write my message to the Pipe (FIFO) */
-    int fileDescriptor = open(myfifo.c_str(), O_WRONLY);
+    const std::string pipeName = "/tmp/SSGFIFO"; //The pipes location in the file structure
+    //Pipe created by main function
+    int fileDescriptor = open(pipeName.c_str(), O_WRONLY); //Open the pipe for writing
     //write to the fileDescriptor opened above the array of char in sentence with a max size of 100
     write(fileDescriptor,sentence.c_str(),100); //Write a maximum of 100 characters to the buffer
-    close(fileDescriptor); //Close the pipe
-
-    /* unlick the FIFO */
-    unlink(myfifo.c_str());
+    close(fileDescriptor); //Close the pipe so other program can read from it
 }
 
 void speak(const string& wordToSay, const bool isCorrect)
 {
-	/*
-	//string Command = "flite -voice slt -t \"Please spell the word " + wordToSay + "\"";
-	string Command = "flite -t \"Please spell the word " + wordToSay + "\"";
-    system(Command.c_str());
-	*/
 	if (isCorrect)
 		say("That is correct, please spell the word " + wordToSay);
 	else
@@ -46,9 +35,9 @@ string seperateWord(const string& wordToSep)
 	cout << wordToSep << endl;
 	string retString;
 
-	for (int i=0; i<wordToSep.size(); i++)
+	for (int i=0; i<wordToSep.size(); ++i) //For every letter in the word
 	{
-		retString = retString + wordToSep[i] + ' ';
+		retString = retString + wordToSep[i] + ' '; //Add the letter with a space to seperate
 	}
 
 	cout << retString << endl;

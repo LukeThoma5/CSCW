@@ -5,6 +5,10 @@
 #include <vector>
 
 #include <cstdlib> //Declare system() which comes from a c library
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 #include <gtkmm.h>
 
@@ -71,9 +75,14 @@ int main (int argc, char **argv)
 	if (SSG::MSL->hasNoValues()) //If the first run eg no wrong counts loaded
 		createRandomWordWrongCounts(); //Set up some randomly until the user gets some wrong
 
+	const std::string pipeName = "/tmp/SSGFIFO"; //The pipes location in the file structure
+    mkfifo(pipeName.c_str(), 0666); //Create the pipe in memory with 666 permissions
+
 	app->run(*(SSG::winContainer.MainScreen)); //Run the GUI, when the user closes main window continue execution in main
 
 	cout << "Returning to OS" << endl; //Message to determine object destruction about to occur
+
+	unlink(pipeName.c_str()); //Remove the pipe from the file system
 
 	return 0; //Give a success signal to the operating system
 }
