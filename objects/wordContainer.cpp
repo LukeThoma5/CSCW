@@ -12,14 +12,11 @@
 
 using namespace std;
 
-//Test mergesort and wordPos
-
 void printVector(const vector<string>& sV, int start=0, int stop=-1); //Early declaration
 void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 vector<int> splitVector(const vector<int>& inVector, int mode); //Now in main.cpp
 
 //protected
-
 vector<string> wordContainer::loadDictFile(string filename)
 {
 	ifstream dictFile(filename); //in file stream object dictFile points to the dictionary file, dictionary file locatino given by filename parameter that is defaulted
@@ -71,13 +68,14 @@ bool wordContainer::wordCorrect(const int& correctWord)
 {
 	if (correctWord > size() || correctWord < 0)
 		throw "wordContainer out of range";
-	word* cWord = at(correctWord);
+	word* cWord = at(correctWord); //Get the word pointer out of the abstraction
 	cout << cWord->getWord() << " is correct with a weight of " << cWord->getWeight() << " down to ";
-	cWord->wordCorrect();
-	float wordWeight = cWord->getWeight();
-	cout << wordWeight << endl;
+	cWord->wordCorrect(); //Tell the word to reduce its weighting
+	float wordWeight = cWord->getWeight(); //Get the new weighting
+	cout << wordWeight << endl; //Finish the previous print statement
 
 	if (wordWeight == 0.0)
+		//If the item needs to be removed if a bad word, return true
 		return true;
 	return false;
 }
