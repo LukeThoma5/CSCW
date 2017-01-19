@@ -18,11 +18,12 @@ vector<int> splitVector(const vector<int>& inVector, int mode); //Now in main.cp
 
 int wordContainer::findWordInsertionPoint(const string& searchWord)
 {
-    for (int i=0; i<wordList.size(); i++)
+    for (int i=0, end=wordList.size(); i<end; ++i)
     {
+        //Run my string compare function due to special characters
         int compResult = stringCompare(searchWord,wordList[i]->getWord());
         cout << "Current word location " << wordList[i]->getWord() << " " << i  << " with compResult" << compResult << endl;
-        if (compResult < 0)
+        if (compResult < 0) //If the first time the search word should be before, return current position
         {
             cout << "Current word location " << wordList[i]->getWord() << " " << i  << endl;
             return i;
@@ -49,19 +50,15 @@ void wordContainer::removeWord(int wordPosition)
 void wordContainer::deleteWord(int wordPosition)
 {
     cout << "DELETING " << wordList[wordPosition]->getWord() << endl;
-    delete wordList[wordPosition];
-    removeWord(wordPosition);
+    delete wordList[wordPosition]; //Delete the object held by the pointer
+    removeWord(wordPosition); //Remove the pointer and fix abstraction
 }
 
 int wordContainer::addWord(word* wordToAdd)
 {
-    //cout << "Trying to add word " << wordToAdd->getWord() << endl;
-    //Needs to be improved/fixed
-    //ADD the wordPos fixing!!
-    int insertPos = findWordInsertionPoint(wordToAdd->getWord()); //Find the alphabetical location in the list to add the word to
-    //cout << "Insertion position " << insertPos << endl;
+    //Find the alphabetical location in the list to add the word to
+    int insertPos = findWordInsertionPoint(wordToAdd->getWord());
 
-    //wordList.push_back(wordToAdd);
     //Fix abstraction
     for (int i=0; i<wordPos.size(); i++) //for every word in the abstraction
     {
@@ -71,14 +68,9 @@ int wordContainer::addWord(word* wordToAdd)
     wordList.insert(wordList.begin()+insertPos,wordToAdd); //Add the word at the insertionPoint
     wordPos.push_back(insertPos); //Add the insertionPoint to the back of abstraction layer so everything else stays in order. Regardless of the words score it will be only acessible at the end until refreshwScores called.
 
-    /* //Test code for printing the words around the new inserted word for manual inspection.
-    for (int i=insertPos-1;i<insertPos+2;i++)
-    {
-        cout << i << ": " << wordList[i]->getWord() << endl;
-    } */
     cout << "addWord Complete" << endl;
 
     int wordPosSize = wordPos.size(); //Convert to signed int so -1 doesn't cause an underflow when size is 0
-    //return insertPos;
+
     return wordPosSize-1;
 }
