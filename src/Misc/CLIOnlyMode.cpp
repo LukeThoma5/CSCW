@@ -8,13 +8,11 @@ void speak(const string& wordToSay, const bool isCorrect);
 
 void SpellingTest(wordCC& SpellingWords)
 {
-	SpellingWords.generatewScore();
+	SpellingWords.findSpellingWords();
 
-	SpellingWords.findHardest();
-
-	for (int i=0; i<10; i++)
+	for (int i=0; i<10; ++i) //For 10 words
 	{
-		string wordToSpell = SpellingWords[i]->getWord();
+		string wordToSpell = SpellingWords.getCurrentWord()->getWord();
 		speak(wordToSpell,false);
 		string userInput;
 		cin >> userInput;

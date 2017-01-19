@@ -12,9 +12,9 @@ void createRandomWordWrongCounts() //Fill the MSL with random wrongCounts to tes
 	const int HIGH = 12; //Was 450
 	const int LOW = 0;
 
-	for (unsigned int i=0; i<SSG::MSL->size(); i++)
+	for (int i=0, end=SSG::MSL->size(); i<end; ++i)
 	{
-		SSG::MSL->addToTotal((*SSG::MSL)[i],randNG(LOW,HIGH)); //Use just the interface //Valgrind does not like this call
+		SSG::MSL->addToTotal((*SSG::MSL)[i],randNG(LOW,HIGH)); //Valgrind does not like this call
 		//SSG::MSL->addToTotal((*SSG::MSL)[i],0); //This can be used to memory leak testing
 	}
 }
