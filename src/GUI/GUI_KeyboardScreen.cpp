@@ -12,16 +12,17 @@
 
 using namespace std;
 
-void speak(const string& wordToSay, const bool isCorrect);
-void say(const string& sentence);
+// void speak(const string& wordToSay, const bool isCorrect);
+// void say(const string& sentence);
+// string saltPassword(const string& password, const string& salt);
+// string makeSalt();
+// vector<string> readPasswordFile();
 string makeUpperCase(const string& attempt);
-string saltPassword(const string& password, const string& salt);
-string makeSalt();
-vector<string> readPasswordFile();
 void definitionHelper(const string& widgetName);
 void connectBasicSignalHandersButton(const std::vector<std::string>& widgetNames,const std::vector<sigc::slot<void>>& funcPointers);
 
 namespace SSG {
+	//Objects initialised in main.cpp
 	extern windowContainer winContainer;
 	extern wordCC SpellingWords;
 	extern Glib::RefPtr<Gtk::Builder> refBuilder;
@@ -43,7 +44,7 @@ void GUI_keyboard_Handler()
 	if (SSG::SpellingWords.size() < 200) //If not enough words, close the screen
 	{
 		SSG::winContainer.KeyboardScreen->hide();
-		cout << "Not enough words to create the test, exiting" << endl;
+		cerr << "Not enough words to create the test, exiting" << endl;
 
 		Gtk::MessageDialog dialog(*SSG::winContainer.MainScreen, "Not enough words!"); //Create a dialog with MainScreen as the parent, Main text of Not enough words
 		dialog.set_secondary_text("You cannot use the keyboard mode with less than 200 words, only " + to_string(SSG::SpellingWords.size()) + " words have been loaded. Please change the loaded dictionary to access this mode.");
@@ -51,7 +52,8 @@ void GUI_keyboard_Handler()
 	}
 	else
 	{
-		SSG::SpellingWords.findKeyboardWords();
+		SSG::SpellingWords.findKeyboardWords(); //Update the wordCC
+		//Get the wordList and add the 200 words to it
 		Gtk::TextView* pSSG_KS_WordList = nullptr;
 		SSG::refBuilder->get_widget("SSG_KS_WordList",pSSG_KS_WordList);
 		Glib::RefPtr<Gtk::TextBuffer> WordListBuffer =  pSSG_KS_WordList->get_buffer();
@@ -62,12 +64,12 @@ void GUI_keyboard_Handler()
 static void SSG_MS_Button_Keyboard_Clicked()
 {
 	SSG::winContainer.KeyboardScreen->show();
-	GUI_keyboard_Handler();
-	//Glib::RefPtr<Gtk::TextBuffer::Tag> refTagMatch = Gtk::TextBuffer::Tag::create();
-	//refTagMatch->property_background() = "orange";
-	Gtk::TextView* testView = nullptr;
+	GUI_keyboard_Handler(); //Start a new game and update the screen
+	Gtk::TextView* testView = nullptr; //Get the lastWord textView buffer
 	SSG::refBuilder->get_widget("SSG_KS_Text_LastWord", testView);
 	Glib::RefPtr<Gtk::TextBuffer> WordListBuffer =  testView->get_buffer();
+	//Insert some dummy text to make the user aware of the TextView
+	//Insert into this buffer, this text using a tag with this name
 	WordListBuffer->insert_with_tag(WordListBuffer->begin(),"red","redtag");
 	WordListBuffer->insert_with_tag(WordListBuffer->begin(),"orange","orangetag");
 	WordListBuffer->insert_with_tag(WordListBuffer->begin(),"green","greentag");
@@ -132,17 +134,18 @@ void keyboard_update_last_word(const string& attemptUpper, const string& wordStr
 
 static void SSG_KS_TextEntry_insert()
 {
+	//Code run every time a change happens in the buffer
+	//Get the current text
 	string currentWordString = SSG::SpellingWords.getCurrentWord()->getWord();
 	Gtk::Entry* pEntry = nullptr;
     SSG::refBuilder->get_widget("SSG_KS_TextEntry",pEntry);
     Glib::RefPtr<Gtk::EntryBuffer> EntryBuffer =  pEntry->get_buffer();
     string attempt = pEntry->get_text();
-    cout << attempt << endl;
 
-	if (SSG::SpellingWords.keyboardAttempt(attempt))
+	if (SSG::SpellingWords.keyboardAttempt(attempt)) //If wordCC says to clear screen
 	{
-		keyboard_update_last_word(makeUpperCase(attempt), currentWordString);
-		EntryBuffer->set_text("");
+		keyboard_update_last_word(makeUpperCase(attempt), currentWordString); //Add last word to textView with correct colouring
+		EntryBuffer->set_text(""); //Clear the entry buffer
 
 		Gtk::TextView* KSTextView = nullptr;
 		SSG::refBuilder->get_widget("SSG_KS_Text_CurrentWord", KSTextView); //Get the TextView widget
@@ -150,8 +153,6 @@ static void SSG_KS_TextEntry_insert()
 		TBuffer->set_text(SSG::SpellingWords.getCurrentWord()->getWord()); //Set buffer to the new word
 
 	}
-	/*To create a tag Gtj::TextBuffer::create_tag(string) https://developer.gnome.org/gtkmm/stable/classGtk_1_1TextBuffer.html#ad42f4e41a4cb2d5a824e2f0ffa78e973
-	  use apply_tag to with the tagref, iterator start and iterator end https://developer.gnome.org/gtkmm/stable/classGtk_1_1TextBuffer.html#ad42f4e41a4cb2d5a824e2f0ffa78e973 https://developer.gnome.org/gtkmm/stable/classGtk_1_1TextTag.html*/
 }
 
 void connectSignalsKeyboardScreen()
