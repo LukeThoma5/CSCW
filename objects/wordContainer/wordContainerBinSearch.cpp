@@ -76,16 +76,10 @@ int wordContainer::stringCompare(const string& str1, const string& str2)
 
 int wordContainer::binSearch(const std::string& comp, int start, int stop)
 {
-
-    //string pause;
-    //cin >> pause;
-    //cout << "----------------------------------------------------------------------\n";
-    //cout << "Start point " << start << " stop point " << stop << endl;
     float midFloat =start+stop;
-    midFloat = midFloat / 2;
-    int midpoint = ceil(midFloat);
-    //cout << "Midpoint is " << midpoint << " " << midFloat << endl;
-    //cout << "Checking " << wordList[midpoint]->getWord() << endl;
+    midFloat = midFloat / 2; //Average the values to find the midpoint
+    int midpoint = ceil(midFloat); //Convert to an int
+
     if (start == stop) //Bottom out recursion, if can't split again
     {
         if (comp == wordList[start]->getWord()) //If the word we are looking for, return the position
@@ -95,35 +89,25 @@ int wordContainer::binSearch(const std::string& comp, int start, int stop)
 
     if (stop-start == 1) //If on last 2 words, check each individually
     {
-        //int compres = stringCompare(comp,wordList[start]->getWord();
-        //cout << "Checking " << wordList[start]->getWord() << endl;
-        if (comp ==  wordList[start]->getWord())
+        if (comp == wordList[start]->getWord())
+        //If the word we are looking for, return its position
             return start;
-        //cout << "Checking " << wordList[stop]->getWord() << endl;
+
         if (comp == wordList[stop]->getWord())
             return stop;
-        return -1;
+        return -1; //If neither return invalid position
     }
-
+    //Compare strings to find which direction to branch
     int comparisonResult = stringCompare(comp,wordList[midpoint]->getWord());
-    //comp.compare(wordList[midpoint]->getWord()); doesn't work as it handles special characters differently to the dictionary
-
-    //cout << "Expecting " << comp.compare(wordList[midpoint]->getWord()) << " got " << comparisonResult << endl;
 
     if (comparisonResult == 0) //If the word, return position
         return midpoint;
-    if (comparisonResult > 0) //If later, return the value of a searchin the later half
+    if (comparisonResult > 0) //If later, return the value of searching the later half
     {
-        //if (stop-midpoint == 1)
-            //return binSearch(comp,midpoint,midpoint);
-        //cout << "searching at " << midpoint << " " << stop << endl;
         return binSearch(comp,midpoint,stop);
     }
-    if (comparisonResult < 0) //If earlier, return the value of a searchin the earlier half
+    if (comparisonResult < 0) //If earlier, return the value of searching the earlier half
     {
-        //if (midpoint-start == 1)
-            //return binSearch(comp,start,start);
-        //cout << "searching at " << start << " " << midpoint << endl;
         return binSearch(comp,start,midpoint);
     }
 
