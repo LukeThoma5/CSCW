@@ -95,6 +95,7 @@ static void SSG_ASG_IncorrectWords_Clicked()
 }
 
 #ifndef useConnectGraphFunc
+//Only compile functions if not using single helper function
 static void SSG_ASGK_Mistakes_Clicked()
 {
 	if (SSG::AnalysisMovAvg) //If Moving Average has been toggled on, generate moving average, else don't
@@ -127,6 +128,7 @@ static void SSG_AS_Button_Return_Clicked()
 }
 
 #ifdef useConnectGraphFunc
+//Only compile helper function if using parameters
 static void SSG_ASGK_BasicGraphHandler(const int keyboardValue,const string& title, const string& saveLocation)
 {
 	if (SSG::AnalysisMovAvg)
@@ -135,22 +137,26 @@ static void SSG_ASGK_BasicGraphHandler(const int keyboardValue,const string& tit
 		SSG::histLog.graphKeyboard(SSG::currentASComboTime,keyboardValue,title, saveLocation + ".csv");
 }
 
-static void connectGraphSignalHandlers(const std::vector<std::string>& widgetNames,
-		const vector<sigc::slot<void,const int,const string&,const string&>>& funcPointers,
+static void connectGraphSignalHandlers(const std::vector<std::string>& widgetNames, //widgets to connect a signal to
+		const vector<sigc::slot<void,const int,const string&,const string&>>& funcPointers, //functionPointers to void functions with (const int, const string& const string&) parameters
 		const std::vector<int>& keyboardValues, const std::vector<const std::string*>& titles,
 		const std::vector<const std::string*>& saveLocations)
 {
-    if (widgetNames.size() == funcPointers.size())
+    if (widgetNames.size() == funcPointers.size()) //If no programmer error (forgot a func pointer)
     {
 		Gtk::Button* pButton;
-        for (int iter=0, end=widgetNames.size(); iter<end; iter++)
+        for (int iter=0, end=widgetNames.size(); iter<end; ++iter)
+		//create 2 ints iter (iterator) and cache the end to reduce function calls
         {
-            pButton = nullptr;
+            pButton = nullptr; //Clear the pointer so that two handlers don't get assigned to the same widget
             SSG::refBuilder->get_widget(widgetNames[iter], pButton);
-            if(pButton)
+            if(pButton) //If the widget was gotten successfully
                 {
-					pButton->signal_clicked().connect( sigc::bind<const int,const std::string&,const std::string&>( funcPointers[iter], keyboardValues[iter], *titles[iter], *saveLocations[iter]));
-                    cout << "Connecting " << widgetNames[iter] << endl;
+					pButton->signal_clicked().connect(
+					sigc::bind<const int,const std::string&,const std::string&> //Bind a int string string function
+					( funcPointers[iter], //The function to bind
+					keyboardValues[iter], *titles[iter], *saveLocations[iter])); //The parameters to the function
+                    cout << "Connecting " << widgetNames[iter] << endl; //Debugging message
                 }
         }
     }
@@ -168,7 +174,8 @@ struct graphKeepers
 	const string MistakesSL = "./Data/graphData/keyboardMistakes";
 	const string Mistakes100Title = "Mistakes per 100 characters";
 	const string Mistakes100SL = "./Data/graphData/keyboard100Mistakes";
-} graphAlias;
+} graphAlias; //Struct accessible via graphAlias.itemName
+//Needed as the strings need to stay in scope for when the singal comes in.
 
 #endif
 
@@ -182,6 +189,7 @@ void connectSignalsAnalysisScreen()
 			"SSG_MS_Button_Analysis",
 			"SSG_ASG_IncorrectWords"
 			#ifndef useConnectGraphFunc
+			//Only include these if not doing parametered calls
             ,"SSG_ASGK_Mistakes",
              "SSG_ASGK_Mistakes100",
              "SSG_ASGK_WPM"
@@ -203,12 +211,12 @@ void connectSignalsAnalysisScreen()
 			"SSG_ASGK_Mistakes",
 			"SSG_ASGK_Mistakes100",
 			"SSG_ASGK_WPM"};
-
+		//Get the function pointers
 		vector<sigc::slot<void,const int,const string&,const string&>> funcPointers = {
 			sigc::ptr_fun(SSG_ASGK_BasicGraphHandler),
 			sigc::ptr_fun(SSG_ASGK_BasicGraphHandler),
 			sigc::ptr_fun(SSG_ASGK_BasicGraphHandler)};
-
+		//The differences between function calls
 		vector<int> keyboardValues = {2,3,5};
 		vector<const string*> titles = {
 			&graphAlias.MistakesTitle,
@@ -219,7 +227,7 @@ void connectSignalsAnalysisScreen()
 			&graphAlias.MistakesSL,
 			&graphAlias.Mistakes100SL,
 			&graphAlias.WPMSL};
-
+		//Connect the 3 special signal handlers
 		connectGraphSignalHandlers(widgetNames,funcPointers,keyboardValues,titles,saveLocations);
 		#endif
 
