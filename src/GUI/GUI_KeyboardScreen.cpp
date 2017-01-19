@@ -12,11 +12,6 @@
 
 using namespace std;
 
-// void speak(const string& wordToSay, const bool isCorrect);
-// void say(const string& sentence);
-// string saltPassword(const string& password, const string& salt);
-// string makeSalt();
-// vector<string> readPasswordFile();
 string makeUpperCase(const string& attempt);
 void definitionHelper(const string& widgetName);
 void connectBasicSignalHandersButton(const std::vector<std::string>& widgetNames,const std::vector<sigc::slot<void>>& funcPointers);
