@@ -1,13 +1,11 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <gtkmm.h>
 
 #include "../../headers/sha256.h" //External code, not mine
 
-#include <gtkmm.h>
-
 #include "../../headers/hLog.h"
-
 #include "../../objects/windowContainer.cpp"
 
 using namespace std;
@@ -32,12 +30,12 @@ static void SSG_RD_Button_Clear_Data_Confirm_Clicked()
 	vector<string> passVector = readPasswordFile();
 	if (passVector.size() > 1) //If the password file not corrupt
 	{
-		string passwordAttempt = saltPassword(attempt,passVector[0]); //
-		passwordAttempt = sha256(passwordAttempt);
-		if (passwordAttempt != passVector[1])
-			cout << "PASSWORDS DO NOT MATCH" << endl;
+		string passwordAttempt = saltPassword(attempt,passVector[0]); //salt the password attempt
+		passwordAttempt = sha256(passwordAttempt); //Hash the salted password
+		if (passwordAttempt != passVector[1]) //If the hashes don't match eg wrong password entered
+			cerr << "PASSWORDS DO NOT MATCH" << endl; //Print an error message
 		else
-			SSG::histLog.clearLog();
+			SSG::histLog.clearLog(); //Tell the log to clear
 	}
 }
 static void SSG_RD_Button_Close_Clicked()
@@ -47,7 +45,6 @@ static void SSG_RD_Button_Close_Clicked()
 
 static void SSG_OP_Button_Clear_Data_Clicked()
 {
-	cout << "Showing" << endl;
 	SSG::winContainer.ResetData->show();
 }
 
