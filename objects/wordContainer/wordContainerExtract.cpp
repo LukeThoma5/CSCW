@@ -18,7 +18,8 @@ vector<int> splitVector(const vector<int>& inVector, int mode); //Now in main.cp
 
 int wordContainer::getABSIndex(const int& wordToGet)
 {
-    return wordPos[wordToGet];
+    //Get the item at the absolute index
+    return wordPos[wordToGet]; //Return the value without any abstraction
 }
 
 word* wordContainer::at(int wordToGet)
@@ -27,24 +28,23 @@ word* wordContainer::at(int wordToGet)
     return wordList[wordPos[wordToGet]];
 }
 
-void wordContainer::printWordContainer()
+void wordContainer::printWordContainer() const
 {
-    for (int i=0; i<wordList.size(); i++)
+    //For every item in the container print its value and position
+    for (int i=0, end=wordList.size(); i<end; ++i)
         cout << i << ": " << wordList[i]->getWord() << " ";
     cout << endl;
-
-    for (int i=0; i<wordPos.size(); i++)
-    {
+    //For every item in the abstraction, print its index
+    for (int i=0, end=wordPos.size(); i<end; ++i)
         cout << i << ": " << wordPos[i] << " ";
-    }
     cout << endl;
 }
 
-void wordContainer::DisplaywScores(int start, int stop)
+void wordContainer::DisplaywScores(int start, int stop) const
 {
-    if (stop ==-1)
-        stop = wordList.size();
-    for (unsigned int i=start; i<stop; i++)
+    if (stop ==-1) //If defaulted value
+        stop = wordList.size(); //Set the value to the end of the wordContainer
+    for (unsigned int i=start; i<stop; ++i)
     {
         cout << wordList[i]->getwScore() << ",";
     }

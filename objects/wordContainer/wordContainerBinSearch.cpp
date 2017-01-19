@@ -16,7 +16,7 @@ void printVector(const vector<string>& sV, int start=0, int stop=-1); //Early de
 void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 vector<int> splitVector(const vector<int>& inVector, int mode); //Now in main.cpp
 
-int wordContainer::stringCompare(const string& str1, const string& str2)
+int wordContainer::stringCompare(const string& str1, const string& str2) const
 {
 
     if (str1 == str2)
@@ -74,7 +74,7 @@ int wordContainer::stringCompare(const string& str1, const string& str2)
     return retInt;
 }
 
-int wordContainer::binSearch(const std::string& comp, int start, int stop)
+int wordContainer::binSearch(const std::string& comp, int start, int stop) const
 {
     float midFloat =start+stop;
     midFloat = midFloat / 2; //Average the values to find the midpoint
@@ -115,7 +115,7 @@ int wordContainer::binSearch(const std::string& comp, int start, int stop)
     throw -25;
 }
 
-int wordContainer::findWordLocation(const string& wordToFind)
+int wordContainer::findWordLocation(const string& wordToFind) const
 {
     return binSearch(wordToFind,0,wordList.size());
 }

@@ -36,15 +36,15 @@ public:
 
 	//void wordWrong(int wordPosition, std::string attempt, wordContainer* containerToAddTo);
 
-	int findWordLocation(const std::string& wordToFind);
+	int findWordLocation(const std::string& wordToFind) const;
 
 	void sortWordContainer();
 
 	int size() const;
 
-	int binSearch(const std::string& comp, int start, int stop);
+	int binSearch(const std::string& comp, int start, int stop) const;
 
-	int stringCompare(const std::string& str1, const std::string& str2);
+	int stringCompare(const std::string& str1, const std::string& str2) const;
 
 	word* operator[](int wordToGet)
 	{
@@ -64,9 +64,9 @@ public:
 
 	word* at(int wordToGet);
 
-	void DisplaywScores(int start=0, int stop=-1);
+	void DisplaywScores(int start=0, int stop=-1) const;
 
-	void printWordContainer();
+	void printWordContainer() const;
 
 	int getABSIndex(const int& wordToGet);
 
