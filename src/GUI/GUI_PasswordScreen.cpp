@@ -49,6 +49,7 @@ static void SSG_PWR_Button_Accept_Clicked()
 			//cout << "Password: " << attempt1 << " hash: " << sha256(attempt1) << endl;
 			string salt = makeSalt(); //Generate a random 256 char hash from /dev/random
 			string password = saltPassword(attempt1, salt); //Mix the salt and password together
+			password = sha256(password); //Hash the salted password
 			cout << password << endl;
 			ofstream passFile("./Data/userPassword.hash", std::ofstream::out); //Open the password File for writing, previous data auto cleared
 			passFile << salt << endl; //Write the salt to the file with a newline \n

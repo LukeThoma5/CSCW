@@ -24,14 +24,16 @@ namespace SSG {
 
 static void SSG_RD_Button_Clear_Data_Confirm_Clicked()
 {
+	//Get the password attempt
 	Gtk::Entry* pEntry = nullptr;
     SSG::refBuilder->get_widget("SSG_RD_TextEntry_Password_Attempt",pEntry);
     string attempt = pEntry->get_text();
-
+	//Load the passwordFile into the vector [0] is the salt [1] sakted hash
 	vector<string> passVector = readPasswordFile();
-	if (passVector.size() > 1)
+	if (passVector.size() > 1) //If the password file not corrupt
 	{
-		string passwordAttempt = saltPassword(attempt,passVector[0]);
+		string passwordAttempt = saltPassword(attempt,passVector[0]); //
+		passwordAttempt = sha256(passwordAttempt);
 		if (passwordAttempt != passVector[1])
 			cout << "PASSWORDS DO NOT MATCH" << endl;
 		else
