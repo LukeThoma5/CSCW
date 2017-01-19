@@ -22,19 +22,20 @@ void connectBasicSignalHandersButton(const std::vector<std::string>& widgetNames
 
 static void SSG_PWR_Button_Accept_Clicked()
 {
+	//Get the attempts from the GUI
 	Gtk::Entry* pEntry = nullptr;
     SSG::refBuilder->get_widget("SSG_PWR_TextEntry_Attempt1",pEntry);
     string attempt1 = pEntry->get_text();
 	SSG::refBuilder->get_widget("SSG_PWR_TextEntry_Attempt2",pEntry);
     string attempt2 = pEntry->get_text();
 
-	if (attempt1 != attempt2)
+	if (attempt1 != attempt2) //If misstyped the password
 	{
 		Gtk::MessageDialog dialog(*SSG::winContainer.PasswordReset, "Text fields do not match"); //Create a dialog with PasswordReset as the parent
 		dialog.set_secondary_text("To set a password the fields must match!");
 		dialog.run(); //Run the dialog, when ok'ed continue execution
 	}
-	else
+	else //If passwords match
 	{
 
 		if (attempt1.size() < 6)
@@ -43,23 +44,22 @@ static void SSG_PWR_Button_Accept_Clicked()
 			dialog.run(); //Run the dialog, when ok'ed continue execution
 		}
 
-		else
+		else //If not too short
 		{
 			//cout << "Password: " << attempt1 << " hash: " << sha256(attempt1) << endl;
-			string salt = makeSalt();
-			string password = saltPassword(attempt1, salt);
+			string salt = makeSalt(); //Generate a random 256 char hash from /dev/random
+			string password = saltPassword(attempt1, salt); //Mix the salt and password together
 			cout << password << endl;
-			ofstream passFile("./Data/userPassword.hash", std::ofstream::out);
-			passFile << salt << endl;
-			passFile << password << endl;
-			SSG::winContainer.PasswordReset->hide();
+			ofstream passFile("./Data/userPassword.hash", std::ofstream::out); //Open the password File for writing, previous data auto cleared
+			passFile << salt << endl; //Write the salt to the file with a newline \n
+			passFile << password << endl; //Write the salted hash to the file
+			SSG::winContainer.PasswordReset->hide(); //Stop password screen execution
 		}
 	}
 }
 
 static void SSG_OP_Button_Password_Clicked()
 {
-	cout << "Showing" << endl;
 	SSG::winContainer.PasswordReset->show();
 }
 
