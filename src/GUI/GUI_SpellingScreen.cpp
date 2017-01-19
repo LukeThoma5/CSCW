@@ -45,8 +45,9 @@ static void SSG_SC_Button_Definition_Clicked()
 
 static void SSG_SC_Button_Play_Clicked()
 {
+	//Get the current word* then get the wordC string
 	string wordToSpell = SSG::SpellingWords.getCurrentWord()->getWord();
-	speak(wordToSpell,false);
+	speak(wordToSpell,false); //Say the word, don't add "That is correct "
 }
 
 static void SSG_SC_TextEntry_activate()
