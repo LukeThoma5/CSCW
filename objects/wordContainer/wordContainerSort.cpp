@@ -18,8 +18,9 @@ vector<int> splitVector(const vector<int>& inVector, int mode); //Now in main.cp
 
 void wordContainer::refreshwScores()
 {
-    for (unsigned int i=0; i<wordList.size(); i++)
+    for (int i=0, wordListSize=wordList.size(); i<wordListSize; ++i)
     {
+        //For every word in the word list, regenerate its score
         wordList[i]->determineScore();
     }
 }
@@ -28,18 +29,18 @@ void wordContainer::fillWordPos()
 {
     wordPos.clear(); //Removes previous positions
     wordPos.reserve(wordList.size()); //Reduces the need to move the vector in memory by saying out the gate the miniumum space needed
-    for (unsigned int i=0; i<wordList.size(); i++)
+    for (unsigned int i=0, wordListSize=wordList.size(); i<wordListSize; ++i)
     {
-        wordPos.push_back(i);
+        wordPos.push_back(i); //Fill the word pos with sequential ints
     }
 }
 
 vector<int> wordContainer::containerMergeSort(const vector<int>& inVector)
 {
-    vector<int> leftVector = splitVector(inVector,0);  //Create left hand side with mode 0
-    vector<int> rightVector = splitVector(inVector,1); //Create right hand side with mode 1
+    vector<int> leftVector = splitVector(inVector,0);  //Create left hand side (first half)
+    vector<int> rightVector = splitVector(inVector,1); //Create right hand side (second half)
 
-    int leftVectorSize = leftVector.size(); //Trying to minimise the amount of function calls
+    int leftVectorSize = leftVector.size(); //Cache sizes to minimise the amount of function calls
     int rightVectorSize = rightVector.size();
 
     if (leftVectorSize != 1) //if left needs to be sorted
@@ -51,35 +52,27 @@ vector<int> wordContainer::containerMergeSort(const vector<int>& inVector)
     int leftPos = 0; //Simple vector position pointers
     int rightPos = 0;
 
-    vector<int> returnVector;
+    vector<int> returnVector; //Create the return vector
+    returnVector.reserve(inVector.size()); //Reduce the amount of mem allocs
 
     while ( (leftPos != leftVectorSize) or (rightPos != rightVectorSize) ) //If still more values to be added to the return vector
     {
         if (leftPos == leftVectorSize) //If out of left hand values add a right
-        {
             returnVector.push_back(rightVector[rightPos++]); //add the next right value to the return list and increment rightPos counter
-        }
         else
         {
             if (rightPos == rightVectorSize) //If out of right hand values add a left
-            {
                 returnVector.push_back(leftVector[leftPos++]);
-            }
-
             else
             {
-                if (wordList[leftVector[leftPos]]->getwScore() >= wordList[rightVector[rightPos]]->getwScore()) //If the wrongCount the leftvector postition points to is greater than the the wrongCount the rightvector postition points to
-                {
+                if (wordList[leftVector[leftPos]]->getwScore() >= wordList[rightVector[rightPos]]->getwScore())
+                //If the wrongCount the leftvector postition points to is greater than the the wrongCount the rightvector postition points to
                     returnVector.push_back(leftVector[leftPos++]); //Add the leftvector position
-                }
                 else
-                {
                     returnVector.push_back(rightVector[rightPos++]);
-                }
             }
         }
     }
-
 
     return returnVector;
 }
@@ -87,9 +80,10 @@ vector<int> wordContainer::containerMergeSort(const vector<int>& inVector)
 void wordContainer::sortWordContainer()
 {
     cout << "Sorting wordContainer with " << wordList.size() << " words" << endl;
-    refreshwScores();
-    fillWordPos();
-    wordPos = containerMergeSort(wordPos);
+    refreshwScores(); //Recalculate all wScore values
+    fillWordPos(); //Reset the wordPos so only sequential ints
+    wordPos = containerMergeSort(wordPos); //Sort the ints based off the words they point to
+    //Print the wordContainer values for manual debugging
     int stop = wordPos.size();
     if (stop > 10)
         stop = 10;
