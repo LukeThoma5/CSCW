@@ -26,6 +26,8 @@ class wordCC{
 
     int notHave30goodWords();
 
+    bool keyboardAttemptResetter(std::string& lastString, bool& wordBeenWrong);
+
     std::time_t keyboardStart = std::time(0);
     std::time_t spellingStart = std::time(0);
     int mistakes = 0;

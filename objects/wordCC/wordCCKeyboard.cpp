@@ -136,6 +136,18 @@ void wordCC::keyboardComplete()
     SSG::histLog.addEvent(eventItems,time(0),"keyboardComplete");
     GUI_keyboard_Handler(); //Update the GUI for a new keyboard session (contains a call to findKeyboardWords)
 }
+//An inline function has no function call overhead as it is constructed in place
+inline bool wordCC::keyboardAttemptResetter(string& lastString, bool& wordBeenWrong)
+{
+	const int testEnd = 200; //Evaluated at compile time so no runtime overhead. Used to shorted tests to make it easier to test correct completion
+	lastString=""; //Reset the string
+	if (wordBeenWrong) //If they made a mistake
+		keyboardWrongWordCount++; //Add to number of wrong words
+	if (++currentWord == testEnd) //Increase current word, if at limit end test
+		keyboardComplete();
+	wordBeenWrong=false; //Reset static variable
+	return true; //Tell GUI to clear
+}
 
 bool wordCC::keyboardAttempt(const string& attempt)
 {
@@ -143,32 +155,22 @@ bool wordCC::keyboardAttempt(const string& attempt)
 	//Persistant variables between function calls, reset when moving on to next word
     static string lastString = ""; //initialise value once to empty string
     static bool wordBeenWrong = false;
-    const int testEnd = 200; //Evaluated at compile time so no runtime overhead. Used to shorted tests to make it easier to test correct completion
+
     if (attempt.back() == ' ') //If they inserted a space, skip to next word
     {
         cout << "space pressed moving on!" << endl;
-        lastString=""; //Reset the string
-        if (wordBeenWrong) //If they made a mistake
-            keyboardWrongWordCount++; //Add to number of wrong words
-        if (++currentWord == testEnd) //Increase current word, if at limit end test
-            keyboardComplete();
-        wordBeenWrong=false; //Reset static variable
-        return true; //Tell GUI to clear
+        return keyboardAttemptResetter(lastString,wordBeenWrong);
     }
+	#ifdef WORDCCDEBUG
     cout << "Mistakes: " << mistakes << endl;
+	#endif
     word* currentWordp = getCurrentWord(); //Cache current word to reduce abstraction calls
     string currentWordString = currentWordp->getWord();
     string attemptUpper = makeUpperCase(attempt);
     if (attemptUpper == currentWordString) //If word completely correct
     {
         cout << attemptUpper << " passed!" << endl;
-        if (wordBeenWrong) //If they made a mistake at any point
-            keyboardWrongWordCount++; //Increase the number of words which had a mistake
-        if (++currentWord == testEnd) //Increase current word, if at limit end test
-            keyboardComplete();
-        lastString=""; //Reset
-        wordBeenWrong=false; //Reset
-        return true; //Tell GUI to clear
+        return keyboardAttemptResetter(lastString,wordBeenWrong);
     }
 
     if (lastString.size()>attemptUpper.size())
@@ -184,13 +186,7 @@ bool wordCC::keyboardAttempt(const string& attempt)
 	//If the attempt is the same size move on
     if (attemptUpper.size() == currentWordString.size())
     {
-        if (wordBeenWrong)
-            keyboardWrongWordCount++;
-        if (++currentWord == testEnd)
-            keyboardComplete();
-        lastString="";
-        wordBeenWrong=0;
-        return true;
+        return keyboardAttemptResetter(lastString,wordBeenWrong);
     }
 
     lastString=attemptUpper;
