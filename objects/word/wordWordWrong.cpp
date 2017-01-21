@@ -21,12 +21,14 @@ using namespace std;
 void printVector(const vector<string>& sV, int start=0, int stop=-1); //Early declaration
 void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 
+#define WORDDEBUG
+
 string word::generateBadWordLine(const vector<int>& syllableWrongCount)
 {
-    string badWordLine = wordC + "+1.0";
-    for (int i =0; i<syllableWrongCount.size(); i++)
+    string badWordLine = wordC + "+1.0"; //Add the weight
+    for (int i=0, end=syllableWrongCount.size(); i<end; ++i)
     {
-        badWordLine += ("+" + to_string(syllableWrongCount[i]));
+        badWordLine += ("+" + to_string(syllableWrongCount[i])); //Add the wrong count delimited by a +
     }
     return badWordLine;
 }
@@ -93,27 +95,16 @@ vector<int> word::determineWrongSyllables(const string& attempt)
 
 string word::wordWrong(const string& attempt)
 {
+    vector<int> syllableWrongCount = determineWrongSyllables(attempt); //Find which syllables are wrong ready for badword construction
+	string badWordLine = generateBadWordLine(syllableWrongCount); //Convert wrong syllables vector to a string for badword construction
 
-    cout << "Original wrongWord called!" << endl;
-    vector<int> syllableWrongCount = determineWrongSyllables(attempt); //Create a vector to store the values for the badWord syllableWrongCount
-
-
+	#ifdef WORDDEBUG
+	cout << "Original wrongWord called!" << endl;
     printVector(syllables);
     printVector(syllableWrongCount);
     printVector(syllablePositions);
-
-    string badWordLine = generateBadWordLine(syllableWrongCount);
-
     cout << badWordLine << endl;
-
-    //addToMSLTotal(syllableWrongCount);
-
+	#endif
+	//Return line used for badword construction so wordCC can create the new objects
     return badWordLine;
-
-    //badWord mybadWord("ADEQUATELY+AE1+D+AH0+K+W+IH0+T+L+IY0+#DEF+In an adequate manner.","ADEQUATELY+1.0+0+0+0+0+0+0+0+0+0");
-
-    //badWord* badWordToAdd = new badWord(this,badWordLine);
-
-    //badWordContainer->addBadWord(this,badWordLine);
-
 }
