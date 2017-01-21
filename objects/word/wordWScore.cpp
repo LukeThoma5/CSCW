@@ -26,20 +26,9 @@ void word::wScoreHelper()
     wScore = 0.0; //Reset wScore to start from a clean slate
     for (unsigned int i=0; i<syllables.size(); i++) //For every syllable this word has
     {
-        /* //Old serial search through MSL to find syllable
-        for (unsigned int j=0; j<SSG::MSL.size(); j++) //For every syllable in the masterSyllableList
-        {
-            if (syllables[i] == SSG::MSL[j]) //If the syllables match
-            {
-                //cout << syllables[i] << " found at " << j << endl;
-                wScore += SSG::MSL.getSyllableWCount(j); //Add the wrongCount of the masterSyllableList to the total wScore
-                if (SSG::MSL.getSyllableWCount(j) != SSG::MSL.getSyllableWCount(syllables[i]))
-                    cout << "MAJOR ERROR IN wSCOREHELPER!!! FIX IMEDIATELY" << endl;
-                break; //Stop searching through the MSL and move on to the next syllable of this word
-            }
-        }
-        */
-        wScore += SSG::MSL->getSyllableWCount(syllables[i]); //Gets the wrongCount for the string passed, using an unordered_map
+		//Gets the wrongCount for the string passed, using an unordered_map (If MSLMap)
+		//Use MSL interface to extract the wrong count of the current syllable
+        wScore += SSG::MSL->getSyllableWCount(syllables[i]);
     }
 
     const int offset = 15; //Use this to alter the affect that wordSize has on end wScore, a higher value makes word length matter less
@@ -112,5 +101,4 @@ void word::determineScore()
 {
     wScoreHelper();
     wScore *= weight; //Makes good words less valuable than badWords
-    //cout << "Final score for " << wordC << wScore << endl;
 }
