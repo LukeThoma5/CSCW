@@ -13,44 +13,40 @@
 #include "../../headers/randng.h"
 
 namespace SSG {
-	extern hLog histLog;
+	extern hLog histLog; //Needed to be able to create keyboard end event
 }
 
 using namespace std;
 
-void printVector(const vector<string>& sV, int start=0, int stop=-1); //Early declaration
-void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
-void printVector(const std::vector<bool>& sV, int start=0, int stop=-1);
-void speak(const string& wordToSay, const bool isCorrect);
-void say(const string& sentence);
-string seperateWord(const string& wordToSep);
-string makeUpperCase(const string& attempt);
+string makeUpperCase(const string& attempt); //Returns string in uppercase format
 void GUI_keyboard_Handler(); //Decleration of GUI.cpp function;
 
 int wordCC::notHave30goodWords()
 {
-    int goodCount=0;
-    for (int i=0; i<200; i++)
+	//Only called if wordCC.size() > 200 by GUI
+    int goodCount=0; //Number of words not gotten wrong
+    for (int i=0; i<200; ++i)
+	//For the first 200 words of the wordList
     {
-        if (goodBadPos[i] == false)
-            if (++goodCount == 30)
-                return 0;
+        if (goodBadPos[i] == false) //If a good word
+            if (++goodCount == 30) //If the incremented value of goodCount is 30
+                return 0; //Return 0 need to be added
     }
-    return 30-goodCount;
+    return 30-goodCount; //Return the amount found of goodwords that need adding
 }
 
 void wordCC::findKeyboardWords()
 {
     cout << "FINDING KEYBOARD WORDS" << endl;
-    generatewScore();// Now goodwords and badwords have sorted list
-    findHardest();
+    generatewScore();// Now goodwords and badwords have sorted lists
+    findHardest(); //Generate the wordCC abstraction
 
     //Make the last 150 words random
-    for (int i=50; i<200; i++)
+    for (int i=50; i<200; ++i)
     {
-        int location = randNG(i,size()-1); //Pick a random location that is further than the current position
+        int location = randNG(i,size()-1); //Pick a random location that is further than the current position (so it can't override a value that has already been randomised)
         int itemp = wordPos[i]; //Cache the value at the current location
-        bool btemp = goodBadPos[i];
+        bool btemp = goodBadPos[i]; //Cache whether it is good or bad
 
         wordPos[i] = wordPos[location]; //Set the current location to the random value
         goodBadPos[i] = goodBadPos[location];
@@ -59,76 +55,65 @@ void wordCC::findKeyboardWords()
         goodBadPos[location] = btemp;
     }
 
-    //Check that the 200 words has atleast 300 good words
+    //Check that the 200 words has atleast 30 good words
+	//notHave30goodWords was going to be a bool return but int allows for more useful information
+	//Which is why the name is a bit odd.
     int goodShortFall = notHave30goodWords();
     if (goodShortFall) //If not 0 more goodwords to add
     {
         cout << "Adding more goodWords to the test" << endl;
         for (int i=goodWords.size()-1-goodShortFall, j=199-goodShortFall; i<goodWords.size(); i++,j++)
+		//From the back of goodWords abstraction add the back of the 200 words
         {
             goodBadPos[j] = false;  //Set the word to be goodBadPos
-            wordPos[j] = i;
+            wordPos[j] = i; //Set the location to point to a word in goodWords
         }
 
         //Verify 30 good words
         if (notHave30goodWords())
-            cout << "KEYBOARD DOES NOT HAVE 30 GOOD WORDS!" << endl;
+			//Should never execute
+            cerr << "KEYBOARD DOES NOT HAVE 30 GOOD WORDS!" << endl;
     }
 
 
-    currentWord = 0;
-    mistakes = 0;
+    currentWord = 0; //Reset current word
+    mistakes = 0; //If second keyboard test, remove previous mistakes
     keyboardWrongWordCount=0;
     keyboardStart = std::time(0);
     cout << "starting test at " << keyboardStart << endl;
-    //printwordCC(20);
 }
 
 string wordCC::getKeyboardWords()
 {
+	//Only run if more that 200 words in wordCC
     cout << "Getting keyboard words" << endl;
     string retString = "";
-    for (int i=0; i<200; i++)
-    {
-        retString += getWord(i)->getWord() + " ";
-    }
+    for (int i=0; i<200; ++i) //For 200 words in test
+        retString += getWord(i)->getWord() + " "; //Add the word and a seperator
     return retString;
 }
 
 int wordCC::keyboardCharCount()
 {
     int charTotal = 0;
-    for (int i=0; i<200; i++) //Change to 200 for final release
-    {
-        charTotal += getCurrentWord()->getWord().size();
-    }
+    for (int i=0; i<200; ++i)
+        charTotal += getWord(i)->getWord().size();
+		//Get the word* behind the index, get its wordC and add its size to the charTotal
     return charTotal;
 }
 
 void wordCC::keyboardComplete()
 {
-    //In future generate dataitems for historyLog
+    //Cache the end time
     time_t keyboardEnd = time(0);
-    vector<string> eventItems;
-    int testLength = keyboardEnd - keyboardStart;
-    cout << "#########################################\nKeyboard Test complete!\n";
-    cout << "Time taken: " << testLength;
-
+    vector<string> eventItems; //Vector to store the event item strings in
+	//Calculate the event data items
+    int testLength = keyboardEnd - keyboardStart; //KeyboardEnd is the bigger number (later in time)
     int charCount = keyboardCharCount();
-    cout << "\nTotal characters: " << charCount;
-
-    cout << "\nMistakes: " << mistakes;
-
     float mistakesPerCharacter = float(mistakes)/float(charCount);
-    cout << "\nMistakes per character: " << mistakesPerCharacter;
-    cout << "\nMistakes per 100 characters: " << mistakesPerCharacter * 100;
-
-    cout << "\nIncorrect words: " << keyboardWrongWordCount << endl;
-
     float timeMinutes = testLength/60;
     int wpm = float(200)/timeMinutes;
-    cout << "\nWords per minute" << wpm << endl;
-
+    //Add the event items to the vector
     eventItems.push_back(to_string(testLength));
     eventItems.push_back(to_string(charCount));
     eventItems.push_back(to_string(mistakes));
@@ -136,58 +121,72 @@ void wordCC::keyboardComplete()
     eventItems.push_back(to_string(keyboardWrongWordCount));
     eventItems.push_back(to_string(wpm));
 
+	#ifdef WORDCCDEBUG
+	//Only compile debugging info if WORDCCDEBUG active
+	cout << "\nTotal characters: " << charCount;
+    cout << "\nMistakes: " << mistakes;
+	cout << "\nMistakes per character: " << mistakesPerCharacter;
+	cout << "\nMistakes per 100 characters: " << mistakesPerCharacter * 100;
+	cout << "\nIncorrect words: " << keyboardWrongWordCount << endl;
+	cout << "\nWords per minute" << wpm << endl;
+	cout << "#########################################\nKeyboard Test complete!\n";
+    cout << "Time taken: " << testLength;
+	#endif
+	//Generate the event based of calculated data
     SSG::histLog.addEvent(eventItems,time(0),"keyboardComplete");
-    GUI_keyboard_Handler();
+    GUI_keyboard_Handler(); //Update the GUI for a new keyboard session (contains a call to findKeyboardWords)
 }
 
 bool wordCC::keyboardAttempt(const string& attempt)
 {
-    //cout << "Current word is " << currentWord;
+    //This function is called every time the text changes be an insertion or removal
+	//Persistant variables between function calls, reset when moving on to next word
     static string lastString = ""; //initialise value once to empty string
     static bool wordBeenWrong = false;
-    const int testEnd = 200;
-    if (attempt.back() == ' ')
+    const int testEnd = 200; //Evaluated at compile time so no runtime overhead. Used to shorted tests to make it easier to test correct completion
+    if (attempt.back() == ' ') //If they inserted a space, skip to next word
     {
         cout << "space pressed moving on!" << endl;
-        lastString="";
-        if (wordBeenWrong)
-            keyboardWrongWordCount++;
+        lastString=""; //Reset the string
+        if (wordBeenWrong) //If they made a mistake
+            keyboardWrongWordCount++; //Add to number of wrong words
         if (++currentWord == testEnd) //Increase current word, if at limit end test
             keyboardComplete();
-        wordBeenWrong=false;
+        wordBeenWrong=false; //Reset static variable
         return true; //Tell GUI to clear
     }
     cout << "Mistakes: " << mistakes << endl;
-    word* currentWordp = getCurrentWord();
+    word* currentWordp = getCurrentWord(); //Cache current word to reduce abstraction calls
     string currentWordString = currentWordp->getWord();
     string attemptUpper = makeUpperCase(attempt);
-    if (attemptUpper == currentWordString)
+    if (attemptUpper == currentWordString) //If word completely correct
     {
         cout << attemptUpper << " passed!" << endl;
-        if (wordBeenWrong)
-            keyboardWrongWordCount++;
-        if (++currentWord == testEnd) //Change to 200 for final release, 5 is for testing
+        if (wordBeenWrong) //If they made a mistake at any point
+            keyboardWrongWordCount++; //Increase the number of words which had a mistake
+        if (++currentWord == testEnd) //Increase current word, if at limit end test
             keyboardComplete();
-        lastString="";
-        wordBeenWrong=false;
-        return true;
+        lastString=""; //Reset
+        wordBeenWrong=false; //Reset
+        return true; //Tell GUI to clear
     }
 
     if (lastString.size()>attemptUpper.size())
         return false; //If trying to remove mistake, don't penalise
 
+	//If the last inserted letter is not the same as the letter in the word
     if (attemptUpper.back() != currentWordString[attemptUpper.size()-1])
     {
         cout << "last character incorrect, adding a mistake" << endl;
-        mistakes++;
-        wordBeenWrong=true;
+        mistakes++; //Add a mistake
+        wordBeenWrong=true; //Mark the word as one that has been wrong at least once
     }
-
+	//If the attempt is the same size move on
     if (attemptUpper.size() == currentWordString.size())
     {
         if (wordBeenWrong)
             keyboardWrongWordCount++;
-        if (++currentWord == testEnd) //Change to 200 for final release, 5 is for testing
+        if (++currentWord == testEnd)
             keyboardComplete();
         lastString="";
         wordBeenWrong=0;
@@ -195,6 +194,5 @@ bool wordCC::keyboardAttempt(const string& attempt)
     }
 
     lastString=attemptUpper;
-    return false;
-
+    return false; //Tell GUI don't clear, continue going
 }
