@@ -1,7 +1,5 @@
 #include <iostream>
 #include <string>
-#include <sstream>
-#include <fstream>
 #include <vector>
 
 #include <ctime>
@@ -18,34 +16,21 @@ namespace SSG {
 
 using namespace std;
 
-void printVector(const vector<string>& sV, int start=0, int stop=-1); //Early declaration
-void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
-void printVector(const std::vector<bool>& sV, int start=0, int stop=-1);
-void speak(const string& wordToSay, const bool isCorrect);
-void say(const string& sentence);
-string seperateWord(const string& wordToSep);
-string makeUpperCase(const string& attempt);
-
 void wordCC::wordWrong(const int& wordPosition,const string& attempt)
+//Only called during a spelling test
 {
     spellingWrongWordCount++; //Increase the number of incorrect words this run
-    if (goodBadPos[wordPosition] == true)
+	//Badword check must go first as a goodWord would be made into a badword which would make both sections run
+    if (goodBadPos[wordPosition] == true) //If a badWord
     {
         cout << "badWord wordWrong will be called" << endl;
-        getWord(wordPosition)->wordWrong(attempt);
-        getWord(wordPosition)->determineScore();
-        printTop(0,10);
-        cout << "The goodwords list" << endl;
-        //goodWords.DisplaywScores(0,10);
-        //badWords.DisplaywScores(0,10);
+        getWord(wordPosition)->wordWrong(attempt);  //Increase the MSL and badWord weight
+        getWord(wordPosition)->determineScore(); //Regenerate the score but don't change any words positions
     }
-    if (goodBadPos[wordPosition] == false)
+    if (goodBadPos[wordPosition] == false) //If a goodWord
     {
         cout << "goodWord wordWrong will be called" << endl;
-        goodWordWrong(wordPosition,attempt);
-        printTop(0,10);
-        //goodWords.DisplaywScores(0,10);
-        //badWords.DisplaywScores(0,10);
+        goodWordWrong(wordPosition,attempt); //Call the function to move goodWord to badWords
     }
 }
 
@@ -67,9 +52,6 @@ void wordCC::goodWordWrong(const int& wordPosition,const std::string& attempt)
     cout << "bad word Created" << endl;
 
     int badWordLocation = badWords.addWord(badWordToAdd); //Add the badword to the badwordList
-
-    //cout << "badWordLocation" << badWordLocation << endl;
-
     int goodWordLocation = wordPos[wordPosition];
 
     cout << "Begining fixing abstraction" << endl;
@@ -77,6 +59,5 @@ void wordCC::goodWordWrong(const int& wordPosition,const std::string& attempt)
     goodBadPos[wordPosition] = true; //Set the goodBadPos to say the word is bad
     wordPos[wordPosition] = badWordLocation; //Update the abstraction to point to the location in badWords
 
-    fixwordPos(goodWordLocation);
-    //Add overloaded functions that don't include which removing words or deleting words ect. Improve the add words, make indexing turn off able.
+    fixwordPos(goodWordLocation); //Fix the abstraction
 }
