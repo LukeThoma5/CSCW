@@ -63,5 +63,5 @@ void wordCC::fixwordPos(const int& goodWordLocation)
 void wordCC::addWord(word* wordToAdd)
 {
     goodWords.addWord(wordToAdd);
-	//The word is added in the alphabetical order in the goodWords list but at the end of its abstraction so that is unaffected. The word is inassessible to the outside until a call is made to findHardest (findSpellingWords or findKeyboardWords)
+	//The word is added in the alphabetical order in the goodWords list but at the end of its abstraction so that is unaffected. The word is inassessible to the outside until a call is made to generatewScore (findSpellingWords or findKeyboardWords)
 }
