@@ -57,7 +57,7 @@ wordContainer::wordContainer()
 wordContainer::~wordContainer()
 {
 	cout << "wordContainer object being destroyed, all its words will be deleted!" << endl;
-	while (!wordList.empty())
+	while (!wordList.empty()) //While not empty
 	{
 		delete wordList.back(); //returns the pointer at the back of the wordList and deletes the object it points to. As the destructor call is virtual the correct call will be made so no need to cast the pointer to the derived type
 		wordList.pop_back(); //removes the last pointer from wordList which is destroyed
