@@ -34,13 +34,13 @@ std::vector<std::string> logEvent::getDataItems() const {return dataItems;}
 
 string logEvent::generateEventLine()
 {
-    string retString = "";
-    stringstream retStringStream(retString);
-    retStringStream << std::hex << eTime << '+' << eType;
-    for (int i=0; i<dataItems.size(); i++)
+    string retString = ""; //Initialise an empty string
+    stringstream retStringStream(retString); //Create a string stream from the string object
+    retStringStream << std::hex << eTime << '+' << eType; //Add the hex of the 32bit time stamp and the type
+    for (int i=0, dataItemsSize=dataItems.size(); i<dataItemsSize; ++i)
     {
-        retStringStream << '+' << dataItems[i];
+        retStringStream << '+' << dataItems[i]; //Add all the data items with a delimiting +
     }
-    retStringStream.flush();
-    return retStringStream.str();
+    retStringStream.flush(); //Flush back to string
+    return retStringStream.str(); //Return the string object
 }
