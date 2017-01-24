@@ -121,7 +121,7 @@ void runHLogGetEventPointersTests(hLogTester& tester)
 
 void runAllhLogTests()
 {
-    hLogTester tester("./Data/SSGHistFile.txt");
+    hLogTester tester("./Data/SSGHistDebug.txt");
     runfindTimeStartTest(tester);
     runfindtotalWREPlaytimeTest(tester);
     runHLogGetEventPointersTests(tester);

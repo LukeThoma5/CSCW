@@ -32,7 +32,7 @@ namespace SSG {
 	windowContainer winContainer;
 	//wordCC SpellingWords("./Data/finalDictwithDef.txt", "./Data/wrongWords.txt");
 	wordCC SpellingWords("./Data/shortDict.txt", "./Data/shortwrongWords.txt");
-	hLog histLog("./Data/SSGHistFile.txt");
+	hLog histLog("./Data/SSGHistDebug.txt");
 	time_t sessionStartTime = time(0);
 }
 
