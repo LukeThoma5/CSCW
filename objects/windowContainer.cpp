@@ -22,6 +22,8 @@ public:
 
     void addWindows(Glib::RefPtr<Gtk::Builder>& refBuilder)
     {
+        //From the Gtk::Builder initialise all the window pointers
+        //If it fails the pointer will be left null
         refBuilder->get_widget("SSG_Main_Screen",MainScreen);
         refBuilder->get_widget("SSG_Spelling_Screen",SpellingScreen);
         refBuilder->get_widget("SSG_Analysis_Screen",AnalysisScreen);
