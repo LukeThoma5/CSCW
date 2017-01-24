@@ -13,7 +13,7 @@
 #include "badwordContainer.h"
 
 class wordCC{
-
+protected:
     void clearWordPos();
 
     void combineWordLists();
