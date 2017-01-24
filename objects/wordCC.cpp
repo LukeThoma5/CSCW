@@ -28,11 +28,11 @@ string makeUpperCase(const string& attempt);
 
 wordCC::wordCC(std::string goodFilename, std::string badFilename) : goodWords(goodFilename), badWords(goodWords,badFilename)
 {
-        cout << "Creating wordContainers from filenames" << endl;
-
-        //Improve addWord, make it virtual and add a version for badwordContainer.
-        vector<string> dupWords = badWords.getBadWordList();
-        removeDuplicates(dupWords);
+	//wordContainer construction done by Initialisation list above
+    cout << "Creating wordContainers from filenames" << endl;
+    vector<string> dupWords = badWords.getBadWordList(); //Get all the word strings in the badWord Container
+    removeDuplicates(dupWords); //Remove them from the good list
+	//They are in the good list to begin with as all the words are loaded from a single file, the badwords are then created from the goodword objects. Once used the goodwords must be removed to prevent a word appearing twice in a single run
 }
 
 word* wordCC::getWord(const int& wordToGet)
@@ -40,9 +40,9 @@ word* wordCC::getWord(const int& wordToGet)
     int wordToGetValue = wordPos[wordToGet];
     //cout << "Trying to getWord " << wordToGetValue << "which has a bool value of " << goodBadPos[wordToGetValue];
     if (goodBadPos[wordToGet] == true) //If badWords
-        return badWords.at(wordToGetValue);
+        return badWords.at(wordToGetValue); //Returns an upcasted badword pointer from badWords
     else
-        return goodWords.at(wordToGetValue);
+        return goodWords.at(wordToGetValue); //Returns a wordpointer from goodwords
 }
 
 badWord* wordCC::getBWord(const int& wordToGet)
@@ -66,14 +66,15 @@ void wordCC::printTop(int start, int end)
 }
 
 int wordCC::findRealWordLocation(const string& comp)
+//Function to get the word position in the alpabetical array, only for goodWords
 {
     cout << "Checking goodWords" << endl;
-    int location = goodWords.binSearch(comp,0,goodWords.size());
+    int location = goodWords.binSearch(comp,0,goodWords.size()); //Do a recursive binary search on goodWords
     cout << location << endl;
-    if (location > -1)
-        cout << "Word " << comp << " == " << goodWords[location]->getWord() << " at " << location << endl;
+    if (location > -1) //if not found print debug info
+        cerr << "Word " << comp << " == " << goodWords[location]->getWord() << " at " << location << endl;
 
-    return location;
+    return location; //Return the index
 }
 
 void wordCC::printwordCC(int stop)
@@ -101,15 +102,9 @@ void wordCC::printwordCC(int stop)
     badWords.printWordContainer();
 }
 
-word* wordCC::getCurrentWord()
-{
-    return getWord(currentWord);
-}
+word* wordCC::getCurrentWord() {return getWord(currentWord);}
 
-int wordCC::getCurrentPosition() const
-{
-    return currentWord;
-}
+int wordCC::getCurrentPosition() const {return currentWord;}
 
 int wordCC::size() const {return goodWords.size()+badWords.size();}
 
