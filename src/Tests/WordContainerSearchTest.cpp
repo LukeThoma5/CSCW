@@ -94,6 +94,24 @@ bool testWordContainerStringCompare(wordContainer& goodWords, int start, int end
 	return true;
 }
 
+bool checkWordContainerSorting(wordContainer& goodWords)
+{
+    createRandomWordWrongCounts(); //Make MSL scores random
+    goodWords.sortWordContainer(); //Sort the list
+
+    for (int i=0, GWSize=int(goodWords.size())-1; i<GWSize; ++i)
+    {
+        if (goodWords.at(i)->getwScore() < goodWords.at(i+1)->getwScore())
+        {
+            cout << "First item: " << goodWords.at(i)->getwScore() << "\nSecond item: " << goodWords.at(i+1)->getwScore() << endl;
+            cerr << "Word Container Sorting Test [Failed]" << endl;
+            return false;
+        }
+    }
+    cout << "Word Container Sorting Test [Passed]" << endl;
+    return true;
+}
+
 void runTestWordContainerStringCompare(wordContainer& goodWords)
 {
 	testWordContainerStringCompare(goodWords,0,goodWords.size()-2, 1,"WordContainerStringCompare Test Forward [");

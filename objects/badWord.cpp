@@ -23,7 +23,7 @@ inline void badWord::constructorHelper(const string& badwordline)
 
 	if (wordVector[0] != wordC) //If trying to construct a badWord from the wrong word throw an error.
 	{
-		cerr<<"WordSyncError"<<endl;;throw "WordSyncError";
+		cerr<<"WordSyncError " << wordVector[0] << " against " << wordC << endl;throw "WordSyncError";
 	}
 
 	//cout << "Trying to convert " << wordVector[1] << " to float" << endl;

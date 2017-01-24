@@ -125,6 +125,45 @@ void runaddToMSLTotalTest(wordTester& tester)
     SSG::MSL = OLDSSGMSL; //Reset the MSL to what it was before MSLTree goes out of scope.
 }
 
+void runWordScoreTest()
+{
+    //Set SSG::MSL to a fresh one so that we can easily verify it worked
+    masterSyllablesListTree MSLTree;
+    masterSyllablesList* OLDSSGMSL = SSG::MSL;
+    SSG::MSL = &MSLTree;
+
+    //Initialise the MSL to the wanted state
+    //S:1, N:2, AE1:3, P:4, IY0:5
+    initMSL({"S","N","AE1","P","IY0"},
+            {1,2,3,4,5}, &MSLTree);
+
+    string snappyConstructor = "SNAPPY+S+N+AE1+P+IY0+#DEF+Snappish.";
+    word goodSnappy(snappyConstructor);
+
+    goodSnappy.determineScore();
+    float gSwS = goodSnappy.getwScore();
+    if (gSwS=float(1.431818))
+        cout << "Good Word Determine Score Test [Passed]" << endl;
+    else
+    {
+        cout << "Good Word Determine Score Test [Failed]" << endl;
+        cout << fixed << double(goodSnappy.getwScore()) << endl;
+    }
+
+    badWord badSnappy("SNAPPY+S+N+AE1+P+IY0+#DEF+Snappish.", "SNAPPY+2.0+0+1+2+3+4");
+    badSnappy.determineScore();
+
+    if (badSnappy.getwScore()==float(9.545455))
+        cout << "Bad Word Determine Score Test [Passed]" << endl;
+    else
+        {
+            cout << "Bad Word Determine Score Test [Failed]" << endl;
+            cout << fixed << double(badSnappy.getwScore()) << endl;
+        }
+
+    SSG::MSL = OLDSSGMSL; //Reset the MSL to what it was before MSLTree goes out of scope.
+}
+
 void runAllWordTests()
 {
     wordTester tester1("ABBE+AE1+B+IY0+#DEF+Unimportant");
@@ -132,4 +171,5 @@ void runAllWordTests()
     runDetermineWrongSyllablesTest(tester1, tester2);
     runGenBadWordLineTest(tester1, tester2);
     runaddToMSLTotalTest(tester2);
+    runWordScoreTest();
 }

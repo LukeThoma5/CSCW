@@ -45,6 +45,7 @@ void runMSLaddToTotalTest();
 void runtestMSLoverridedSWC();
 void runCompleteMSLADDSyllables();
 bool testWordContainerSearch(wordContainer& goodWords);
+bool checkWordContainerSorting(wordContainer& goodWords);
 void runTestWordContainerStringCompare(wordContainer& goodWords);
 void runAllhLogTests();
 void runAllWordTests();
@@ -70,6 +71,7 @@ int main(int argc, char const *argv[]) {
     //wordCC SpellingWords("finalDictwithDef.txt", "wrongWords.txt
 	testWordContainerSearch(goodWords);
 	runTestWordContainerStringCompare(goodWords);
+	checkWordContainerSorting(goodWords);
 	createRandomWordWrongCounts();
 	runMSLSortingTests();
 	runMSLaddToTotalTest();
