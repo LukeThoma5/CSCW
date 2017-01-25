@@ -94,7 +94,7 @@ void keyboard_update_last_word(const string& attemptUpper, const string& wordStr
 				if (wasLastCorrect) //If the buffer is for correct letters
 				{
 					if (buffer != "") //If the buffer is not empty
-						TBuffer->insert_with_tag(TBuffer->get_iter_at_offset(bufferStart),buffer,"greentag"); //Flush the buffer to screen with green text
+						TBuffer->insert_with_tag(TBuffer->get_iter_at_offset(bufferStart),buffer,"orangetag"); //Flush the buffer to screen with orange text
 					bufferStart=i; //Update the offset for the insert iterator
 					buffer=attemptUpper[i]; //Clear the buffer and set first value to new incorrect value
 					wasLastCorrect=false; //Mark buffer as incorrect
@@ -120,7 +120,7 @@ void keyboard_update_last_word(const string& attemptUpper, const string& wordStr
 		if (buffer != "") //If still got buffer to flush, flush appropriately
 		{
 			if (wasLastCorrect)
-				TBuffer->insert_with_tag(TBuffer->get_iter_at_offset(bufferStart),buffer,"greentag");
+				TBuffer->insert_with_tag(TBuffer->get_iter_at_offset(bufferStart),buffer,"orangetag");
 			else
 				TBuffer->insert_with_tag(TBuffer->get_iter_at_offset(bufferStart),buffer,"redtag");
 		}
