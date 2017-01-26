@@ -113,10 +113,15 @@ void runHLogGetEventPointersTests(hLogTester& tester)
 	else
 		cout << "hLog getEventPointers 2 [Failed]\n";
 
-	if (tester.testGetEventPointers(0x0,"DoesNotExist",0))
+    if (tester.testGetEventPointers(0x0,"HangmanComplete",14))
 		cout << "hLog getEventPointers 3 [Passed]\n";
 	else
 		cout << "hLog getEventPointers 3 [Failed]\n";
+
+	if (tester.testGetEventPointers(0x0,"DoesNotExist",0))
+		cout << "hLog getEventPointers 4 [Passed]\n";
+	else
+		cout << "hLog getEventPointers 4 [Failed]\n";
 }
 
 void runAllhLogTests()
