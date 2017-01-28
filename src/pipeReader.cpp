@@ -24,7 +24,7 @@ int main()
     	if (buffer != lastInput) //If something new to say
     	{
     		printf("Received: %sEND\n", buf); //Print what has been read in to check for garbled data
-    		std::string command = "espeak \"" + buffer + '\"'; //create the command to call the speak program to say the buffer contents
+    		std::string command = "espeak \"" + buffer + "\" -s 80"; //create the command to call the speak program to say the buffer contents
     		system(command.c_str()); //Execute the command using the system shell
             lastInput = buffer; //Only update the lastInput if something changed
     	}
