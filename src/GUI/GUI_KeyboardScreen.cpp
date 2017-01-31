@@ -127,7 +127,7 @@ void keyboard_update_last_word(const string& attemptUpper, const string& wordStr
 	}
 }
 
-static void SSG_KS_TextEntry_insert()
+static void SSH_KS_TextEntry_Helper(bool wasActivated)
 {
 	//Code run every time a change happens in the buffer
 	//Get the current text
@@ -136,6 +136,9 @@ static void SSG_KS_TextEntry_insert()
     SSG::refBuilder->get_widget("SSG_KS_TextEntry",pEntry);
     Glib::RefPtr<Gtk::EntryBuffer> EntryBuffer =  pEntry->get_buffer();
     string attempt = pEntry->get_text();
+
+	if (wasActivated)
+		attempt += ' ';
 
 	if (SSG::SpellingWords.keyboardAttempt(attempt)) //If wordCC says to clear screen
 	{
@@ -148,6 +151,18 @@ static void SSG_KS_TextEntry_insert()
 		TBuffer->set_text(SSG::SpellingWords.getCurrentWord()->getWord()); //Set buffer to the new word
 
 	}
+}
+
+static void SSG_KS_TextEntry_activate()
+{
+	//On enter press call helper function with instruction to add a space to the attmept (skip the word)
+	SSH_KS_TextEntry_Helper(true);
+}
+
+static void SSG_KS_TextEntry_insert()
+{
+	//On text change call helper function, don't auto add a space
+	SSH_KS_TextEntry_Helper(false);
 }
 
 void connectSignalsKeyboardScreen()
@@ -165,6 +180,8 @@ void connectSignalsKeyboardScreen()
     	Gtk::Entry* pEntry = nullptr;
         SSG::refBuilder->get_widget("SSG_KS_TextEntry",pEntry);
         if (pEntry)
-            {pEntry->signal_changed().connect( sigc::ptr_fun(SSG_KS_TextEntry_insert) );}
+            {pEntry->signal_changed().connect( sigc::ptr_fun(SSG_KS_TextEntry_insert) );
+			 pEntry->signal_activate().connect( sigc::ptr_fun(SSG_KS_TextEntry_activate) ); }
+
     }
 }
