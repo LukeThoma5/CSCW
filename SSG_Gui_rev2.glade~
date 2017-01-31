@@ -381,7 +381,7 @@
           <object class="GtkImage" id="SSG_MS_Welcome_Image">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="pixbuf">Logo.png</property>
+            <property name="pixbuf">./Data/Logo.png</property>
           </object>
           <packing>
             <property name="expand">False</property>
