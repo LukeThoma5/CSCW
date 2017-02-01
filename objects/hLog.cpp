@@ -65,3 +65,5 @@ void hLog::clearLog()
     logFile.close(); //Close the file
     */
 }
+
+int hLog::size() const {return log.size();}

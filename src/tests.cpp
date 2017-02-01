@@ -49,7 +49,7 @@ bool checkWordContainerSorting(wordContainer& goodWords);
 void runTestWordContainerStringCompare(wordContainer& goodWords);
 void runAllhLogTests();
 void runAllWordTests();
-void runWrongCorrectTests();
+void runWordCCTests();
 
 void logEventGenEventLineTest()
 {
@@ -81,7 +81,7 @@ int main(int argc, char const *argv[]) {
 	logEventGenEventLineTest();
 	runAllhLogTests();
 	runAllWordTests();
-	runWrongCorrectTests();
+	runWordCCTests();
 
 	cout << "Tests complete" << endl;
     return 0;

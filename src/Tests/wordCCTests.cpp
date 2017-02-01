@@ -115,12 +115,30 @@ public:
     }
 };
 
-void runWrongCorrectTests()
+void runSpellingOverFlowTest(wordCCTester& CCTester)
+{
+    CCTester.findSpellingWords();
+    for (int i=0, end=CCTester.size(); i<end; ++i)
+    {
+        CCTester.nextWord();
+    }
+    if (CCTester.getCurrentPosition() == 0)
+    {
+        if (SSG::histLog[SSG::histLog.size()-1].getType() == "SpellingOverFlow")
+            cout << "SpellingOverFlow test [Passed]" << endl;
+        else
+            cerr << "SpellingOverFlow test Type wrong [Failed]" << endl;
+    }
+    else
+        {cerr << "SpellingOverFlow test CurrentWord wrong [Failed]" << endl; cerr << "Current word: " << CCTester.getCurrentPosition() << endl;}
+}
+
+void runWrongCorrectTests(wordCCTester& CCTester)
 {
     //hLog oldLog = SSG::histLog;
     //SSG::histLog = hLog("./Data/TestsDebugLog.txt");
 
-    wordCCTester CCTester("./Data/shortDict.txt", "./Data/shortwrongWords.txt");
+    // wordCCTester CCTester("./Data/shortDict.txt", "./Data/shortwrongWords.txt");
     CCTester.findSpellingWords();
     if (CCTester.badWordCorrectTest())
         cout << "WordCC Bad Word Correct Test [Passed]" << endl;
@@ -133,4 +151,11 @@ void runWrongCorrectTests()
         cout << "WordCC Good Word Wrong Test [Failed]" << endl;
 
     //SSG::histLog = oldLog;
+}
+
+void runWordCCTests()
+{
+    wordCCTester CCTester("./Data/shortDict.txt", "./Data/shortwrongWords.txt");
+    runWrongCorrectTests(CCTester);
+    runSpellingOverFlowTest(CCTester);
 }

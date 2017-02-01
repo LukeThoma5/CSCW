@@ -49,6 +49,10 @@ public:
 	void graphKeyboardMovingAvg(std::time_t startPoint, int eventItem, const std::string& graphName, const std::string& filename="dataToPlot.txt");
 
 	void createBarGraph(const std::string& filename, const std::string& graphName, const std::vector<std::string>& xcoords, const std::vector<int>& ycoords);
+
+	logEvent operator[](int i) const {return log[i];}
+
+	int size() const;
 };
 
 #endif
