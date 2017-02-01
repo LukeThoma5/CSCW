@@ -164,6 +164,45 @@ void runWordScoreTest()
     SSG::MSL = OLDSSGMSL; //Reset the MSL to what it was before MSLTree goes out of scope.
 }
 
+void runWordScoreAttributeTest()
+{
+    masterSyllablesListTree MSLTree;
+    masterSyllablesList* OLDSSGMSL = SSG::MSL;
+    SSG::MSL = &MSLTree;
+
+    initMSL({"AH0","F","ER1","M","TSYLLABLE"},{1,2,3,4,11},&MSLTree);
+    wordTester tester("AFFIRM+AH0+F+ER1+M+#DEF+shortDef");
+    tester.determineScore();
+    float originalTesterScore = tester.getwScore();
+    MSLTree.addToTotal("AH0",1); tester.determineScore();
+    float secondayTesterScore = tester.getwScore();
+
+    if (secondayTesterScore > originalTesterScore)
+        cout << "Word Score attribute test 1 [Passed]" << endl;
+    else
+        cerr << "Word Score attribute test 1 [Failed]" << endl;
+
+    wordTester tester2("TEWORD+TSYLLABLE+#DEF+shortDEF");
+    tester2.determineScore();
+
+    if (tester2.getwScore() > secondayTesterScore)
+        cout << "Word Score attribute test 2 [Passed]" << endl;
+    else
+        cerr << "Word Score attribute test 2 [Failed]" << endl;
+
+    wordTester tester3("AFFIR+AH0+F+ER1+M+#DEF+shortDef");
+    tester3.determineScore();
+    if (tester3.getwScore() < secondayTesterScore)
+        cout << "Word Score attribute test 3 [Passed]" << endl;
+    else
+        cerr << "Word Score attribute test 3 [Failed]" << endl;
+
+    cout << originalTesterScore << " " << secondayTesterScore \
+    << " " << tester2.getwScore() << " " << tester3.getwScore() << endl;
+
+    SSG::MSL = OLDSSGMSL; //Reset the MSL to what it was before MSLTree goes out of scope.
+}
+
 void runAllWordTests()
 {
     wordTester tester1("ABBE+AE1+B+IY0+#DEF+Unimportant");
@@ -172,4 +211,5 @@ void runAllWordTests()
     runGenBadWordLineTest(tester1, tester2);
     runaddToMSLTotalTest(tester2);
     runWordScoreTest();
+    runWordScoreAttributeTest();
 }
