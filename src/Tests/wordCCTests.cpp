@@ -113,6 +113,27 @@ public:
 
         return verifyWordCCState();
     }
+
+    void runKeyboardWordsTest()
+    {
+        findKeyboardWords();
+        int badWordCount = 0;
+        int goodWordCount = 0;
+
+        for (int i=0; i<200; ++i)
+        {
+            if (getWord(i)->getWordFlags()[0] == true)
+                ++badWordCount;
+            else
+                ++goodWordCount;
+        }
+
+        cout << "Badwords: " << badWordCount << " GoodWords: " << goodWordCount << endl;
+        if (goodWordCount >= 30)
+            cout << "Keyboard Words 30 Words Test [Passed]" << endl;
+        else
+            cerr << "Keyboard Words 30 Words Test [Failed]" << endl;
+    }
 };
 
 void runSpellingOverFlowTest(wordCCTester& CCTester)
@@ -158,4 +179,6 @@ void runWordCCTests()
     wordCCTester CCTester("./Data/shortDict.txt", "./Data/shortwrongWords.txt");
     runWrongCorrectTests(CCTester);
     runSpellingOverFlowTest(CCTester);
+    wordCCTester CCTesterLarge("./Data/finalDictwithDef.txt", "./Data/wrongWords.txt");
+    CCTesterLarge.runKeyboardWordsTest();
 }
