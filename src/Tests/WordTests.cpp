@@ -197,8 +197,25 @@ void runWordScoreAttributeTest()
     else
         cerr << "Word Score attribute test 3 [Failed]" << endl;
 
+    badWord bTester("TEWORD+TSYLLABLE+#DEF+shortDEF","TEWORD+1.0+0");
+    bTester.determineScore();
+    float originalBTesterScore = bTester.getwScore();
+    bTester.wordCorrect(); bTester.determineScore();
+    if (bTester.getwScore() < originalBTesterScore)
+        cout << "Word Score attribute test 4 [Passed]" << endl;
+    else
+        cerr << "Word Score attribute test 4 [Failed]" << endl;
+
+    bTester.wordWrong("TEWORD"); //Completely correct spelling will mean that only the weight will change not the MSL values
+    bTester.determineScore();
+    if (bTester.getwScore() > originalBTesterScore)
+        cout << "Word Score attribute test 5 [Passed]" << endl;
+    else
+        cerr << "Word Score attribute test 5 [Failed]" << endl;
+
     cout << originalTesterScore << " " << secondayTesterScore \
-    << " " << tester2.getwScore() << " " << tester3.getwScore() << endl;
+    << " " << tester2.getwScore() << " " << tester3.getwScore() \
+    << " " << originalBTesterScore << endl;
 
     SSG::MSL = OLDSSGMSL; //Reset the MSL to what it was before MSLTree goes out of scope.
 }
