@@ -28,6 +28,11 @@ protected:
 
     bool keyboardAttemptResetter(std::string& lastString, bool& wordBeenWrong);
 
+    void wordWrong(const int& wordPosition,const std::string& attempt);
+
+    void wordCorrect(const int& wordPosition);
+
+    void badwordCorrect(const int& wordPosition);
     std::time_t keyboardStart = std::time(0);
     std::time_t spellingStart = std::time(0);
     int mistakes = 0;
@@ -66,12 +71,6 @@ public:
     }
 
     int findRealWordLocation(const std::string& comp);
-
-    void wordWrong(const int& wordPosition,const std::string& attempt);
-
-    void wordCorrect(const int& wordPosition);
-
-    void badwordCorrect(const int& wordPosition);
 
     void addWord(word* wordToAdd);
 
