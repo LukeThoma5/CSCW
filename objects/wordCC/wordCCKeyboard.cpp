@@ -1,13 +1,5 @@
-#include <iostream>
-#include <string>
-#include <sstream>
-#include <fstream>
-#include <vector>
-
 #include <ctime>
 
-#include "../../headers/wordContainer.h"
-#include "../../headers/badwordContainer.h"
 #include "../../headers/wordCC.h"
 #include "../../headers/hLog.h"
 #include "../../headers/randng.h"

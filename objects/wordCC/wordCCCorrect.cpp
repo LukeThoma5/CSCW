@@ -1,30 +1,13 @@
-#include <iostream>
-#include <string>
-#include <sstream>
-#include <fstream>
-#include <vector>
-
 #include <ctime>
 
-#include "../../headers/wordContainer.h"
-#include "../../headers/badwordContainer.h"
 #include "../../headers/wordCC.h"
 #include "../../headers/hLog.h"
-#include "../../headers/randng.h"
 
 namespace SSG {
 	extern hLog histLog;
 }
 
 using namespace std;
-
-void printVector(const vector<string>& sV, int start=0, int stop=-1); //Early declaration
-void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
-void printVector(const std::vector<bool>& sV, int start=0, int stop=-1);
-void speak(const string& wordToSay, const bool isCorrect);
-void say(const string& sentence);
-string seperateWord(const string& wordToSep);
-string makeUpperCase(const string& attempt);
 
 void wordCC::wordCorrect(const int& wordPosition)
 {
