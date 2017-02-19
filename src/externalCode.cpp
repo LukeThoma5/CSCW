@@ -1,5 +1,4 @@
 #include "../headers/randng.h" //random number generator header
-#include <iostream>
 #include <string>
 #include <sstream>
 #include <vector>

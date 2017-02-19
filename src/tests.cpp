@@ -1,11 +1,3 @@
-#include <iostream>
-#include <string>
-#include <sstream>
-#include <fstream>
-#include <vector>
-
-#include <cstdlib> //Declare system() which comes from a c library
-
 #include <gtkmm.h>
 
 #include "../headers/randng.h" //random number generator header

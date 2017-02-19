@@ -4,8 +4,6 @@
 #include <unistd.h>
 #include <string>
 
-#include <iostream>
-
 const int MAX_BUF = 4096; //Declare max buffer size, must be the same on client and server
 
 int main()

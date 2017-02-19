@@ -1,7 +1,3 @@
-#include <iostream>
-#include <string>
-#include <vector>
-
 #include <gtkmm.h>
 
 #include "../headers/word.h"
