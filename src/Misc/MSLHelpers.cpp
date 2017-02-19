@@ -1,5 +1,4 @@
 #include <iostream>
-
 #include "../../headers/randng.h" //random number generator header
 #include "../../headers/masterSyllableList.h"
 
