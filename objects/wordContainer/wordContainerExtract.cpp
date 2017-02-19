@@ -1,20 +1,10 @@
 #include <iostream>
-#include <string>
-#include <sstream>
-#include <fstream>
-#include <vector>
-
-#include <math.h>
 
 #include "../../headers/word.h"
 #include "../../headers/badWord.h"
 #include "../../headers/wordContainer.h"
 
 using namespace std;
-
-void printVector(const vector<string>& sV, int start=0, int stop=-1); //Early declaration
-void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
-vector<int> splitVector(const vector<int>& inVector, int mode); //Now in main.cpp
 
 int wordContainer::getABSIndex(const int& wordToGet)
 {
