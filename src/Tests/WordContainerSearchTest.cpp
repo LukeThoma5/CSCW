@@ -1,44 +1,15 @@
-#include <iostream>
-#include <string>
-#include <sstream>
-#include <fstream>
-#include <vector>
-
-#include <cstdlib> //Declare system() which comes from a c library
-
-#include <gtkmm.h>
-
-#include "../../headers/randng.h" //random number generator header
 #include "../../headers/masterSyllableList.h" //MSL declaration
-#include "../../headers/masterSyllableListTree.h"
-#include "../../headers/masterSyllableListMap.h"
 #include "../../headers/word.h"
-#include "../../headers/badWord.h"
 #include "../../headers/wordContainer.h"
 #include "../../headers/badwordContainer.h"
-#include "../../headers/wordCC.h"
-#include "../../headers/hLog.h"
-
-#include "../../objects/windowContainer.cpp"
 
 using namespace std;
-#include "MSLUtils.h"
 
 namespace SSG {
-	//SSG SpellingSuiteGlobalVariables
-	//masterSyllablesListTree physicalMSL;
-    extern masterSyllablesListMap physicalMSL;
 	extern masterSyllablesList* MSL; //MasterSyllablesList
-	extern Glib::RefPtr<Gtk::Builder> refBuilder;
-	extern windowContainer winContainer;
-	extern wordCC SpellingWords;
-	extern hLog histLog;
-	extern time_t sessionStartTime;
 }
 
 void createRandomWordWrongCounts();
-void printVector(const vector<string>& sV, int start=0, int stop=-1);
-void printVector(const vector<int>& sV, int start=0, int stop=-1);
 
 bool testWordContainerSearch(wordContainer& goodWords)
 {
