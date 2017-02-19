@@ -1,7 +1,5 @@
 #include "../../headers/hLog.h"
 #include "../../headers/logEvent.h"
-#include <cstdlib> //For system call
-#include <sstream>
 
 using namespace std;
 
