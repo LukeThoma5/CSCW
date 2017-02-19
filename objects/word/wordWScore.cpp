@@ -1,11 +1,4 @@
-#include <iostream>
-#include <string>
-#include <sstream>
-#include <fstream>
-#include <vector>
-
 #include "../../headers/word.h"
-#include "../../headers/hLog.h"
 #include "../../headers/masterSyllableList.h"
 
 #include "math.h"
@@ -13,13 +6,9 @@
 
 namespace SSG {
 	extern masterSyllablesList* MSL; //MasterSyllablesList
-	extern hLog histLog;
 }
 
 using namespace std;
-
-void printVector(const vector<string>& sV, int start=0, int stop=-1); //Early declaration
-void printVector(const std::vector<int>& sV, int start=0, int stop=-1);
 
 void word::wScoreHelper()
 {

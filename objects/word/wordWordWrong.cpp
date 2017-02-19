@@ -1,20 +1,5 @@
 #include <iostream>
-#include <string>
-#include <sstream>
-#include <fstream>
-#include <vector>
-
 #include "../../headers/word.h"
-#include "../../headers/hLog.h"
-#include "../../headers/masterSyllableList.h"
-
-#include "math.h"
-#include <complex>
-
-namespace SSG {
-	extern masterSyllablesList* MSL; //MasterSyllablesList
-	extern hLog histLog;
-}
 
 using namespace std;
 
