@@ -1,10 +1,5 @@
 #ifndef windowContainer_H
 #define windowContainer_H
-#include <iostream>
-#include <string>
-#include <sstream>
-#include <fstream>
-#include <vector>
 
 #include <gtkmm.h>
 

@@ -1,8 +1,4 @@
-#include <iostream>
-#include <string>
-#include <sstream>
 #include <fstream>
-#include <vector>
 
 #include "../headers/word.h"
 #include "../headers/badWord.h"

@@ -1,16 +1,11 @@
-#include <vector>
-#include <string>
-#include <iostream>
-
 #include "../headers/masterSyllableListMap.h"
 
 using namespace std;
 
 //private
-
 void printVector(const vector<string>& sV, int start=0, int stop=-1);
 void printVector(const vector<int>& sV, int start=0, int stop=-1);
-vector<int> splitVector(const vector<int>& inVector, int mode); //Now in main.cpp
+vector<int> splitVector(const vector<int>& inVector, int mode); //Now in /src/Misc/mergeSortHelpers
 
 void masterSyllablesListMap::addToTotal(const std::string& syllable, const int& amountToInc)
 {
